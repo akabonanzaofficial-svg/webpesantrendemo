@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS Dashboard - Pesantren Al-Hikmah</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        window.tailwind = window.tailwind || {};
+        window.tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#ecfdf5', 100: '#d1fae5', 500: '#10b981', 700: '#047857', 900: '#064e3b' },
+                        gold: { 400: '#fbbf24', 500: '#f59e0b', 600: '#d97706' }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* Smooth Accordion transition for CMS */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+    </style>
+</head>
+<body class="bg-slate-50 flex flex-col lg:flex-row h-screen overflow-hidden">
+
+    <!-- Layar Login (Overlay) -->
+    <div id="cms-login-screen" class="fixed inset-0 z-[110] flex items-center justify-center bg-slate-900 p-4 transition-opacity duration-500">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md text-center transform transition-all">
+            <div class="w-16 h-16 bg-brand-900 rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4 shadow-lg shadow-brand-900/30">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-800 mb-2">CMS Al-Hikmah</h2>
+            <p class="text-slate-500 mb-6 text-sm">Masukkan password admin untuk masuk ke dashboard pengelola.</p>
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <input type="password" id="admin-password" placeholder="Password (ketik bebas & Enter)" class="w-full border border-slate-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all text-center font-medium">
+                </div>
+                <button type="submit" class="w-full bg-brand-900 hover:bg-brand-700 text-white font-bold py-3 px-4 rounded-xl transition-colors shadow-lg">
+                    Masuk Dashboard
+                </button>
+                <a href="index.html" class="block text-sm text-slate-500 hover:text-brand-700 mt-4 font-medium transition-colors">Kembali ke Website Publik</a>
+            </form>
+        </div>
+    </div>
+
+    <!-- CMS Sidebar -->
+    <aside class="w-full lg:w-64 bg-slate-900 text-slate-300 flex-col h-full hidden lg:flex shrink-0 z-50" id="cms-sidebar">
+        <div class="p-6 border-b border-slate-800 flex items-center gap-3">
+            <div class="w-8 h-8 bg-brand-500 rounded-full flex items-center justify-center text-white font-bold"><i class="fa-solid fa-user-shield text-sm"></i></div>
+            <span class="text-white font-bold text-lg tracking-wide">Admin Panel</span>
+        </div>
+        <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
+            <p class="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 mt-2">Sistem</p>
+            <button onclick="switchTab('tab-dashboard')" id="nav-tab-dashboard" class="cms-nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-left transition-all bg-brand-900 text-white shadow-md text-sm">
+                <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
+            </button>
+            <button onclick="switchTab('tab-umum')" id="nav-tab-umum" class="cms-nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-left hover:bg-slate-800 hover:text-white transition-all text-slate-400 text-sm">
+                <i class="fa-solid fa-gear w-5"></i> Pengaturan Profil
+            </button>
+            <button onclick="switchTab('tab-psb')" id="nav-tab-psb" class="cms-nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-left hover:bg-slate-800 hover:text-white transition-all text-slate-400 text-sm">
+                <i class="fa-solid fa-user-plus w-5"></i> Pengaturan PSB
+            </button>
+
+            <p class="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 mt-6">Manajemen Konten</p>
+            <button onclick="switchTab('tab-program')" id="nav-tab-program" class="cms-nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-left hover:bg-slate-800 hover:text-white transition-all text-slate-400 text-sm">
+                <i class="fa-solid fa-book-open-reader w-5"></i> Kelola Program
+            </button>
+            <button onclick="switchTab('tab-fasilitas')" id="nav-tab-fasilitas" class="cms-nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-left hover:bg-slate-800 hover:text-white transition-all text-slate-400 text-sm">
+                <i class="fa-solid fa-building w-5"></i> Kelola Fasilitas
+            </button>
+            <button onclick="switchTab('tab-produk')" id="nav-tab-produk" class="cms-nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-left hover:bg-slate-800 hover:text-white transition-all text-slate-400 text-sm">
+                <i class="fa-solid fa-store w-5"></i> Kelola Produk
+            </button>
+            <button onclick="switchTab('tab-berita')" id="nav-tab-berita" class="cms-nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-left hover:bg-slate-800 hover:text-white transition-all text-slate-400 text-sm">
+                <i class="fa-solid fa-newspaper w-5"></i> Kelola Berita
+            </button>
+        </nav>
+        <div class="p-4 border-t border-slate-800">
+            <a href="index.html" class="w-full flex items-center gap-3 px-4 py-3 mb-2 rounded-xl text-left text-slate-400 hover:bg-slate-800 hover:text-white transition-all font-medium text-sm">
+                <i class="fa-solid fa-globe w-5"></i> Lihat Website
+            </a>
+            <button onclick="logoutCMS()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-red-400 hover:bg-slate-800 hover:text-red-300 transition-all font-medium text-sm">
+                <i class="fa-solid fa-arrow-right-from-bracket w-5"></i> Keluar Sesi
+            </button>
+        </div>
+    </aside>
+
+    <!-- CMS Content Area -->
+    <main class="flex-1 h-full overflow-y-auto bg-slate-50 relative" id="cms-main-content">
+        <!-- Header Mobile -->
+        <div class="lg:hidden bg-slate-900 text-white p-4 flex justify-between items-center sticky top-0 z-10 shadow-md">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-user-shield text-brand-500"></i>
+                <span class="font-bold">Admin Panel</span>
+            </div>
+            <button id="mobile-cms-menu-btn" class="p-1"><i class="fa-solid fa-bars text-xl"></i></button>
+        </div>
+
+        <div class="p-4 md:p-8 max-w-5xl mx-auto pb-24">
+            <!-- 1. Tab Dashboard -->
+            <div id="tab-dashboard" class="cms-tab-content block animate-[fadeIn_0.3s_ease-out]">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6">Selamat Datang, Admin!</h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-eye"></i></div>
+                        <div><p class="text-xs text-slate-500 font-medium">Status Website</p><p class="text-lg font-bold text-slate-800">Online</p></div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+                        <div class="w-12 h-12 bg-green-100 text-brand-600 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-user-plus"></i></div>
+                        <div><p class="text-xs text-slate-500 font-medium">Status PSB</p><p class="text-lg font-bold text-slate-800">Dibuka</p></div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+                        <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-store"></i></div>
+                        <div><p class="text-xs text-slate-500 font-medium">Total Produk</p><p class="text-lg font-bold text-slate-800">4 / 15</p></div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gold-100 text-gold-600 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-newspaper"></i></div>
+                        <div><p class="text-xs text-slate-500 font-medium">Total Berita</p><p class="text-lg font-bold text-slate-800">3 Artikel</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Tab Umum -->
+            <div id="tab-umum" class="cms-tab-content hidden animate-[fadeIn_0.3s_ease-out]">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6">Pengaturan Profil & Umum</h2>
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-6">
+                    <h3 class="font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">Identitas & Hero Section</h3>
+                    <div class="space-y-4">
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">URL Logo Pesantren</label><input type="text" class="w-full border rounded-lg px-4 py-2 outline-none"></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Nama Pesantren</label><input type="text" value="Pesantren Modern Al-Hikmah" class="w-full border rounded-lg px-4 py-2 outline-none"></div>
+                    </div>
+                </div>
+                <div class="flex justify-end"><button class="bg-brand-900 text-white font-bold py-2.5 px-6 rounded-xl">Simpan Profil Umum</button></div>
+            </div>
+
+            <!-- 3. Tab PSB -->
+            <div id="tab-psb" class="cms-tab-content hidden animate-[fadeIn_0.3s_ease-out]">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6">Pengaturan Pendaftaran (PSB)</h2>
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-6">
+                    <div class="space-y-6">
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Status Pendaftaran</label><select class="w-full border rounded-lg px-4 py-2.5 outline-none"><option>Buka</option><option>Tutup</option></select></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Nomor WhatsApp Admin</label><input type="text" value="6281234567890" class="w-full border rounded-lg px-4 py-2.5 outline-none"></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Link Google Form</label><input type="url" value="https://forms.gle/..." class="w-full border rounded-lg px-4 py-2.5 outline-none text-blue-600"></div>
+                    </div>
+                </div>
+                <div class="flex justify-end"><button class="bg-brand-900 text-white font-bold py-2.5 px-6 rounded-xl">Simpan Pengaturan PSB</button></div>
+            </div>
+
+            <!-- 4. Tab Program -->
+            <div id="tab-program" class="cms-tab-content hidden animate-[fadeIn_0.3s_ease-out]">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6">Program Unggulan</h2>
+                <div class="space-y-4">
+                    <script>
+                        for(let i=1; i<=5; i++) {
+                            document.write(`
+                            <details class="bg-white border rounded-xl" ${i===1 ? 'open' : ''}>
+                                <summary class="font-bold p-5 cursor-pointer outline-none flex justify-between items-center text-slate-700 hover:bg-slate-50"><div class="flex items-center gap-3">Slot Program ${i}</div><i class="fa-solid fa-chevron-down"></i></summary>
+                                <div class="p-5 border-t space-y-4 bg-slate-50/50"><input type="text" placeholder="Judul Program" class="w-full border rounded-lg px-3 py-2 outline-none"></div>
+                            </details>`);
+                        }
+                    </script>
+                </div>
+            </div>
+
+            <!-- 5. Tab Fasilitas -->
+            <div id="tab-fasilitas" class="cms-tab-content hidden animate-[fadeIn_0.3s_ease-out]">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6">Fasilitas Kampus</h2>
+                <div class="space-y-4">
+                    <script>
+                        for(let i=1; i<=6; i++) {
+                            document.write(`
+                            <details class="bg-white border rounded-xl" ${i===1 ? 'open' : ''}>
+                                <summary class="font-bold p-5 cursor-pointer outline-none flex justify-between items-center text-slate-700 hover:bg-slate-50"><div class="flex items-center gap-3">Slot Fasilitas ${i}</div><i class="fa-solid fa-chevron-down"></i></summary>
+                                <div class="p-5 border-t space-y-4 bg-slate-50/50"><input type="text" placeholder="Nama Fasilitas" class="w-full border rounded-lg px-3 py-2 outline-none"></div>
+                            </details>`);
+                        }
+                    </script>
+                </div>
+            </div>
+
+            <!-- 6. Tab Produk -->
+            <div id="tab-produk" class="cms-tab-content hidden animate-[fadeIn_0.3s_ease-out]">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-slate-800">Manajemen Produk</h2>
+                    <button class="bg-brand-900 text-white font-bold py-2 px-5 rounded-xl"><i class="fa-solid fa-plus"></i> Tambah</button>
+                </div>
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 text-center text-slate-500">Tabel Data Produk akan dimuat di sini...</div>
+            </div>
+
+            <!-- 7. Tab Berita -->
+            <div id="tab-berita" class="cms-tab-content hidden animate-[fadeIn_0.3s_ease-out]">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-slate-800">Manajemen Berita</h2>
+                    <button class="bg-brand-900 text-white font-bold py-2 px-5 rounded-xl"><i class="fa-solid fa-pen-nib"></i> Tulis</button>
+                </div>
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 text-center text-slate-500">Tabel Data Berita akan dimuat di sini...</div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Script CMS Interactivity -->
+    <script>
+        const loginScreen = document.getElementById('cms-login-screen');
+        const loginForm = document.getElementById('login-form');
+
+        // Handle Simulasi Login
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const pwd = document.getElementById('admin-password').value;
+            if(pwd.trim() !== "") {
+                loginScreen.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => loginScreen.classList.add('hidden'), 500);
+            }
+        });
+
+        // Handle Simulasi Logout
+        function logoutCMS() {
+            loginScreen.classList.remove('hidden');
+            // Sedikit delay agar transisi terlihat mulus
+            setTimeout(() => loginScreen.classList.remove('opacity-0', 'pointer-events-none'), 10);
+            document.getElementById('admin-password').value = '';
+        }
+
+        // Logika Perpindahan Tab Menu CMS
+        function switchTab(tabId) {
+            document.querySelectorAll('.cms-tab-content').forEach(tab => {
+                tab.classList.remove('block'); tab.classList.add('hidden');
+            });
+            document.getElementById(tabId).classList.remove('hidden');
+            document.getElementById(tabId).classList.add('block');
+
+            document.querySelectorAll('.cms-nav-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-900', 'text-white', 'shadow-md');
+                btn.classList.add('text-slate-400');
+            });
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-400');
+                activeBtn.classList.add('bg-brand-900', 'text-white', 'shadow-md');
+            }
+
+            const sidebar = document.getElementById('cms-sidebar');
+            if (window.innerWidth < 1024 && !sidebar.classList.contains('hidden')) {
+                sidebar.classList.add('hidden');
+            }
+        }
+
+        // Mobile Sidebar Toggle
+        document.getElementById('mobile-cms-menu-btn').addEventListener('click', () => {
+            const sidebar = document.getElementById('cms-sidebar');
+            sidebar.classList.toggle('hidden');
+            sidebar.classList.add('absolute', 'z-50', 'w-64', 'h-full', 'shadow-2xl');
+        });
+    </script>
+</body>
+</html>
