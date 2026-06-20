@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesantren Modern Al-Hikmah</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Poppins for modern typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind Configuration -->
+    <script>
+        window.tailwind = window.tailwind || {};
+        window.tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            500: '#10b981',
+                            700: '#047857',
+                            900: '#064e3b', // Deep Emerald
+                        },
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Animations */
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .hero-pattern {
+            background-color: #064e3b;
+            background-image: linear-gradient(rgba(6, 78, 59, 0.85), rgba(6, 78, 59, 0.95)), url('https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Scroll Animation Classes */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 glass-nav shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-brand-900 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                        <i class="fa-solid fa-moon"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-xl text-brand-900 leading-tight">Al-Hikmah</h1>
+                        <p class="text-xs text-slate-500 font-medium">Pesantren Modern</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#beranda" class="text-slate-700 hover:text-brand-700 font-medium transition">Beranda</a>
+                    <a href="#profil" class="text-slate-700 hover:text-brand-700 font-medium transition">Profil</a>
+                    <a href="#program" class="text-slate-700 hover:text-brand-700 font-medium transition">Program</a>
+                    <a href="#fasilitas" class="text-slate-700 hover:text-brand-700 font-medium transition">Fasilitas</a>
+                    <a href="#pendaftaran" class="text-slate-700 hover:text-brand-700 font-medium transition">PSB</a>
+                    <a href="#berita" class="text-slate-700 hover:text-brand-700 font-medium transition">Berita</a>
+                    <a href="#pendaftaran" class="bg-brand-900 hover:bg-brand-700 text-white px-6 py-2.5 rounded-full font-medium transition shadow-lg shadow-brand-900/30">
+                        Daftar Sekarang
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-700 hover:text-brand-900 focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 absolute w-full shadow-xl">
+            <div class="px-4 pt-2 pb-6 space-y-1">
+                <a href="#beranda" class="block px-3 py-3 text-slate-700 font-medium border-b border-slate-50">Beranda</a>
+                <a href="#profil" class="block px-3 py-3 text-slate-700 font-medium border-b border-slate-50">Profil</a>
+                <a href="#program" class="block px-3 py-3 text-slate-700 font-medium border-b border-slate-50">Program</a>
+                <a href="#fasilitas" class="block px-3 py-3 text-slate-700 font-medium border-b border-slate-50">Fasilitas</a>
+                <a href="#pendaftaran" class="block px-3 py-3 text-slate-700 font-medium border-b border-slate-50">PSB</a>
+                <a href="#berita" class="block px-3 py-3 text-slate-700 font-medium border-b border-slate-50">Berita</a>
+                <a href="#pendaftaran" class="block px-3 py-3 mt-4 text-center bg-brand-900 text-white rounded-lg font-medium">Daftar Sekarang</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="beranda" class="hero-pattern min-h-[90vh] flex items-center relative pt-20">
+        <!-- Decorative subtle pattern overlay -->
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px]"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div class="max-w-3xl fade-in-up">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-gold-400 text-sm font-medium mb-6">
+                    <i class="fa-solid fa-star text-xs"></i> Pendaftaran Santri Baru 2026/2027 Dibuka
+                </div>
+                <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight mb-6">
+                    Membentuk Generasi <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-yellow-200">Qur'ani</span> yang Mandiri & Berprestasi
+                </h1>
+                <p class="text-lg md:text-xl text-brand-50 mb-10 leading-relaxed font-light max-w-2xl">
+                    Sistem pendidikan modern yang memadukan kurikulum nasional dan kepesantrenan untuk melahirkan pemimpin masa depan yang berakhlak mulia.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#pendaftaran" class="px-8 py-4 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-full text-center transition-all transform hover:-translate-y-1 shadow-lg shadow-gold-500/30">
+                        Informasi Pendaftaran
+                    </a>
+                    <a href="#profil" class="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white font-medium rounded-full text-center transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-play text-sm"></i> Video Profil
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Curved bottom shape divider -->
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
+            <svg class="relative block w-full h-[50px] md:h-[100px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,123.82,200,111.4,242.66,103.73,283.47,84.4,321.39,56.44Z" fill="#f8fafc"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Profil & Statistik Section -->
+    <section id="profil" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                
+                <!-- Images Matrix -->
+                <div class="relative fade-in-up">
+                    <div class="grid grid-cols-2 gap-4">
+                        <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kegiatan Belajar" class="rounded-2xl shadow-lg w-full h-64 object-cover transform translate-y-8">
+                        <img src="https://images.unsplash.com/photo-1606761568499-6d2451b23c66?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kampus Pesantren" class="rounded-2xl shadow-lg w-full h-64 object-cover">
+                    </div>
+                    <!-- Decorative Element -->
+                    <div class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-brand-100 rounded-full blur-3xl opacity-50"></div>
+                </div>
+
+                <!-- Text Content -->
+                <div class="fade-in-up" style="transition-delay: 0.2s;">
+                    <h4 class="text-brand-700 font-semibold uppercase tracking-wider text-sm mb-2">Tentang Kami</h4>
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-6 leading-tight">Tradisi Pesantren dalam <br><span class="text-brand-900">Kemasan Modern</span></h2>
+                    <p class="text-slate-600 mb-6 leading-relaxed">
+                        Pesantren Modern Al-Hikmah didirikan dengan visi mengintegrasikan ilmu agama (tafaqquh fiddin) dengan ilmu pengetahuan modern. Kami berkomitmen mencetak santri yang tidak hanya hafal Al-Qur'an, tetapi juga menguasai teknologi dan bahasa internasional.
+                    </p>
+                    
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-start gap-3">
+                            <div class="mt-1 bg-brand-100 text-brand-700 p-1 rounded-full"><i class="fa-solid fa-check text-xs"></i></div>
+                            <span class="text-slate-700">Kurikulum terpadu (Kemenag & Kemendikbud)</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="mt-1 bg-brand-100 text-brand-700 p-1 rounded-full"><i class="fa-solid fa-check text-xs"></i></div>
+                            <span class="text-slate-700">Fasilitas modern dan asrama yang nyaman</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="mt-1 bg-brand-100 text-brand-700 p-1 rounded-full"><i class="fa-solid fa-check text-xs"></i></div>
+                            <span class="text-slate-700">Tenaga pengajar profesional dan lulusan Timur Tengah</span>
+                        </li>
+                    </ul>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-6 pt-6 border-t border-slate-200">
+                        <div>
+                            <h3 class="text-3xl font-bold text-brand-900">25+</h3>
+                            <p class="text-sm text-slate-500 mt-1">Tahun Pengalaman</p>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl font-bold text-brand-900">1.2K</h3>
+                            <p class="text-sm text-slate-500 mt-1">Santri Aktif</p>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl font-bold text-brand-900">5K+</h3>
+                            <p class="text-sm text-slate-500 mt-1">Alumni Tersebar</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Program Pendidikan -->
+    <section id="program" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 fade-in-up">
+                <h4 class="text-brand-700 font-semibold uppercase tracking-wider text-sm mb-2">Program Unggulan</h4>
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Pendidikan Komprehensif</h2>
+                <p class="text-slate-600">Beragam program dirancang untuk mengembangkan potensi kognitif, afektif, dan spiritual santri secara seimbang.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Program 1 -->
+                <div class="bg-slate-50 rounded-2xl p-8 hover:bg-brand-900 hover:text-white transition-all duration-300 group shadow-sm hover:shadow-xl fade-in-up">
+                    <div class="w-14 h-14 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-700 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-book-open-reader"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-800 group-hover:text-white">Pendidikan Formal</h3>
+                    <p class="text-slate-600 group-hover:text-brand-100 text-sm leading-relaxed mb-4">
+                        Tingkat SMP dan SMA dengan kurikulum nasional yang diperkaya dengan muatan lokal kepesantrenan.
+                    </p>
+                    <a href="#" class="inline-flex items-center text-sm font-medium text-brand-700 group-hover:text-gold-400">
+                        Pelajari detail <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Program 2 -->
+                <div class="bg-slate-50 rounded-2xl p-8 hover:bg-brand-900 hover:text-white transition-all duration-300 group shadow-sm hover:shadow-xl fade-in-up" style="transition-delay: 0.1s;">
+                    <div class="w-14 h-14 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-700 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-quran"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-800 group-hover:text-white">Tahfidz Qur'an</h3>
+                    <p class="text-slate-600 group-hover:text-brand-100 text-sm leading-relaxed mb-4">
+                        Program hafalan Al-Qur'an terstruktur dengan target mutqin 30 Juz serta pemahaman tafsir dasar.
+                    </p>
+                    <a href="#" class="inline-flex items-center text-sm font-medium text-brand-700 group-hover:text-gold-400">
+                        Pelajari detail <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Program 3 -->
+                <div class="bg-slate-50 rounded-2xl p-8 hover:bg-brand-900 hover:text-white transition-all duration-300 group shadow-sm hover:shadow-xl fade-in-up" style="transition-delay: 0.2s;">
+                    <div class="w-14 h-14 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-700 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-language"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-800 group-hover:text-white">Bilingual System</h3>
+                    <p class="text-slate-600 group-hover:text-brand-100 text-sm leading-relaxed mb-4">
+                        Kewajiban berbahasa Arab dan Inggris dalam percakapan sehari-hari di lingkungan asrama.
+                    </p>
+                    <a href="#" class="inline-flex items-center text-sm font-medium text-brand-700 group-hover:text-gold-400">
+                        Pelajari detail <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Program 4 -->
+                <div class="bg-slate-50 rounded-2xl p-8 hover:bg-brand-900 hover:text-white transition-all duration-300 group shadow-sm hover:shadow-xl fade-in-up" style="transition-delay: 0.3s;">
+                    <div class="w-14 h-14 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-700 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-laptop-code"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-800 group-hover:text-white">Ekstrakurikuler IT</h3>
+                    <p class="text-slate-600 group-hover:text-brand-100 text-sm leading-relaxed mb-4">
+                        Pelatihan coding, desain grafis, dan multimedia untuk membekali santri menghadapi era digital.
+                    </p>
+                    <a href="#" class="inline-flex items-center text-sm font-medium text-brand-700 group-hover:text-gold-400">
+                        Pelajari detail <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fasilitas -->
+    <section id="fasilitas" class="py-20 bg-brand-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 fade-in-up">
+                <div class="max-w-2xl">
+                    <h4 class="text-brand-700 font-semibold uppercase tracking-wider text-sm mb-2">Fasilitas Kampus</h4>
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800 leading-tight">Lingkungan Belajar yang <br>Nyaman & Representatif</h2>
+                </div>
+                <div class="mt-6 md:mt-0">
+                    <button class="px-6 py-2 border-2 border-brand-900 text-brand-900 font-medium rounded-full hover:bg-brand-900 hover:text-white transition-colors">
+                        Lihat Semua Fasilitas
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Fasilitas 1 -->
+                <div class="group relative rounded-2xl overflow-hidden shadow-lg aspect-[4/3] fade-in-up">
+                    <img src="https://images.unsplash.com/photo-1564683214965-3619addd900d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Masjid Jami'" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <div class="bg-brand-500 text-white text-xs font-bold px-3 py-1 rounded-full inline-block mb-3">Pusat Kegiatan</div>
+                        <h3 class="text-xl font-bold text-white mb-1">Masjid Jami' Al-Hikmah</h3>
+                        <p class="text-slate-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">Kapasitas 2000 jamaah dengan arsitektur menawan.</p>
+                    </div>
+                </div>
+
+                <!-- Fasilitas 2 -->
+                <div class="group relative rounded-2xl overflow-hidden shadow-lg aspect-[4/3] fade-in-up" style="transition-delay: 0.1s;">
+                    <img src="https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Perpustakaan" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <div class="bg-gold-500 text-white text-xs font-bold px-3 py-1 rounded-full inline-block mb-3">Literasi</div>
+                        <h3 class="text-xl font-bold text-white mb-1">Perpustakaan Digital</h3>
+                        <p class="text-slate-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">Koleksi kitab kuning dan buku modern yang lengkap.</p>
+                    </div>
+                </div>
+
+                <!-- Fasilitas 3 -->
+                <div class="group relative rounded-2xl overflow-hidden shadow-lg aspect-[4/3] fade-in-up" style="transition-delay: 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Asrama Santri" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <div class="bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full inline-block mb-3">Tempat Tinggal</div>
+                        <h3 class="text-xl font-bold text-white mb-1">Asrama Ber-AC</h3>
+                        <p class="text-slate-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">Fasilitas hunian yang bersih, nyaman, dan terawasi 24 jam.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Berita & Informasi Section -->
+    <section id="berita" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 fade-in-up">
+                <div class="max-w-2xl">
+                    <h4 class="text-brand-700 font-semibold uppercase tracking-wider text-sm mb-2">Informasi Terkini</h4>
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800 leading-tight">Berita & Kegiatan <br>Pesantren</h2>
+                </div>
+                <div class="mt-6 md:mt-0">
+                    <button class="px-6 py-2 text-brand-900 font-medium hover:text-brand-700 transition-colors flex items-center gap-2">
+                        Lihat Semua Berita <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Berita 1 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 fade-in-up">
+                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Wisuda Santri" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 text-xs text-slate-500 mb-3">
+                            <span><i class="fa-regular fa-calendar mr-1"></i> 10 Jun 2026</span>
+                            <span><i class="fa-regular fa-folder mr-1"></i> Akademik</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-2 line-clamp-2 hover:text-brand-700 transition-colors cursor-pointer">Haflah Akhirussanah dan Wisuda Tahfidz Angkatan Ke-15</h3>
+                        <p class="text-slate-600 text-sm mb-4 line-clamp-3">Alhamdulillah, telah terlaksana dengan khidmat acara perpisahan dan wisuda bagi santri kelas akhir yang telah menyelesaikan hafalan 30 juz.</p>
+                        <a href="#" class="text-brand-700 font-medium text-sm hover:text-brand-900">Baca selengkapnya &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Berita 2 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 fade-in-up" style="transition-delay: 0.1s;">
+                    <img src="https://images.unsplash.com/photo-1584697964400-2af6a2f6204c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kunjungan Syeikh" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 text-xs text-slate-500 mb-3">
+                            <span><i class="fa-regular fa-calendar mr-1"></i> 05 Jun 2026</span>
+                            <span><i class="fa-regular fa-folder mr-1"></i> Kegiatan</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-2 line-clamp-2 hover:text-brand-700 transition-colors cursor-pointer">Kunjungan Syeikh dari Universitas Al-Azhar Kairo</h3>
+                        <p class="text-slate-600 text-sm mb-4 line-clamp-3">Pesantren Modern Al-Hikmah menerima kunjungan kehormatan untuk memberikan studium generale kepada seluruh santri dan asatidz.</p>
+                        <a href="#" class="text-brand-700 font-medium text-sm hover:text-brand-900">Baca selengkapnya &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Berita 3 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 fade-in-up" style="transition-delay: 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Prestasi Santri" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 text-xs text-slate-500 mb-3">
+                            <span><i class="fa-regular fa-calendar mr-1"></i> 28 Mei 2026</span>
+                            <span><i class="fa-regular fa-folder mr-1"></i> Prestasi</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-2 line-clamp-2 hover:text-brand-700 transition-colors cursor-pointer">Juara Umum Lomba MQK Tingkat Provinsi Jawa Barat</h3>
+                        <p class="text-slate-600 text-sm mb-4 line-clamp-3">Delegasi santri Al-Hikmah berhasil meraih juara umum pada perhelatan Musabaqah Qiraatil Kutub (MQK) tingkat provinsi tahun ini.</p>
+                        <a href="#" class="text-brand-700 font-medium text-sm hover:text-brand-900">Baca selengkapnya &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Pendaftaran -->
+    <section id="pendaftaran" class="py-20 bg-white">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-brand-900 rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-2xl fade-in-up">
+                <!-- Abstract Circles -->
+                <div class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-64 h-64 bg-brand-700 rounded-full opacity-50 blur-2xl"></div>
+                <div class="absolute bottom-0 left-0 translate-y-1/3 -translate-x-1/4 w-80 h-80 bg-gold-600 rounded-full opacity-30 blur-3xl"></div>
+                
+                <div class="relative z-10 text-center text-white">
+                    <h2 class="text-3xl md:text-5xl font-bold mb-6">Bergabunglah Bersama Kami</h2>
+                    <p class="text-brand-100 text-lg mb-8 max-w-2xl mx-auto">
+                        Penerimaan Santri Baru (PSB) Tahun Ajaran 2026/2027 telah dibuka. Kuota terbatas, segera daftarkan putra/putri Anda.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button class="bg-gold-500 hover:bg-gold-400 text-brand-900 font-bold px-8 py-4 rounded-full transition-colors text-lg shadow-lg">
+                            Daftar Online Sekarang
+                        </button>
+                        <button class="bg-white/10 hover:bg-white/20 border border-white/30 backdrop-blur-sm text-white font-medium px-8 py-4 rounded-full transition-colors flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-xl text-green-400"></i> Konsultasi Admin
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-300 pt-16 pb-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <!-- Brand -->
+                <div class="col-span-1 md:col-span-2 lg:col-span-1">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-full bg-brand-500 flex items-center justify-center text-white font-bold text-xl">
+                            <i class="fa-solid fa-moon"></i>
+                        </div>
+                        <h2 class="font-bold text-2xl text-white">Al-Hikmah</h2>
+                    </div>
+                    <p class="text-sm text-slate-400 leading-relaxed mb-6">
+                        Mendidik generasi pemimpin masa depan yang berakhlak mulia, berwawasan global, dan berpegang teguh pada Al-Qur'an dan As-Sunnah.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-brand-500 hover:text-white transition-colors">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-brand-500 hover:text-white transition-colors">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-brand-500 hover:text-white transition-colors">
+                            <i class="fa-brands fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tautan Cepat -->
+                <div>
+                    <h3 class="text-white font-semibold mb-6 uppercase tracking-wider text-sm">Tautan Cepat</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#beranda" class="hover:text-brand-400 transition-colors">Beranda</a></li>
+                        <li><a href="#profil" class="hover:text-brand-400 transition-colors">Tentang Kami</a></li>
+                        <li><a href="#program" class="hover:text-brand-400 transition-colors">Program Pendidikan</a></li>
+                        <li><a href="#fasilitas" class="hover:text-brand-400 transition-colors">Fasilitas</a></li>
+                        <li><a href="#" class="hover:text-brand-400 transition-colors">Berita & Artikel</a></li>
+                    </ul>
+                </div>
+
+                <!-- Kontak -->
+                <div class="col-span-1 md:col-span-2">
+                    <h3 class="text-white font-semibold mb-6 uppercase tracking-wider text-sm">Hubungi Kami</h3>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot mt-1 text-brand-500"></i>
+                            <span>Jl. Pesantren Modern No. 123, Desa Damai, Kec. Sejahtera, Kota Bandung, Jawa Barat 40123</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone text-brand-500"></i>
+                            <span>+62 812 3456 7890 (Admin)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-brand-500"></i>
+                            <span>info@pesantrenalhikmah.id</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
+                <p>&copy; 2026 Pesantren Modern Al-Hikmah. All rights reserved.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:text-white transition-colors">Kebijakan Privasi</a>
+                    <a href="#" class="hover:text-white transition-colors">Syarat & Ketentuan</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PANEL ADMIN / CMS (Disembunyikan secara default) -->
+    <div id="admin-view" class="hidden fixed inset-0 z-[100] bg-slate-50 overflow-hidden flex flex-col md:flex-row">
+        
+        <!-- Layar Login -->
+        <div id="cms-login-screen" class="absolute inset-0 z-[110] flex items-center justify-center bg-slate-900 p-4">
+            <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md text-center transform transition-all">
+                <div class="w-16 h-16 bg-brand-900 rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4 shadow-lg shadow-brand-900/30">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">CMS Al-Hikmah</h2>
+                <p class="text-slate-500 mb-6 text-sm">Masukkan password admin untuk masuk ke dashboard pengelola.</p>
+                <form id="login-form" class="space-y-4">
+                    <div>
+                        <input type="password" id="admin-password" placeholder="Password (ketik apa saja & Enter)" class="w-full border border-slate-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all text-center font-medium">
+                    </div>
+                    <button type="submit" class="w-full bg-brand-900 hover:bg-brand-700 text-white font-bold py-3 px-4 rounded-xl transition-colors shadow-lg">
+                        Masuk Dashboard
+                    </button>
+                    <a href="#" id="close-cms-btn" class="block text-sm text-slate-500 hover:text-brand-700 mt-4 font-medium transition-colors">Kembali ke Website Publik</a>
+                </form>
+            </div>
+        </div>
+
+        <!-- CMS Layout (Sidebar) -->
+        <aside class="w-full md:w-64 bg-slate-900 text-slate-300 flex-col h-full hidden md:flex" id="cms-sidebar">
+            <div class="p-6 border-b border-slate-800 flex items-center gap-3">
+                <div class="w-8 h-8 bg-brand-500 rounded-full flex items-center justify-center text-white font-bold"><i class="fa-solid fa-user-shield text-sm"></i></div>
+                <span class="text-white font-bold text-lg tracking-wide">Admin Panel</span>
+            </div>
+            <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+                <button onclick="switchTab('tab-dashboard')" id="nav-tab-dashboard" class="cms-nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all bg-brand-900 text-white shadow-md">
+                    <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
+                </button>
+                <button onclick="switchTab('tab-umum')" id="nav-tab-umum" class="cms-nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left hover:bg-slate-800 hover:text-white transition-all text-slate-400">
+                    <i class="fa-solid fa-gear w-5"></i> Pengaturan Umum
+                </button>
+                <button onclick="switchTab('tab-psb')" id="nav-tab-psb" class="cms-nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left hover:bg-slate-800 hover:text-white transition-all text-slate-400">
+                    <i class="fa-solid fa-user-plus w-5"></i> Pengaturan PSB
+                </button>
+                <button onclick="switchTab('tab-berita')" id="nav-tab-berita" class="cms-nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left hover:bg-slate-800 hover:text-white transition-all text-slate-400">
+                    <i class="fa-solid fa-newspaper w-5"></i> Kelola Berita
+                </button>
+            </nav>
+            <div class="p-4 border-t border-slate-800">
+                <button onclick="logoutCMS()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-red-400 hover:bg-slate-800 hover:text-red-300 transition-all font-medium">
+                    <i class="fa-solid fa-arrow-right-from-bracket w-5"></i> Keluar Sesi
+                </button>
+            </div>
+        </aside>
+
+        <!-- CMS Content Area -->
+        <main class="flex-1 h-full overflow-y-auto bg-slate-50 relative" id="cms-main-content">
+            <!-- Header Mobile (Hanya muncul di HP) -->
+            <div class="md:hidden bg-slate-900 text-white p-4 flex justify-between items-center sticky top-0 z-10 shadow-md">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-user-shield text-brand-500"></i>
+                    <span class="font-bold">Admin Panel</span>
+                </div>
+                <button id="mobile-cms-menu-btn" class="p-1"><i class="fa-solid fa-bars text-xl"></i></button>
+            </div>
+
+            <div class="p-4 md:p-8 max-w-5xl mx-auto pb-24">
+                <!-- Konten Tab Dashboard -->
+                <div id="tab-dashboard" class="cms-tab-content block animate-[fadeIn_0.3s_ease-out]">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-6">Selamat Datang, Admin!</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 transition-transform hover:-translate-y-1">
+                            <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-eye"></i></div>
+                            <div>
+                                <p class="text-sm text-slate-500 font-medium">Status Website</p>
+                                <p class="text-xl font-bold text-slate-800">Online</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 transition-transform hover:-translate-y-1">
+                            <div class="w-12 h-12 bg-green-100 text-brand-600 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-user-plus"></i></div>
+                            <div>
+                                <p class="text-sm text-slate-500 font-medium">Status PSB</p>
+                                <p class="text-xl font-bold text-slate-800">Dibuka</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 transition-transform hover:-translate-y-1">
+                            <div class="w-12 h-12 bg-gold-100 text-gold-600 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-newspaper"></i></div>
+                            <div>
+                                <p class="text-sm text-slate-500 font-medium">Total Berita</p>
+                                <p class="text-xl font-bold text-slate-800">3 Artikel</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-brand-50 border border-brand-100 p-6 rounded-2xl">
+                        <h3 class="font-bold text-brand-900 mb-2 flex items-center gap-2"><i class="fa-solid fa-circle-info"></i> Mode Preview UI CMS</h3>
+                        <p class="text-brand-800 text-sm leading-relaxed">Ini adalah desain tampilan (UI) awal untuk CMS Pesantren. Tombol simpan saat ini bersifat simulasi. Silakan navigasi menu di panel kiri untuk melihat formulir Pengaturan Umum, PSB, dan Manajemen Berita.</p>
+                    </div>
+                </div>
+
+                <!-- Konten Tab Umum -->
+                <div id="tab-umum" class="cms-tab-content hidden animate-[fadeIn_0.3s_ease-out]">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-6">Pengaturan Umum</h2>
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-6">
+                        <h3 class="font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">Identitas & Hero Section</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">URL Logo Pesantren</label>
+                                <input type="text" placeholder="https://..." class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none transition-shadow text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">Nama Pesantren</label>
+                                <input type="text" value="Pesantren Modern Al-Hikmah" class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none transition-shadow text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">Teks Utama (Slogan/Hero)</label>
+                                <input type="text" value="Membentuk Generasi Qur'ani yang Mandiri & Berprestasi" class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none transition-shadow text-sm">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-6">
+                        <h3 class="font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">Profil Singkat</h3>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">Paragraf Profil Pesantren</label>
+                            <textarea rows="4" class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none transition-shadow text-sm">Pesantren Modern Al-Hikmah didirikan dengan visi mengintegrasikan ilmu agama (tafaqquh fiddin) dengan ilmu pengetahuan modern. Kami berkomitmen mencetak santri yang tidak hanya hafal Al-Qur'an, tetapi juga menguasai teknologi...</textarea>
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <button class="bg-brand-900 hover:bg-brand-700 text-white font-bold py-2.5 px-6 rounded-xl transition-colors shadow-lg shadow-brand-900/20">Simpan Perubahan Umum</button>
+                    </div>
+                </div>
+
+                <!-- Konten Tab PSB -->
+                <div id="tab-psb" class="cms-tab-content hidden animate-[fadeIn_0.3s_ease-out]">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-6">Pengaturan Pendaftaran (PSB)</h2>
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-6">
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Status Pendaftaran</label>
+                                <select class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-brand-500 outline-none bg-white text-sm">
+                                    <option value="buka">Buka (Tombol pendaftaran aktif di website)</option>
+                                    <option value="tutup">Tutup (Tombol pendaftaran disembunyikan/nonaktif)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Nomor WhatsApp Admin (Awali dengan 62)</label>
+                                <div class="flex">
+                                    <span class="inline-flex items-center px-4 rounded-l-lg border border-r-0 border-slate-300 bg-slate-50 text-slate-500">
+                                        <i class="fa-brands fa-whatsapp text-green-500 text-lg"></i>
+                                    </span>
+                                    <input type="text" value="6281234567890" class="flex-1 block w-full rounded-none rounded-r-lg border border-slate-300 px-4 py-2.5 focus:ring-2 focus:ring-brand-500 outline-none text-sm font-medium">
+                                </div>
+                                <p class="text-xs text-slate-500 mt-2"><i class="fa-solid fa-circle-info"></i> Nomor ini akan dihubungkan otomatis ke tombol "Konsultasi Admin".</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Link Google Form Pendaftaran</label>
+                                <input type="url" value="https://forms.gle/contohlinkpendaftaran" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-brand-500 outline-none text-sm text-blue-600">
+                                <p class="text-xs text-slate-500 mt-2"><i class="fa-solid fa-circle-info"></i> Link ini akan terbuka saat tombol "Daftar Online Sekarang" diklik pengunjung.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <button class="bg-brand-900 hover:bg-brand-700 text-white font-bold py-2.5 px-6 rounded-xl transition-colors shadow-lg shadow-brand-900/20">Simpan Pengaturan PSB</button>
+                    </div>
+                </div>
+
+                <!-- Konten Tab Berita -->
+                <div id="tab-berita" class="cms-tab-content hidden animate-[fadeIn_0.3s_ease-out]">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4 border-b border-slate-200 pb-4">
+                        <h2 class="text-2xl font-bold text-slate-800">Manajemen Berita</h2>
+                        <button onclick="document.getElementById('form-berita-modal').classList.remove('hidden')" class="bg-brand-900 hover:bg-brand-700 text-white font-bold py-2 px-5 rounded-xl transition-colors shadow-lg shadow-brand-900/20 flex items-center gap-2">
+                            <i class="fa-solid fa-pen-nib"></i> Tulis Berita
+                        </button>
+                    </div>
+                    
+                    <!-- Tabel Berita -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left text-slate-500">
+                                <thead class="text-xs text-slate-700 uppercase bg-slate-50/80 border-b border-slate-100">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-4 font-bold">Tanggal</th>
+                                        <th scope="col" class="px-6 py-4 font-bold">Judul Artikel</th>
+                                        <th scope="col" class="px-6 py-4 font-bold">Kategori</th>
+                                        <th scope="col" class="px-6 py-4 font-bold text-right">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bg-white border-b border-slate-50 hover:bg-slate-50/80 transition-colors">
+                                        <td class="px-6 py-4 whitespace-nowrap">10 Jun 2026</td>
+                                        <td class="px-6 py-4 font-semibold text-slate-800">Haflah Akhirussanah dan Wisuda Tahfidz Angkatan Ke-15</td>
+                                        <td class="px-6 py-4"><span class="bg-blue-50 text-blue-700 border border-blue-200 text-xs font-semibold px-3 py-1 rounded-full">Akademik</span></td>
+                                        <td class="px-6 py-4 text-right">
+                                            <button class="text-brand-600 hover:text-brand-900 mr-3 p-2 hover:bg-brand-50 rounded-lg transition-colors"><i class="fa-solid fa-pen-to-square"></i></button>
+                                            <button class="text-red-500 hover:text-red-700 p-2 hover:bg-red-50 rounded-lg transition-colors"><i class="fa-solid fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="bg-white border-b border-slate-50 hover:bg-slate-50/80 transition-colors">
+                                        <td class="px-6 py-4 whitespace-nowrap">05 Jun 2026</td>
+                                        <td class="px-6 py-4 font-semibold text-slate-800">Kunjungan Syeikh dari Universitas Al-Azhar Kairo</td>
+                                        <td class="px-6 py-4"><span class="bg-green-50 text-green-700 border border-green-200 text-xs font-semibold px-3 py-1 rounded-full">Kegiatan</span></td>
+                                        <td class="px-6 py-4 text-right">
+                                            <button class="text-brand-600 hover:text-brand-900 mr-3 p-2 hover:bg-brand-50 rounded-lg transition-colors"><i class="fa-solid fa-pen-to-square"></i></button>
+                                            <button class="text-red-500 hover:text-red-700 p-2 hover:bg-red-50 rounded-lg transition-colors"><i class="fa-solid fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="bg-white hover:bg-slate-50/80 transition-colors">
+                                        <td class="px-6 py-4 whitespace-nowrap">28 Mei 2026</td>
+                                        <td class="px-6 py-4 font-semibold text-slate-800">Juara Umum Lomba MQK Tingkat Provinsi Jawa Barat</td>
+                                        <td class="px-6 py-4"><span class="bg-gold-50 text-gold-700 border border-gold-200 text-xs font-semibold px-3 py-1 rounded-full">Prestasi</span></td>
+                                        <td class="px-6 py-4 text-right">
+                                            <button class="text-brand-600 hover:text-brand-900 mr-3 p-2 hover:bg-brand-50 rounded-lg transition-colors"><i class="fa-solid fa-pen-to-square"></i></button>
+                                            <button class="text-red-500 hover:text-red-700 p-2 hover:bg-red-50 rounded-lg transition-colors"><i class="fa-solid fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Modal Tulis Berita -->
+        <div id="form-berita-modal" class="hidden absolute inset-0 z-[120] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+            <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col animate-[fadeInUp_0.3s_ease-out]">
+                <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-3xl">
+                    <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-pen-nib text-brand-600"></i> Editor Berita</h3>
+                    <button onclick="document.getElementById('form-berita-modal').classList.add('hidden')" class="w-8 h-8 flex items-center justify-center rounded-full text-slate-400 hover:bg-slate-200 hover:text-slate-700 transition-colors"><i class="fa-solid fa-xmark text-lg"></i></button>
+                </div>
+                
+                <div class="p-6 overflow-y-auto flex-1 space-y-5">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Judul Berita</label>
+                        <input type="text" placeholder="Masukkan judul yang menarik..." class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-brand-500 outline-none font-medium text-slate-800">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">Kategori</label>
+                            <select class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-brand-500 outline-none bg-white text-sm">
+                                <option>Akademik</option>
+                                <option>Kegiatan</option>
+                                <option>Prestasi</option>
+                                <option>Pengumuman</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">Tanggal Publikasi</label>
+                            <input type="date" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-brand-500 outline-none text-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">URL Gambar Thumbnail</label>
+                        <input type="text" placeholder="https://images.unsplash.com/..." class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-brand-500 outline-none text-sm text-blue-600">
+                        <p class="text-xs text-slate-500 mt-1">Masukkan link gambar (unsplash/imgur/drive).</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Isi Konten Berita</label>
+                        <textarea rows="8" placeholder="Tulis isi selengkapnya di sini..." class="w-full border border-slate-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-brand-500 outline-none text-sm leading-relaxed"></textarea>
+                    </div>
+                </div>
+                
+                <div class="p-6 border-t border-slate-100 flex justify-end gap-3 bg-slate-50 rounded-b-3xl">
+                    <button onclick="document.getElementById('form-berita-modal').classList.add('hidden')" class="px-6 py-2.5 border border-slate-300 text-slate-600 font-bold rounded-xl hover:bg-white hover:shadow-sm transition-all">Batal</button>
+                    <button onclick="document.getElementById('form-berita-modal').classList.add('hidden')" class="px-6 py-2.5 bg-brand-900 text-white font-bold rounded-xl hover:bg-brand-700 transition-colors shadow-lg shadow-brand-900/20 flex items-center gap-2">
+                        <i class="fa-solid fa-paper-plane text-sm"></i> Simpan & Publikasikan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tambahan animasi simpel untuk CMS -->
+    <style>
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+
+    <script>
+        // Mobile Menu Toggle Logic
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when a link is clicked
+        const mobileLinks = menu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add('shadow-md');
+                navbar.classList.replace('glass-nav', 'bg-white');
+            } else {
+                navbar.classList.remove('shadow-md');
+                navbar.classList.replace('bg-white', 'glass-nav');
+            }
+        });
+
+        // Intersection Observer for Scroll Animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Stop observing once animated
+                }
+            });
+        }, observerOptions);
+
+        // Target all elements with .fade-in-up class
+        document.querySelectorAll('.fade-in-up').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // ==========================================
+        // LOGIKA SISTEM CMS & ROUTING
+        // ==========================================
+        const adminView = document.getElementById('admin-view');
+        const loginScreen = document.getElementById('cms-login-screen');
+        const loginForm = document.getElementById('login-form');
+        const closeCmsBtn = document.getElementById('close-cms-btn');
+
+        // Fungsi mengecek URL apakah mengandung #admin
+        function checkAdminRoute() {
+            if (window.location.hash === '#admin') {
+                adminView.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Matikan scroll web utama
+                // Reset layar ke login jika belum login (simulasi)
+                loginScreen.classList.remove('hidden');
+            } else {
+                adminView.classList.add('hidden');
+                document.body.style.overflow = 'auto'; // Nyalakan scroll web utama
+            }
+        }
+
+        // Jalankan pengecekan saat url hash berubah dan saat web pertama dimuat
+        window.addEventListener('hashchange', checkAdminRoute);
+        if (window.location.hash === '#admin') checkAdminRoute();
+
+        // Tombol kembali ke web publik
+        closeCmsBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.hash = ''; // Hapus #admin dari URL
+        });
+
+        // Handle Simulasi Login
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Nanti dikembangkan untuk memvalidasi password ke Google Script API
+            const pwd = document.getElementById('admin-password').value;
+            if(pwd.trim() !== "") {
+                loginScreen.classList.add('hidden'); // Sembunyikan layar login
+            }
+        });
+
+        // Handle Simulasi Logout
+        function logoutCMS() {
+            loginScreen.classList.remove('hidden');
+            document.getElementById('admin-password').value = '';
+        }
+
+        // Logika Perpindahan Tab Menu CMS
+        function switchTab(tabId) {
+            // Sembunyikan semua tab
+            document.querySelectorAll('.cms-tab-content').forEach(tab => {
+                tab.classList.remove('block');
+                tab.classList.add('hidden');
+            });
+            // Tampilkan tab yang dipilih
+            document.getElementById(tabId).classList.remove('hidden');
+            document.getElementById(tabId).classList.add('block');
+
+            // Update warna tombol navigasi sidebar
+            document.querySelectorAll('.cms-nav-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-900', 'text-white', 'shadow-md');
+                btn.classList.add('text-slate-400');
+            });
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-400');
+                activeBtn.classList.add('bg-brand-900', 'text-white', 'shadow-md');
+            }
+
+            // Tutup sidebar di versi Mobile jika terbuka
+            const sidebar = document.getElementById('cms-sidebar');
+            if (window.innerWidth < 768 && !sidebar.classList.contains('hidden')) {
+                sidebar.classList.add('hidden');
+            }
+        }
+
+        // Tombol Hamburger Menu CMS Mobile
+        document.getElementById('mobile-cms-menu-btn').addEventListener('click', () => {
+            const sidebar = document.getElementById('cms-sidebar');
+            sidebar.classList.toggle('hidden');
+            sidebar.classList.add('absolute', 'z-50', 'w-64', 'h-full', 'shadow-2xl');
+        });
+
+    </script>
+</body>
+</html>
+```
+
+### Cara Membuka Panel CMS ini:
+1. Pastikan kode di atas sudah diterapkan dan dirender oleh sistem.
+2. Di lingkungan kolaboratif (Immersive) ini, klik tab **Browser** atau jika Anda membuka preview web ini di tab baru, lihat kolom URL Address Bar.
+3. Tambahkan teks **`#admin`** tepat di belakang URL (contoh: `.../index.html#admin`), lalu tekan Enter.
+4. Jendela **Login CMS Al-Hikmah** akan langsung muncul menutupi layar! Ketik password apa saja (karena ini masih desain) dan tekan tombol Masuk.
+
+Silakan eksplorasi desain form-form pengaturannya. Jika menurut Anda antarmukanya sudah elegan dan pas, langkah selanjutnya kita akan berpindah membuat skrip backend (Google Apps Script). Bagaimana menurut Anda tampilannya?
