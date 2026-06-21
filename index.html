@@ -350,31 +350,26 @@
         </div>
     </footer>
 
-    <!-- Script Fungsionalitas -->
+    <!-- Script Fungsionalitas & API Jembatan -->
     <script>
-        // 1. Script Logika SPA (Single Page Application) Routing
+        // --- 1. Logika SPA (Routing) ---
         function navigateTo(pageId) {
-            // Sembunyikan semua section
             document.querySelectorAll('.page-section').forEach(sec => {
                 sec.classList.add('hidden');
                 sec.classList.remove('flex', 'block');
             });
 
-            // Tampilkan section yang dituju
             const target = document.getElementById(pageId);
             if (target) {
                 target.classList.remove('hidden');
-                // Beranda butuh flex-center, yang lain cukup block biasa
                 if(pageId === 'beranda') target.classList.add('flex');
                 else target.classList.add('block');
                 
-                // Memicu ulang animasi fade-in
                 target.classList.remove('fade-in');
-                void target.offsetWidth; // trigger reflow
+                void target.offsetWidth; 
                 target.classList.add('fade-in');
             }
 
-            // Update warna tombol navigasi yang aktif
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('text-brand-700', 'font-bold');
                 link.classList.add('text-slate-600', 'font-medium');
@@ -384,17 +379,11 @@
                 }
             });
 
-            // Tutup menu mobile jika sedang terbuka
             document.getElementById('mobile-menu').classList.add('hidden');
-            
-            // Otomatis scroll ke bagian paling atas halaman baru
             window.scrollTo({ top: 0, behavior: 'instant' });
-            
-            // Ubah URL di atas browser tanpa mereload
             history.pushState(null, null, '#' + pageId);
         }
 
-        // Tangkap semua klik pada link navigasi berawalan '#'
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -403,56 +392,192 @@
             });
         });
 
-        // Cek URL saat halaman pertama kali dimuat (jika ada hashtag langsung buka tab tsb)
         window.addEventListener('load', () => {
             const hash = window.location.hash.substring(1);
             if (hash && document.getElementById(hash)) navigateTo(hash);
             else navigateTo('beranda');
         });
 
-        // 2. Script Tombol Mobile Menu
         const btnMenu = document.getElementById('mobile-menu-btn');
         const menuPanel = document.getElementById('mobile-menu');
         btnMenu.addEventListener('click', () => menuPanel.classList.toggle('hidden'));
 
-        // 3. Script Generator 15 Produk Otomatis (Grid 5 Kolom)
-        const productGrid = document.getElementById('product-grid');
-        let productHTML = '';
-        
-        // Array gambar variasi dummy
-        const images = [
-            "https://images.unsplash.com/photo-1559525839-b184a4d698c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", // Kopi
-            "https://images.unsplash.com/photo-1601314167099-232775b3d6fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", // Madu
-            "https://images.unsplash.com/photo-1589363460779-cbdfbaacfa4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", // Peci
-            "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", // Buku
-            "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"  // Tas
-        ];
+        // --- 2. INTEGRASI GOOGLE SHEETS API ---
+        const API_URL = "https://script.google.com/macros/s/AKfycbyc89A6Motnes5qNl_UM-Qmje0Zm_D6BW0ZZ_FuWZsu9kFyx06p2hyLrkljLRkgwWTYrQ/exec";
 
-        for(let i=1; i<=15; i++) {
-            let imgIndex = (i - 1) % images.length;
-            let harga = Math.floor(Math.random() * 8 + 2) * 10; // Random puluhan ribu
-            let tagHtml = i <= 3 ? '<div class="absolute top-2 right-2 bg-brand-500 text-white text-[10px] font-bold px-2 py-1 rounded-md">Terlaris</div>' : '';
-            
-            productHTML += `
-            <div class="bg-slate-50 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col h-full">
-                <div class="relative aspect-square overflow-hidden bg-white">
-                    <img src="${images[imgIndex]}" alt="Produk ${i}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
-                    ${tagHtml}
-                </div>
-                <div class="p-3 md:p-4 flex flex-col flex-grow">
-                    <h3 class="font-bold text-slate-800 mb-1 text-xs md:text-sm line-clamp-1">Produk Unggulan ${i}</h3>
-                    <p class="text-[10px] md:text-xs text-slate-500 mb-3 line-clamp-2 flex-grow">Produk hasil keterampilan tangan santri yang terjamin mutu dan kualitasnya.</p>
-                    <div class="flex flex-col gap-2 mt-auto">
-                        <span class="font-bold text-brand-700 text-xs md:text-sm">Rp ${harga}.000</span>
-                        <a href="https://wa.me/6281234567890" target="_blank" class="w-full bg-green-500 hover:bg-green-600 text-white text-xs font-semibold px-2 py-2 rounded-lg flex items-center justify-center gap-1.5 transition-colors">
-                            <i class="fa-brands fa-whatsapp text-sm"></i> Pesan
-                        </a>
-                    </div>
-                </div>
-            </div>
-            `;
+        async function fetchWebsiteData() {
+            try {
+                // Beri efek loading di produk dan berita
+                document.getElementById('product-grid').innerHTML = '<div class="col-span-full text-center py-10 text-brand-700"><i class="fa-solid fa-circle-notch fa-spin text-3xl mb-3"></i><p>Memuat galeri produk...</p></div>';
+                
+                const response = await fetch(API_URL);
+                const res = await response.json();
+                
+                if (res.status === "success") {
+                    renderData(res.data);
+                }
+            } catch (error) {
+                console.error("Gagal memuat API:", error);
+            }
         }
-        if(productGrid) productGrid.innerHTML = productHTML;
+
+        function renderData(data) {
+            // A. Update Profil & Umum
+            if (data.Pengaturan && data.Pengaturan.length > 0) {
+                const config = data.Pengaturan[0]; // Ambil baris pertama
+                
+                // Hero Section
+                if(config.Slogan) document.querySelector('#beranda h1').innerHTML = config.Slogan.replace('Qur\'ani', '<span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-yellow-200">Qur\'ani</span>');
+                if(config.DeskripsiHero) document.querySelector('#beranda p.text-lg').textContent = config.DeskripsiHero;
+                
+                // Nama Web
+                if(config.NamaPesantren) {
+                    document.querySelector('nav h1').textContent = config.NamaPesantren;
+                    document.querySelector('#profil h2').innerHTML = `Tradisi Pesantren dalam <br><span class="text-brand-900">${config.NamaPesantren}</span>`;
+                }
+                
+                // Profil & Video
+                if(config.ProfilSingkat) document.querySelector('#profil p.text-slate-600').textContent = config.ProfilSingkat;
+                if(config.UrlVideo) document.querySelector('#profil iframe').src = config.UrlVideo.replace('watch?v=', 'embed/');
+
+                // Statistik
+                const stats = document.querySelectorAll('#profil .grid-cols-3 h3');
+                if(stats.length >= 3) {
+                    if(config.LamaBerdiri) stats[0].textContent = config.LamaBerdiri;
+                    if(config.SantriAktif) stats[1].textContent = config.SantriAktif;
+                    if(config.JumlahAlumni) stats[2].textContent = config.JumlahAlumni;
+                }
+
+                // Pengaturan Link PSB & WhatsApp
+                const waAdmin = config.WaAdmin || "6281234567890";
+                const linkGForm = config.LinkGform || "#";
+                const statusPSB = (config.StatusPSB || "Buka").toLowerCase();
+
+                document.querySelectorAll('a').forEach(el => {
+                    // Tombol WA Konsultasi
+                    if(el.textContent.includes('Konsultasi Admin')) {
+                        el.href = `https://wa.me/${waAdmin}`;
+                        el.target = "_blank";
+                    }
+                    // Tombol Daftar Online
+                    if(el.textContent.includes('Informasi Pendaftaran') || el.textContent.includes('Daftar Online')) {
+                        if(statusPSB === 'buka') {
+                            if(el.textContent.includes('Daftar Online')) {
+                                el.href = linkGForm;
+                                el.target = "_blank";
+                            }
+                            el.style.display = 'inline-flex';
+                        } else {
+                            el.style.display = 'none'; // Hilangkan tombol jika PSB ditutup dari CMS
+                        }
+                    }
+                });
+            }
+
+            // B. Render Program Utama
+            if (data.Program && data.Program.length > 0) {
+                const programContainer = document.querySelector('#program .grid');
+                let progHTML = '';
+                data.Program.forEach((p, idx) => {
+                    if(!p.Judul) return; // Skip baris kosong
+                    progHTML += `
+                    <div class="bg-slate-50 rounded-2xl p-8 hover:bg-brand-900 hover:text-white transition-all duration-300 group shadow-sm hover:shadow-xl border border-slate-100 fade-in" style="animation-delay: ${idx * 0.1}s">
+                        <div class="w-14 h-14 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-700 text-2xl mb-6 group-hover:scale-110 transition-transform"><i class="${p.Ikon || 'fa-solid fa-star'}"></i></div>
+                        <h3 class="text-xl font-bold mb-3 text-slate-800 group-hover:text-white">${p.Judul}</h3>
+                        <p class="text-slate-600 group-hover:text-brand-100 text-sm leading-relaxed mb-4">${p.Deskripsi}</p>
+                    </div>`;
+                });
+                if(progHTML) programContainer.innerHTML = progHTML;
+            }
+
+            // C. Render Fasilitas
+            if (data.Fasilitas && data.Fasilitas.length > 0) {
+                const fasilitasContainer = document.querySelector('#fasilitas .grid');
+                let fasHTML = '';
+                data.Fasilitas.forEach((f, idx) => {
+                    if(!f.Nama) return;
+                    fasHTML += `
+                    <div class="group relative rounded-2xl overflow-hidden shadow-lg aspect-[4/3] fade-in" style="animation-delay: ${idx * 0.1}s">
+                        <img src="${f.Gambar || 'https://images.unsplash.com/photo-1564683214965-3619addd900d?w=800&q=80'}" alt="${f.Nama}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6 w-full">
+                            <div class="bg-brand-500 text-white text-xs font-bold px-3 py-1 rounded-full inline-block mb-3">${f.Kategori || 'Fasilitas'}</div>
+                            <h3 class="text-xl font-bold text-white mb-1">${f.Nama}</h3>
+                            <p class="text-slate-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0 line-clamp-2">${f.Deskripsi || ''}</p>
+                        </div>
+                    </div>`;
+                });
+                if(fasHTML) fasilitasContainer.innerHTML = fasHTML;
+            }
+
+            // D. Render Produk
+            const productGrid = document.getElementById('product-grid');
+            if (data.Produk) {
+                if(data.Produk.length === 0) {
+                    productGrid.innerHTML = '<p class="col-span-full text-center text-slate-500">Belum ada produk unit usaha yang ditampilkan.</p>';
+                } else {
+                    let prodHTML = '';
+                    const waAdmin = data.Pengaturan?.[0]?.WaAdmin || "6281234567890";
+                    data.Produk.forEach((p, idx) => {
+                        if(!p.Nama) return;
+                        let tagHtml = p.Label ? `<div class="absolute top-2 right-2 bg-brand-500 text-white text-[10px] font-bold px-2 py-1 rounded-md">${p.Label}</div>` : '';
+                        let waText = encodeURIComponent(`Halo Admin, saya berminat memesan produk: ${p.Nama} yang ada di website.`);
+                        
+                        prodHTML += `
+                        <div class="bg-slate-50 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col h-full fade-in" style="animation-delay: ${(idx%5)*0.1}s">
+                            <div class="relative aspect-square overflow-hidden bg-white">
+                                <img src="${p.Gambar || 'https://via.placeholder.com/400'}" alt="${p.Nama}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                                ${tagHtml}
+                            </div>
+                            <div class="p-3 md:p-4 flex flex-col flex-grow">
+                                <h3 class="font-bold text-slate-800 mb-1 text-sm md:text-base line-clamp-1">${p.Nama}</h3>
+                                <p class="text-[10px] md:text-xs text-slate-500 mb-3 line-clamp-2 flex-grow">${p.Deskripsi || ''}</p>
+                                <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-3 mt-auto">
+                                    <span class="font-bold text-brand-700 text-sm">${p.Harga}</span>
+                                    <a href="https://wa.me/${waAdmin}?text=${waText}" target="_blank" class="w-full xl:w-auto bg-green-500 hover:bg-green-600 text-white text-xs font-semibold px-3 py-2 rounded-lg flex items-center justify-center gap-1.5 transition-colors">
+                                        <i class="fa-brands fa-whatsapp text-sm"></i> Beli
+                                    </a>
+                                </div>
+                            </div>
+                        </div>`;
+                    });
+                    productGrid.innerHTML = prodHTML;
+                }
+            }
+
+            // E. Render Berita
+            const beritaContainer = document.querySelector('#berita .grid');
+            if (data.Berita) {
+                if(data.Berita.length === 0) {
+                    beritaContainer.innerHTML = '<p class="col-span-full text-center text-slate-500">Belum ada berita atau kegiatan terbaru.</p>';
+                } else {
+                    let newsHTML = '';
+                    // Ambil maksimal 3 berita dari baris paling bawah sheet (terbaru)
+                    const latestNews = [...data.Berita].reverse().slice(0, 3);
+                    latestNews.forEach((b, idx) => {
+                        if(!b.Judul) return;
+                        
+                        newsHTML += `
+                        <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-slate-100 fade-in" style="animation-delay: ${idx * 0.1}s">
+                            <img src="${b.Gambar || 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=80'}" alt="${b.Judul}" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <div class="flex items-center gap-3 text-xs text-slate-500 mb-3">
+                                    <span><i class="fa-regular fa-calendar mr-1"></i> ${b.Tanggal}</span>
+                                    <span class="bg-brand-50 text-brand-700 border border-brand-100 px-2 py-0.5 rounded">${b.Kategori}</span>
+                                </div>
+                                <h3 class="text-lg font-bold text-slate-800 mb-2 hover:text-brand-700 cursor-pointer line-clamp-2">${b.Judul}</h3>
+                                <div class="text-slate-600 text-sm mb-4 line-clamp-3">${b.Konten.replace(/<[^>]*>?/gm, '')}</div>
+                                <a href="#" onclick="alert('Fitur baca konten penuh akan dirilis di versi berikutnya!')" class="text-brand-700 font-medium text-sm hover:text-brand-900 mt-2 inline-block">Baca selengkapnya &rarr;</a>
+                            </div>
+                        </div>`;
+                    });
+                    beritaContainer.innerHTML = newsHTML;
+                }
+            }
+        }
+
+        // Jalankan Fetching saat halaman termuat
+        window.addEventListener('DOMContentLoaded', fetchWebsiteData);
 
     </script>
 </body>
