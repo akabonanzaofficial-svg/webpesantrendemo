@@ -118,21 +118,21 @@
             <div id="tab-dashboard" class="cms-tab-content block animate-[fadeIn_0.3s_ease-out]">
                 <h2 class="text-2xl font-bold text-slate-800 mb-6">Selamat Datang, Admin!</h2>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 transition-transform hover:-translate-y-1">
                         <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-eye"></i></div>
-                        <div><p class="text-xs text-slate-500 font-medium">Status Website</p><p class="text-lg font-bold text-slate-800">Online</p></div>
+                        <div><p class="text-xs text-slate-500 font-medium">Status Website</p><p class="text-lg font-bold text-slate-800" id="dash-status">Online</p></div>
                     </div>
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 transition-transform hover:-translate-y-1">
                         <div class="w-12 h-12 bg-green-100 text-brand-600 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-user-plus"></i></div>
-                        <div><p class="text-xs text-slate-500 font-medium">Status PSB</p><p class="text-lg font-bold text-slate-800">Dibuka</p></div>
+                        <div><p class="text-xs text-slate-500 font-medium">Status PSB</p><p class="text-lg font-bold text-slate-800 uppercase" id="dash-psb">-</p></div>
                     </div>
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 transition-transform hover:-translate-y-1">
                         <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-store"></i></div>
-                        <div><p class="text-xs text-slate-500 font-medium">Total Produk</p><p class="text-lg font-bold text-slate-800">4 / 15</p></div>
+                        <div><p class="text-xs text-slate-500 font-medium">Total Produk</p><p class="text-lg font-bold text-slate-800"><span id="dash-produk">0</span> / 15</p></div>
                     </div>
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 transition-transform hover:-translate-y-1">
                         <div class="w-12 h-12 bg-gold-100 text-gold-600 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-newspaper"></i></div>
-                        <div><p class="text-xs text-slate-500 font-medium">Total Berita</p><p class="text-lg font-bold text-slate-800">3 Artikel</p></div>
+                        <div><p class="text-xs text-slate-500 font-medium">Total Berita</p><p class="text-lg font-bold text-slate-800" id="dash-berita">0 Artikel</p></div>
                     </div>
                 </div>
             </div>
@@ -143,24 +143,25 @@
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-6">
                     <h3 class="font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">Identitas & Hero Section</h3>
                     <div class="space-y-4">
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">URL Logo Pesantren</label><input type="text" class="w-full border rounded-lg px-4 py-2 outline-none"></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Nama Pesantren</label><input type="text" value="Pesantren Modern Al-Hikmah" class="w-full border rounded-lg px-4 py-2 outline-none"></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Teks Slogan (Hero)</label><input type="text" value="Membentuk Generasi Qur'ani yang Mandiri & Berprestasi" class="w-full border rounded-lg px-4 py-2 outline-none"></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">URL Logo Pesantren</label><input type="text" id="input-logo" class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none transition-shadow text-sm"></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Nama Pesantren</label><input type="text" id="input-nama" class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none transition-shadow text-sm"></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Teks Utama (Slogan/Hero)</label><input type="text" id="input-slogan" class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none transition-shadow text-sm"></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Deskripsi Bawah Judul Hero</label><textarea id="input-desc-hero" rows="2" class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none transition-shadow text-sm"></textarea></div>
                     </div>
                 </div>
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-6">
-                    <h3 class="font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">Profil Singkat & Statistik</h3>
+                    <h3 class="font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">Profil Singkat</h3>
                     <div class="space-y-4">
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">URL Video Profil Pesantren (YouTube/Vimeo)</label><input type="url" placeholder="https://youtube.com/..." class="w-full border rounded-lg px-4 py-2 outline-none text-blue-600"></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Profil Singkat Pesantren (Paragraf Tentang Kami)</label><textarea rows="4" class="w-full border rounded-lg px-4 py-2 outline-none text-sm leading-relaxed">Pesantren Modern Al-Hikmah didirikan dengan visi mengintegrasikan ilmu agama (tafaqquh fiddin) dengan ilmu pengetahuan modern. Kami berkomitmen mencetak santri yang tidak hanya hafal Al-Qur'an, tetapi juga menguasai teknologi dan bahasa internasional.</textarea></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Video Profil (Link Youtube URL)</label><input type="text" id="input-video" class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none transition-shadow text-sm text-blue-600"></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Paragraf Tentang Kami</label><textarea id="input-profil" rows="4" class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none transition-shadow text-sm"></textarea></div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                            <div><label class="block text-sm font-semibold text-slate-700 mb-1">Lama Berdiri (Tahun)</label><input type="text" value="25+" class="w-full border rounded-lg px-4 py-2 outline-none"></div>
-                            <div><label class="block text-sm font-semibold text-slate-700 mb-1">Jumlah Santri Aktif</label><input type="text" value="1.2K" class="w-full border rounded-lg px-4 py-2 outline-none"></div>
-                            <div><label class="block text-sm font-semibold text-slate-700 mb-1">Jumlah Alumni Tersebar</label><input type="text" value="5K+" class="w-full border rounded-lg px-4 py-2 outline-none"></div>
+                            <div><label class="block text-sm font-semibold text-slate-700 mb-1">Lama Berdiri (Tahun)</label><input type="text" id="input-lama" class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none transition-shadow text-sm"></div>
+                            <div><label class="block text-sm font-semibold text-slate-700 mb-1">Jumlah Santri Aktif</label><input type="text" id="input-santri" class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none transition-shadow text-sm"></div>
+                            <div><label class="block text-sm font-semibold text-slate-700 mb-1">Jumlah Alumni Tersebar</label><input type="text" id="input-alumni" class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none transition-shadow text-sm"></div>
                         </div>
                     </div>
                 </div>
-                <div class="flex justify-end"><button class="bg-brand-900 text-white font-bold py-2.5 px-6 rounded-xl">Simpan Profil Umum</button></div>
+                <div class="flex justify-end"><button onclick="savePengaturan()" class="bg-brand-900 hover:bg-brand-700 text-white font-bold py-2.5 px-6 rounded-xl transition-colors shadow-lg">Simpan Profil Umum</button></div>
             </div>
 
             <!-- 3. Tab PSB -->
@@ -168,211 +169,453 @@
                 <h2 class="text-2xl font-bold text-slate-800 mb-6">Pengaturan Pendaftaran (PSB)</h2>
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-6">
                     <div class="space-y-6">
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Status Pendaftaran</label><select class="w-full border rounded-lg px-4 py-2.5 outline-none"><option>Buka</option><option>Tutup</option></select></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Nomor WhatsApp Admin (Untuk PSB & Order Produk)</label><input type="text" value="6281234567890" class="w-full border rounded-lg px-4 py-2.5 outline-none"></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Link Google Form Pendaftaran</label><input type="url" value="https://forms.gle/..." class="w-full border rounded-lg px-4 py-2.5 outline-none text-blue-600"></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Status Pendaftaran</label><select id="input-status-psb" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-brand-500 outline-none bg-white text-sm"><option value="Buka">Buka (Tombol pendaftaran aktif di website)</option><option value="Tutup">Tutup (Tombol disembunyikan)</option></select></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Nomor WhatsApp Admin (Awali 62)</label><input type="text" id="input-wa" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-brand-500 outline-none text-sm font-medium"></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Link Google Form Pendaftaran</label><input type="url" id="input-gform" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-brand-500 outline-none text-sm text-blue-600"></div>
                     </div>
                 </div>
-                <div class="flex justify-end"><button class="bg-brand-900 text-white font-bold py-2.5 px-6 rounded-xl">Simpan Pengaturan PSB</button></div>
+                <div class="flex justify-end"><button onclick="savePengaturan()" class="bg-brand-900 hover:bg-brand-700 text-white font-bold py-2.5 px-6 rounded-xl transition-colors shadow-lg">Simpan Pengaturan PSB</button></div>
             </div>
 
             <!-- 4. Tab Program -->
             <div id="tab-program" class="cms-tab-content hidden animate-[fadeIn_0.3s_ease-out]">
-                <h2 class="text-2xl font-bold text-slate-800 mb-6">Program Unggulan</h2>
-                <div id="program-container" class="space-y-4"></div>
-                <div class="flex justify-end mt-6"><button class="bg-brand-900 text-white font-bold py-2.5 px-6 rounded-xl">Simpan Data Program</button></div>
-                <script>
-                    let progHtml = '';
-                    for(let i=1; i<=5; i++) {
-                        progHtml += `
-                        <details class="bg-white border rounded-xl" ${i===1 ? 'open' : ''}>
-                            <summary class="font-bold p-5 cursor-pointer outline-none flex justify-between items-center text-slate-700 hover:bg-slate-50"><div class="flex items-center gap-3"><span class="bg-brand-100 text-brand-700 w-6 h-6 rounded-full flex items-center justify-center text-xs">${i}</span> Slot Program ${i}</div><i class="fa-solid fa-chevron-down"></i></summary>
-                            <div class="p-5 border-t space-y-4 bg-slate-50/50">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div><label class="block text-xs font-semibold text-slate-600 mb-1">Judul Program</label><input type="text" placeholder="Contoh: Pendidikan Formal" class="w-full border rounded-lg px-3 py-2 outline-none"></div>
-                                    <div><label class="block text-xs font-semibold text-slate-600 mb-1">Ikon (FontAwesome Class)</label><input type="text" placeholder="fa-solid fa-book" class="w-full border rounded-lg px-3 py-2 outline-none text-slate-500 font-mono"></div>
-                                    <div class="md:col-span-2"><label class="block text-xs font-semibold text-slate-600 mb-1">Uraian/Deskripsi Singkat</label><textarea rows="2" placeholder="Jelaskan program secara singkat..." class="w-full border rounded-lg px-3 py-2 outline-none text-sm"></textarea></div>
-                                </div>
-                            </div>
-                        </details>`;
-                    }
-                    document.getElementById('program-container').innerHTML = progHtml;
-                </script>
+                <h2 class="text-2xl font-bold text-slate-800 mb-6">Program Unggulan (Maks 5)</h2>
+                <div class="space-y-4" id="program-container">
+                    <!-- Digenerate oleh JS -->
+                </div>
+                <div class="flex justify-end mt-6"><button onclick="saveProgram()" class="bg-brand-900 hover:bg-brand-700 text-white font-bold py-2.5 px-6 rounded-xl shadow-lg">Simpan Data Program</button></div>
             </div>
 
             <!-- 5. Tab Fasilitas -->
             <div id="tab-fasilitas" class="cms-tab-content hidden animate-[fadeIn_0.3s_ease-out]">
-                <h2 class="text-2xl font-bold text-slate-800 mb-6">Fasilitas Kampus</h2>
-                <div id="fasilitas-container" class="space-y-4"></div>
-                <div class="flex justify-end mt-6"><button class="bg-brand-900 text-white font-bold py-2.5 px-6 rounded-xl">Simpan Data Fasilitas</button></div>
-                <script>
-                    let fasHtml = '';
-                    for(let i=1; i<=6; i++) {
-                        fasHtml += `
-                        <details class="bg-white border rounded-xl" ${i===1 ? 'open' : ''}>
-                            <summary class="font-bold p-5 cursor-pointer outline-none flex justify-between items-center text-slate-700 hover:bg-slate-50"><div class="flex items-center gap-3"><span class="bg-gold-100 text-gold-600 w-6 h-6 rounded-full flex items-center justify-center text-xs">${i}</span> Slot Fasilitas ${i}</div><i class="fa-solid fa-chevron-down"></i></summary>
-                            <div class="p-5 border-t space-y-4 bg-slate-50/50">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div class="md:col-span-2"><label class="block text-xs font-semibold text-slate-600 mb-1">URL Gambar Fasilitas</label><input type="url" placeholder="https://..." class="w-full border rounded-lg px-3 py-2 outline-none text-blue-600"></div>
-                                    <div><label class="block text-xs font-semibold text-slate-600 mb-1">Nama Fasilitas</label><input type="text" placeholder="Contoh: Masjid Jami'" class="w-full border rounded-lg px-3 py-2 outline-none"></div>
-                                    <div><label class="block text-xs font-semibold text-slate-600 mb-1">Kategori/Label</label><input type="text" placeholder="Contoh: Pusat Kegiatan" class="w-full border rounded-lg px-3 py-2 outline-none"></div>
-                                    <div class="md:col-span-2"><label class="block text-xs font-semibold text-slate-600 mb-1">Uraian Singkat Fasilitas</label><textarea rows="2" placeholder="Deskripsi pendek tentang fasilitas..." class="w-full border rounded-lg px-3 py-2 outline-none text-sm"></textarea></div>
-                                </div>
-                            </div>
-                        </details>`;
-                    }
-                    document.getElementById('fasilitas-container').innerHTML = fasHtml;
-                </script>
+                <h2 class="text-2xl font-bold text-slate-800 mb-6">Fasilitas Kampus (Maks 6)</h2>
+                <div class="space-y-4" id="fasilitas-container">
+                    <!-- Digenerate oleh JS -->
+                </div>
+                <div class="flex justify-end mt-6"><button onclick="saveFasilitas()" class="bg-brand-900 hover:bg-brand-700 text-white font-bold py-2.5 px-6 rounded-xl shadow-lg">Simpan Data Fasilitas</button></div>
             </div>
 
             <!-- 6. Tab Produk -->
             <div id="tab-produk" class="cms-tab-content hidden animate-[fadeIn_0.3s_ease-out]">
                 <div class="flex justify-between items-center mb-6">
-                    <div>
-                        <h2 class="text-2xl font-bold text-slate-800">Manajemen Produk</h2>
-                        <p class="text-sm text-slate-500">Maksimal 15 Slot Produk. Order langsung masuk ke WA Admin.</p>
-                    </div>
-                    <button onclick="document.getElementById('modal-produk').classList.remove('hidden')" class="bg-brand-900 text-white font-bold py-2 px-5 rounded-xl flex items-center gap-2"><i class="fa-solid fa-plus"></i> Tambah</button>
+                    <div><h2 class="text-2xl font-bold text-slate-800">Manajemen Produk</h2></div>
+                    <button onclick="document.getElementById('form-produk-modal').classList.remove('hidden')" class="bg-brand-900 hover:bg-brand-700 text-white font-bold py-2 px-5 rounded-xl shadow-lg flex items-center gap-2"><i class="fa-solid fa-plus"></i> Tambah</button>
                 </div>
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 text-center text-slate-500">Tabel Data Produk akan dimuat dari Google Sheets...</div>
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                    <table class="w-full text-sm text-left text-slate-500">
+                        <thead class="text-xs text-slate-700 uppercase bg-slate-50/80 border-b border-slate-100">
+                            <tr><th class="px-6 py-4">Foto</th><th class="px-6 py-4">Nama Produk</th><th class="px-6 py-4">Harga</th><th class="px-6 py-4 text-right">Aksi</th></tr>
+                        </thead>
+                        <tbody id="table-produk"><tr><td colspan="4" class="text-center py-6">Memuat data...</td></tr></tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- 7. Tab Berita -->
             <div id="tab-berita" class="cms-tab-content hidden animate-[fadeIn_0.3s_ease-out]">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-slate-800">Manajemen Berita</h2>
-                    <button onclick="document.getElementById('modal-berita').classList.remove('hidden')" class="bg-brand-900 text-white font-bold py-2 px-5 rounded-xl flex items-center gap-2"><i class="fa-solid fa-pen-nib"></i> Tulis Artikel</button>
+                    <button onclick="document.getElementById('form-berita-modal').classList.remove('hidden')" class="bg-brand-900 hover:bg-brand-700 text-white font-bold py-2 px-5 rounded-xl shadow-lg flex items-center gap-2"><i class="fa-solid fa-pen-nib"></i> Tulis Artikel</button>
                 </div>
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 text-center text-slate-500">Tabel Data Berita akan dimuat dari Google Sheets...</div>
-            </div>
-
-        </div>
-
-        <!-- MODAL PRODUK -->
-        <div id="modal-produk" class="hidden fixed inset-0 z-[120] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-            <div class="bg-white rounded-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
-                <div class="p-5 border-b bg-slate-50 flex justify-between items-center">
-                    <h3 class="font-bold text-lg text-slate-800">Tambah Produk Unit Usaha</h3>
-                    <button onclick="document.getElementById('modal-produk').classList.add('hidden')" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark text-xl"></i></button>
-                </div>
-                <div class="p-5 overflow-y-auto space-y-4">
-                    <div><label class="block text-sm font-semibold text-slate-700 mb-1">Nama Produk</label><input type="text" placeholder="Contoh: Madu Hutan" class="w-full border rounded-lg px-3 py-2 outline-none"></div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Harga</label><input type="text" placeholder="Rp 85.000" class="w-full border rounded-lg px-3 py-2 outline-none"></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Label (Opsional)</label><input type="text" placeholder="Terlaris / Promo" class="w-full border rounded-lg px-3 py-2 outline-none"></div>
-                    </div>
-                    <div><label class="block text-sm font-semibold text-slate-700 mb-1">URL Foto Produk</label><input type="url" placeholder="https://..." class="w-full border rounded-lg px-3 py-2 outline-none text-blue-600"></div>
-                    <div><label class="block text-sm font-semibold text-slate-700 mb-1">Deskripsi Produk (Maks 2 Paragraf)</label><textarea rows="5" class="w-full border rounded-lg px-3 py-2 outline-none text-sm leading-relaxed" placeholder="Tuliskan deskripsi produk di sini..."></textarea></div>
-                </div>
-                <div class="p-5 border-t bg-slate-50 flex justify-end gap-3">
-                    <button onclick="document.getElementById('modal-produk').classList.add('hidden')" class="px-5 py-2 rounded-xl border text-slate-600 font-bold hover:bg-white">Batal</button>
-                    <button class="px-5 py-2 rounded-xl bg-brand-900 text-white font-bold hover:bg-brand-700">Simpan Produk</button>
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                    <table class="w-full text-sm text-left text-slate-500">
+                        <thead class="text-xs text-slate-700 uppercase bg-slate-50/80 border-b border-slate-100">
+                            <tr><th class="px-6 py-4">Tanggal</th><th class="px-6 py-4">Judul Artikel</th><th class="px-6 py-4">Kategori</th><th class="px-6 py-4 text-right">Aksi</th></tr>
+                        </thead>
+                        <tbody id="table-berita"><tr><td colspan="4" class="text-center py-6">Memuat data...</td></tr></tbody>
+                    </table>
                 </div>
             </div>
         </div>
 
-        <!-- MODAL BERITA (WYSIWYG) -->
-        <div id="modal-berita" class="hidden fixed inset-0 z-[120] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-            <div class="bg-white rounded-2xl w-full max-w-4xl overflow-hidden flex flex-col max-h-[90vh]">
-                <div class="p-5 border-b bg-slate-50 flex justify-between items-center">
-                    <h3 class="font-bold text-lg text-slate-800">Tulis Berita / Artikel Baru</h3>
-                    <button onclick="document.getElementById('modal-berita').classList.add('hidden')" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark text-xl"></i></button>
+        <!-- MODAL TAMBAH PRODUK -->
+        <div id="form-produk-modal" class="hidden absolute inset-0 z-[120] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+            <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl flex flex-col animate-[fadeInUp_0.3s_ease-out]">
+                <div class="p-6 border-b flex justify-between items-center bg-slate-50 rounded-t-3xl">
+                    <h3 class="text-xl font-bold text-slate-800"><i class="fa-solid fa-store text-brand-600 mr-2"></i> Tambah Produk Baru</h3>
                 </div>
-                <div class="p-5 overflow-y-auto space-y-4">
-                    <div><label class="block text-sm font-semibold text-slate-700 mb-1">Judul Berita</label><input type="text" class="w-full border rounded-lg px-3 py-2 outline-none font-semibold text-slate-800 text-lg"></div>
+                <div class="p-6 space-y-4">
+                    <div><label class="block text-sm font-semibold mb-1">Nama Produk</label><input type="text" id="prod-nama" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none"></div>
                     <div class="grid grid-cols-2 gap-4">
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Kategori</label><select class="w-full border rounded-lg px-3 py-2 outline-none"><option>Akademik</option><option>Prestasi</option><option>Kegiatan</option></select></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Tanggal</label><input type="date" class="w-full border rounded-lg px-3 py-2 outline-none"></div>
+                        <div><label class="block text-sm font-semibold mb-1">Harga</label><input type="text" id="prod-harga" placeholder="Cth: Rp 50.000" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none"></div>
+                        <div><label class="block text-sm font-semibold mb-1">Label (Opsional)</label><input type="text" id="prod-label" placeholder="Terlaris" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none"></div>
                     </div>
-                    <div><label class="block text-sm font-semibold text-slate-700 mb-1">URL Gambar Header/Thumbnail Kegiatan</label><input type="url" placeholder="https://..." class="w-full border rounded-lg px-3 py-2 outline-none text-blue-600"></div>
-                    
-                    <!-- Text Editor Simulation -->
+                    <div><label class="block text-sm font-semibold mb-1">URL Foto Produk</label><input type="url" id="prod-gambar" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none"></div>
+                    <div><label class="block text-sm font-semibold mb-1">Deskripsi Singkat</label><textarea id="prod-desc" rows="3" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none"></textarea></div>
+                </div>
+                <div class="p-6 border-t flex justify-end gap-3 bg-slate-50 rounded-b-3xl">
+                    <button onclick="document.getElementById('form-produk-modal').classList.add('hidden')" class="px-6 py-2.5 border rounded-xl text-slate-600 font-bold hover:bg-white">Batal</button>
+                    <button onclick="addProduk()" class="px-6 py-2.5 bg-brand-900 text-white font-bold rounded-xl hover:bg-brand-700 shadow-lg"><i class="fa-solid fa-save mr-2"></i> Simpan Produk</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL TULIS BERITA -->
+        <div id="form-berita-modal" class="hidden absolute inset-0 z-[120] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+            <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col animate-[fadeInUp_0.3s_ease-out]">
+                <div class="p-6 border-b flex justify-between items-center bg-slate-50 rounded-t-3xl">
+                    <h3 class="text-xl font-bold text-slate-800"><i class="fa-solid fa-pen-nib text-brand-600 mr-2"></i> Tulis Berita Baru</h3>
+                </div>
+                <div class="p-6 overflow-y-auto space-y-4 flex-1">
+                    <div><label class="block text-sm font-semibold mb-1">Judul Berita</label><input type="text" id="news-judul" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none"></div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label class="block text-sm font-semibold mb-1">Kategori</label><select id="news-kategori" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none bg-white"><option>Akademik</option><option>Kegiatan</option><option>Prestasi</option></select></div>
+                        <div><label class="block text-sm font-semibold mb-1">Tanggal</label><input type="date" id="news-tgl" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none"></div>
+                    </div>
+                    <div><label class="block text-sm font-semibold mb-1">URL Gambar Header</label><input type="url" id="news-gambar" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none"></div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">Konten Berita</label>
-                        <div class="border border-slate-300 rounded-lg overflow-hidden">
-                            <!-- Toolbar Editor -->
-                            <div class="bg-slate-50 border-b border-slate-200 p-2 flex flex-wrap gap-1">
-                                <button type="button" class="w-8 h-8 flex items-center justify-center rounded hover:bg-slate-200 text-slate-700"><i class="fa-solid fa-bold"></i></button>
-                                <button type="button" class="w-8 h-8 flex items-center justify-center rounded hover:bg-slate-200 text-slate-700"><i class="fa-solid fa-italic"></i></button>
-                                <button type="button" class="w-8 h-8 flex items-center justify-center rounded hover:bg-slate-200 text-slate-700"><i class="fa-solid fa-underline"></i></button>
-                                <div class="w-px h-6 bg-slate-300 mx-1 my-auto"></div>
-                                <button type="button" class="w-8 h-8 flex items-center justify-center rounded hover:bg-slate-200 text-slate-700"><i class="fa-solid fa-align-left"></i></button>
-                                <button type="button" class="w-8 h-8 flex items-center justify-center rounded hover:bg-slate-200 text-slate-700"><i class="fa-solid fa-align-center"></i></button>
-                                <button type="button" class="w-8 h-8 flex items-center justify-center rounded hover:bg-slate-200 text-slate-700"><i class="fa-solid fa-align-justify"></i></button>
-                                <div class="w-px h-6 bg-slate-300 mx-1 my-auto"></div>
-                                <button type="button" class="w-8 h-8 flex items-center justify-center rounded hover:bg-slate-200 text-slate-700"><i class="fa-solid fa-link"></i></button>
-                                <button type="button" class="w-8 h-8 flex items-center justify-center rounded hover:bg-slate-200 text-slate-700"><i class="fa-solid fa-image"></i></button>
-                                <button type="button" class="w-8 h-8 flex items-center justify-center rounded hover:bg-slate-200 text-slate-700"><i class="fa-solid fa-list-ul"></i></button>
-                                <button type="button" class="w-8 h-8 flex items-center justify-center rounded hover:bg-slate-200 text-slate-700"><i class="fa-solid fa-list-ol"></i></button>
+                        <label class="block text-sm font-semibold mb-1">Isi Konten Berita</label>
+                        <div class="border rounded-lg overflow-hidden">
+                            <div class="bg-slate-50 border-b p-2 flex gap-1">
+                                <button onclick="document.execCommand('bold')" class="w-8 h-8 rounded hover:bg-slate-200"><i class="fa-solid fa-bold"></i></button>
+                                <button onclick="document.execCommand('italic')" class="w-8 h-8 rounded hover:bg-slate-200"><i class="fa-solid fa-italic"></i></button>
+                                <button onclick="document.execCommand('insertUnorderedList')" class="w-8 h-8 rounded hover:bg-slate-200"><i class="fa-solid fa-list-ul"></i></button>
                             </div>
-                            <!-- Editable Area (Sifatnya WYSIWYG) -->
-                            <div contenteditable="true" class="p-4 min-h-[250px] max-h-[400px] overflow-y-auto outline-none text-sm text-slate-700 bg-white leading-relaxed"></div>
+                            <div id="news-konten" contenteditable="true" class="p-4 min-h-[200px] outline-none text-sm text-slate-700 bg-white"></div>
                         </div>
-                        <p class="text-xs text-slate-500 mt-2"><i class="fa-solid fa-circle-info"></i> Tuliskan konten selengkapnya. Gunakan toolbar untuk menebalkan teks, menyisipkan gambar, list, dll.</p>
                     </div>
                 </div>
-                <div class="p-5 border-t bg-slate-50 flex justify-end gap-3">
-                    <button onclick="document.getElementById('modal-berita').classList.add('hidden')" class="px-5 py-2 rounded-xl border text-slate-600 font-bold hover:bg-white">Batal</button>
-                    <button class="px-5 py-2 rounded-xl bg-brand-900 text-white font-bold hover:bg-brand-700 flex items-center gap-2"><i class="fa-solid fa-paper-plane"></i> Publikasikan</button>
+                <div class="p-6 border-t flex justify-end gap-3 bg-slate-50 rounded-b-3xl">
+                    <button onclick="document.getElementById('form-berita-modal').classList.add('hidden')" class="px-6 py-2.5 border rounded-xl text-slate-600 font-bold hover:bg-white">Batal</button>
+                    <button onclick="addBerita()" class="px-6 py-2.5 bg-brand-900 text-white font-bold rounded-xl hover:bg-brand-700 shadow-lg"><i class="fa-solid fa-paper-plane mr-2"></i> Publikasikan</button>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <!-- Script CMS Interactivity -->
+    <!-- Script CMS Interactivity & API Integration -->
     <script>
+        // API Configuration (Ganti URL ini jika deploy ulang)
+        const API_URL = "https://script.google.com/macros/s/AKfycbyc89A6Motnes5qNl_UM-Qmje0Zm_D6BW0ZZ_FuWZsu9kFyx06p2hyLrkljLRkgwWTYrQ/exec";
+        
+        let adminToken = "";
+        let globalData = {}; // Menyimpan data sementara dari database
+
+        // --- SISTEM TOAST / NOTIFIKASI ---
+        function showToast(msg, type='success') {
+            const toast = document.createElement('div');
+            toast.className = `fixed bottom-5 right-5 px-6 py-4 rounded-xl text-white font-medium shadow-2xl transition-all transform translate-y-20 z-[200] flex items-center gap-3 ${type==='success' ? 'bg-brand-700' : type==='loading' ? 'bg-blue-600' : 'bg-red-500'}`;
+            toast.innerHTML = `<i class="fa-solid ${type==='success' ? 'fa-check-circle' : type==='loading' ? 'fa-circle-notch fa-spin' : 'fa-triangle-exclamation'} text-xl"></i> <span>${msg}</span>`;
+            document.body.appendChild(toast);
+            
+            // Animasi masuk
+            setTimeout(() => toast.classList.remove('translate-y-20'), 10);
+            
+            if(type !== 'loading') {
+                setTimeout(() => { 
+                    toast.classList.add('translate-y-20', 'opacity-0'); 
+                    setTimeout(() => toast.remove(), 500);
+                }, 3000);
+            }
+            return toast; // Kembalikan elemen jika ingin dihapus manual (loading)
+        }
+
+        // --- PEMBANGUNAN FORM DINAMIS (PROGRAM & FASILITAS) ---
+        function buildForms() {
+            let progHtml = '';
+            for(let i=1; i<=5; i++) {
+                progHtml += `<details class="bg-white border rounded-xl" ${i===1?'open':''}>
+                    <summary class="font-bold p-5 cursor-pointer outline-none flex justify-between items-center text-slate-700 hover:bg-slate-50"><div class="flex items-center gap-3"><span class="bg-brand-100 text-brand-700 w-6 h-6 rounded-full flex items-center justify-center text-xs">${i}</span> Slot Program ${i}</div><i class="fa-solid fa-chevron-down"></i></summary>
+                    <div class="p-5 border-t space-y-4 bg-slate-50/50">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Judul Program</label><input type="text" id="prog-judul-${i}" class="w-full border rounded-lg px-3 py-2 outline-none"></div>
+                            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Ikon (FontAwesome)</label><input type="text" id="prog-ikon-${i}" placeholder="fa-solid fa-book" class="w-full border rounded-lg px-3 py-2 outline-none font-mono text-slate-500"></div>
+                            <div class="md:col-span-2"><label class="block text-xs font-semibold text-slate-600 mb-1">Deskripsi Singkat</label><textarea id="prog-desc-${i}" rows="2" class="w-full border rounded-lg px-3 py-2 outline-none"></textarea></div>
+                        </div>
+                    </div></details>`;
+            }
+            document.getElementById('program-container').innerHTML = progHtml;
+
+            let fasHtml = '';
+            for(let i=1; i<=6; i++) {
+                fasHtml += `<details class="bg-white border rounded-xl" ${i===1?'open':''}>
+                    <summary class="font-bold p-5 cursor-pointer outline-none flex justify-between items-center text-slate-700 hover:bg-slate-50"><div class="flex items-center gap-3"><span class="bg-gold-100 text-gold-600 w-6 h-6 rounded-full flex items-center justify-center text-xs">${i}</span> Slot Fasilitas ${i}</div><i class="fa-solid fa-chevron-down"></i></summary>
+                    <div class="p-5 border-t space-y-4 bg-slate-50/50">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="md:col-span-2"><label class="block text-xs font-semibold text-slate-600 mb-1">URL Gambar</label><input type="url" id="fas-gambar-${i}" class="w-full border rounded-lg px-3 py-2 outline-none text-blue-600"></div>
+                            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Nama Fasilitas</label><input type="text" id="fas-nama-${i}" class="w-full border rounded-lg px-3 py-2 outline-none"></div>
+                            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Kategori</label><input type="text" id="fas-kat-${i}" class="w-full border rounded-lg px-3 py-2 outline-none"></div>
+                            <div class="md:col-span-2"><label class="block text-xs font-semibold text-slate-600 mb-1">Deskripsi</label><textarea id="fas-desc-${i}" rows="2" class="w-full border rounded-lg px-3 py-2 outline-none"></textarea></div>
+                        </div>
+                    </div></details>`;
+            }
+            document.getElementById('fasilitas-container').innerHTML = fasHtml;
+        }
+        buildForms(); // Jalankan
+
+        // --- SISTEM LOGIN & FETCH API ---
         const loginScreen = document.getElementById('cms-login-screen');
         const loginForm = document.getElementById('login-form');
 
-        // Handle Simulasi Login
-        loginForm.addEventListener('submit', (e) => {
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const pwd = document.getElementById('admin-password').value;
-            if(pwd.trim() !== "") {
-                loginScreen.classList.add('opacity-0', 'pointer-events-none');
-                setTimeout(() => loginScreen.classList.add('hidden'), 500);
+            if(!pwd) return showToast("Password harus diisi", "error");
+            
+            adminToken = pwd;
+            
+            const btn = e.target.querySelector('button');
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Memeriksa Akses...';
+            btn.disabled = true;
+
+            try {
+                // Fetch data dari Google Sheets untuk membuktikan koneksi jalan
+                const response = await fetch(API_URL);
+                const res = await response.json();
+                
+                if(res.status === 'success') {
+                    globalData = res.data;
+                    populateForms(); // Isi input form dengan data yang didapat
+                    
+                    showToast("Login Berhasil! Data termuat.", "success");
+                    loginScreen.classList.add('opacity-0', 'pointer-events-none');
+                    setTimeout(() => loginScreen.classList.add('hidden'), 500);
+                } else {
+                    throw new Error("Gagal mengambil data database");
+                }
+            } catch (error) {
+                showToast("Koneksi ke server gagal. Cek URL API.", "error");
+            } finally {
+                btn.innerHTML = 'Masuk Dashboard';
+                btn.disabled = false;
             }
         });
 
-        // Handle Simulasi Logout
-        function logoutCMS() {
-            loginScreen.classList.remove('hidden');
-            // Sedikit delay agar transisi terlihat mulus
-            setTimeout(() => loginScreen.classList.remove('opacity-0', 'pointer-events-none'), 10);
-            document.getElementById('admin-password').value = '';
+        // Mengisi Form HTML dengan data Global yang didapat dari Sheets
+        function populateForms() {
+            // Dashboard Stat
+            document.getElementById('dash-psb').textContent = globalData.Pengaturan?.[0]?.StatusPSB || '-';
+            document.getElementById('dash-produk').textContent = globalData.Produk?.length || 0;
+            document.getElementById('dash-berita').textContent = `${globalData.Berita?.length || 0} Artikel`;
+
+            // Pengaturan Umum & PSB
+            if(globalData.Pengaturan && globalData.Pengaturan.length > 0) {
+                const c = globalData.Pengaturan[0];
+                document.getElementById('input-logo').value = c.Logo || '';
+                document.getElementById('input-nama').value = c.NamaPesantren || '';
+                document.getElementById('input-slogan').value = c.Slogan || '';
+                document.getElementById('input-desc-hero').value = c.DeskripsiHero || '';
+                document.getElementById('input-video').value = c.UrlVideo || '';
+                document.getElementById('input-profil').value = c.ProfilSingkat || '';
+                document.getElementById('input-lama').value = c.LamaBerdiri || '';
+                document.getElementById('input-santri').value = c.SantriAktif || '';
+                document.getElementById('input-alumni').value = c.JumlahAlumni || '';
+                document.getElementById('input-status-psb').value = c.StatusPSB || 'Buka';
+                document.getElementById('input-wa').value = c.WaAdmin || '';
+                document.getElementById('input-gform').value = c.LinkGform || '';
+            }
+
+            // Program
+            if(globalData.Program) {
+                globalData.Program.forEach((p, idx) => {
+                    let i = idx + 1;
+                    if(document.getElementById(`prog-judul-${i}`)) {
+                        document.getElementById(`prog-judul-${i}`).value = p.Judul || '';
+                        document.getElementById(`prog-ikon-${i}`).value = p.Ikon || '';
+                        document.getElementById(`prog-desc-${i}`).value = p.Deskripsi || '';
+                    }
+                });
+            }
+
+            // Fasilitas
+            if(globalData.Fasilitas) {
+                globalData.Fasilitas.forEach((f, idx) => {
+                    let i = idx + 1;
+                    if(document.getElementById(`fas-nama-${i}`)) {
+                        document.getElementById(`fas-nama-${i}`).value = f.Nama || '';
+                        document.getElementById(`fas-gambar-${i}`).value = f.Gambar || '';
+                        document.getElementById(`fas-kat-${i}`).value = f.Kategori || '';
+                        document.getElementById(`fas-desc-${i}`).value = f.Deskripsi || '';
+                    }
+                });
+            }
+
+            renderTables();
         }
 
-        // Logika Perpindahan Tab Menu CMS
+        // --- SISTEM PENYIMPANAN KE GOOGLE SHEETS (API POST) ---
+        async function sendApiRequest(action, sheetName, payload) {
+            const loadingToast = showToast("Menyimpan ke Google Sheets...", "loading");
+            
+            try {
+                // Gunakan mode POST dengan tipe text/plain untuk mengakali CORS dari browser
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({
+                        action: action,
+                        token: adminToken,
+                        sheetName: sheetName,
+                        payload: payload
+                    })
+                });
+                
+                const result = await response.json();
+                loadingToast.remove();
+
+                if(result.status === 'success') {
+                    showToast(result.message, "success");
+                    return true;
+                } else {
+                    showToast(result.message, "error"); // Password salah akan memicu ini
+                    return false;
+                }
+            } catch(e) {
+                loadingToast.remove();
+                showToast("Gagal terhubung ke server Google", "error");
+                return false;
+            }
+        }
+
+        // Simpan Data Pengaturan (Gabung Umum & PSB)
+        async function savePengaturan() {
+            // Kita harus kirim 1 baris utuh, karena API backend menimpa ulang data lama
+            const payload = [{
+                Logo: document.getElementById('input-logo').value,
+                NamaPesantren: document.getElementById('input-nama').value,
+                Slogan: document.getElementById('input-slogan').value,
+                DeskripsiHero: document.getElementById('input-desc-hero').value,
+                UrlVideo: document.getElementById('input-video').value,
+                ProfilSingkat: document.getElementById('input-profil').value,
+                LamaBerdiri: document.getElementById('input-lama').value,
+                SantriAktif: document.getElementById('input-santri').value,
+                JumlahAlumni: document.getElementById('input-alumni').value,
+                StatusPSB: document.getElementById('input-status-psb').value,
+                WaAdmin: document.getElementById('input-wa').value,
+                LinkGform: document.getElementById('input-gform').value
+            }];
+            await sendApiRequest("update_data", "Pengaturan", payload);
+        }
+
+        // Simpan Data Program
+        async function saveProgram() {
+            const payload = [];
+            for(let i=1; i<=5; i++) {
+                const judul = document.getElementById(`prog-judul-${i}`).value;
+                if(judul) {
+                    payload.push({
+                        Judul: judul,
+                        Ikon: document.getElementById(`prog-ikon-${i}`).value,
+                        Deskripsi: document.getElementById(`prog-desc-${i}`).value
+                    });
+                }
+            }
+            await sendApiRequest("update_data", "Program", payload);
+        }
+
+        // Simpan Data Fasilitas
+        async function saveFasilitas() {
+            const payload = [];
+            for(let i=1; i<=6; i++) {
+                const nama = document.getElementById(`fas-nama-${i}`).value;
+                if(nama) {
+                    payload.push({
+                        Nama: nama,
+                        Gambar: document.getElementById(`fas-gambar-${i}`).value,
+                        Kategori: document.getElementById(`fas-kat-${i}`).value,
+                        Deskripsi: document.getElementById(`fas-desc-${i}`).value
+                    });
+                }
+            }
+            await sendApiRequest("update_data", "Fasilitas", payload);
+        }
+
+        // Tambah Produk
+        async function addProduk() {
+            const prodNama = document.getElementById('prod-nama').value;
+            if(!prodNama) return showToast("Nama produk wajib diisi!", "error");
+
+            if(!globalData.Produk) globalData.Produk = [];
+            
+            // Tambahkan ke memori lokal
+            globalData.Produk.push({
+                Nama: prodNama,
+                Harga: document.getElementById('prod-harga').value,
+                Label: document.getElementById('prod-label').value,
+                Gambar: document.getElementById('prod-gambar').value,
+                Deskripsi: document.getElementById('prod-desc').value
+            });
+
+            // Kirim seluruh tabel produk ke Sheets
+            const isSuccess = await sendApiRequest("update_data", "Produk", globalData.Produk);
+            if(isSuccess) {
+                document.getElementById('form-produk-modal').classList.add('hidden');
+                document.getElementById('dash-produk').textContent = globalData.Produk.length;
+                renderTables(); // Update UI tabel
+            }
+        }
+
+        // Tambah Berita
+        async function addBerita() {
+            const payload = {
+                tanggal: document.getElementById('news-tgl').value,
+                kategori: document.getElementById('news-kategori').value,
+                judul: document.getElementById('news-judul').value,
+                gambar: document.getElementById('news-gambar').value,
+                konten: document.getElementById('news-konten').innerHTML
+            };
+
+            if(!payload.judul) return showToast("Judul wajib diisi!", "error");
+
+            const isSuccess = await sendApiRequest("add_berita", "Berita", payload);
+            if(isSuccess) {
+                document.getElementById('form-berita-modal').classList.add('hidden');
+                // Masukkan langsung ke tabel lokal (bawah)
+                if(!globalData.Berita) globalData.Berita = [];
+                globalData.Berita.push({Tanggal: payload.tanggal, Judul: payload.judul, Kategori: payload.kategori});
+                document.getElementById('dash-berita').textContent = `${globalData.Berita.length} Artikel`;
+                renderTables();
+            }
+        }
+
+        function renderTables() {
+            // Render Tabel Produk
+            const tbProd = document.getElementById('table-produk');
+            if(globalData.Produk && globalData.Produk.length > 0) {
+                let phtml = '';
+                globalData.Produk.forEach(p => {
+                    if(!p.Nama) return;
+                    phtml += `<tr class="bg-white border-b hover:bg-slate-50"><td class="px-6 py-4"><img src="${p.Gambar || 'https://via.placeholder.com/50'}" class="w-10 h-10 rounded-lg object-cover"></td><td class="px-6 py-4 font-semibold text-slate-800">${p.Nama}</td><td class="px-6 py-4 font-medium text-brand-700">${p.Harga || '-'}</td><td class="px-6 py-4 text-right"><span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded">Aktif</span></td></tr>`;
+                });
+                tbProd.innerHTML = phtml;
+            } else { tbProd.innerHTML = '<tr><td colspan="4" class="text-center py-6">Belum ada data produk</td></tr>'; }
+
+            // Render Tabel Berita
+            const tbBerita = document.getElementById('table-berita');
+            if(globalData.Berita && globalData.Berita.length > 0) {
+                let bhtml = '';
+                // Balik array agar yang paling baru (bawah sheet) ada di atas
+                [...globalData.Berita].reverse().forEach(b => {
+                    if(!b.Judul) return;
+                    bhtml += `<tr class="bg-white border-b hover:bg-slate-50"><td class="px-6 py-4">${b.Tanggal || '-'}</td><td class="px-6 py-4 font-semibold text-slate-800">${b.Judul}</td><td class="px-6 py-4"><span class="bg-blue-50 text-blue-700 border border-blue-200 text-xs font-semibold px-2 py-0.5 rounded-full">${b.Kategori || '-'}</span></td><td class="px-6 py-4 text-right text-green-600 font-bold"><i class="fa-solid fa-check"></i></td></tr>`;
+                });
+                tbBerita.innerHTML = bhtml;
+            } else { tbBerita.innerHTML = '<tr><td colspan="4" class="text-center py-6">Belum ada berita dipublikasikan</td></tr>'; }
+        }
+
+        // Routing Navigasi Tab CMS
         function switchTab(tabId) {
-            document.querySelectorAll('.cms-tab-content').forEach(tab => {
-                tab.classList.remove('block'); tab.classList.add('hidden');
-            });
-            document.getElementById(tabId).classList.remove('hidden');
-            document.getElementById(tabId).classList.add('block');
-
-            document.querySelectorAll('.cms-nav-btn').forEach(btn => {
-                btn.classList.remove('bg-brand-900', 'text-white', 'shadow-md');
-                btn.classList.add('text-slate-400');
-            });
+            document.querySelectorAll('.cms-tab-content').forEach(tab => { tab.classList.add('hidden'); tab.classList.remove('block'); });
+            document.getElementById(tabId).classList.remove('hidden'); document.getElementById(tabId).classList.add('block');
+            document.querySelectorAll('.cms-nav-btn').forEach(btn => { btn.classList.remove('bg-brand-900', 'text-white', 'shadow-md'); btn.classList.add('text-slate-400'); });
             const activeBtn = document.getElementById('nav-' + tabId);
-            if (activeBtn) {
-                activeBtn.classList.remove('text-slate-400');
-                activeBtn.classList.add('bg-brand-900', 'text-white', 'shadow-md');
-            }
-
+            if (activeBtn) { activeBtn.classList.remove('text-slate-400'); activeBtn.classList.add('bg-brand-900', 'text-white', 'shadow-md'); }
             const sidebar = document.getElementById('cms-sidebar');
-            if (window.innerWidth < 1024 && !sidebar.classList.contains('hidden')) {
-                sidebar.classList.add('hidden');
-            }
+            if (window.innerWidth < 1024 && !sidebar.classList.contains('hidden')) sidebar.classList.add('hidden');
         }
 
-        // Mobile Sidebar Toggle
         document.getElementById('mobile-cms-menu-btn').addEventListener('click', () => {
             const sidebar = document.getElementById('cms-sidebar');
-            sidebar.classList.toggle('hidden');
-            sidebar.classList.add('absolute', 'z-50', 'w-64', 'h-full', 'shadow-2xl');
+            sidebar.classList.toggle('hidden'); sidebar.classList.add('absolute', 'z-50', 'w-64', 'h-full', 'shadow-2xl');
         });
+
+        function logoutCMS() {
+            document.getElementById('admin-password').value = '';
+            adminToken = '';
+            loginScreen.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+            showToast("Sesi telah diakhiri.", "success");
+        }
     </script>
 </body>
 </html>
