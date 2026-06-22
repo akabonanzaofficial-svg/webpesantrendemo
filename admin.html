@@ -140,6 +140,18 @@
             <!-- 2. Tab Umum -->
             <div id="tab-umum" class="cms-tab-content hidden animate-[fadeIn_0.3s_ease-out]">
                 <h2 class="text-2xl font-bold text-slate-800 mb-6">Pengaturan Profil & Umum</h2>
+                
+                <!-- TAMBAHAN: Identitas & Hero Section yang sebelumnya terhapus -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-6">
+                    <h3 class="font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">Identitas & Hero Section</h3>
+                    <div class="space-y-4">
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">URL Logo Pesantren</label><input type="text" id="input-logo" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none text-blue-600"></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Nama Pesantren</label><input type="text" id="input-nama" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none"></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Teks Slogan (Hero)</label><input type="text" id="input-slogan" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none"></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-1">Deskripsi Singkat Hero</label><textarea id="input-desc-hero" rows="2" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none text-sm"></textarea></div>
+                    </div>
+                </div>
+
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-6">
                     <h3 class="font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">Profil Singkat & Statistik</h3>
                     <div class="space-y-4">
@@ -375,9 +387,17 @@
             btn.disabled = true;
 
             try {
-                // Fetch data dari Google Sheets untuk membuktikan koneksi jalan
-                const response = await fetch(API_URL);
-                const res = await response.json();
+                // Fetch data dari Google Sheets
+                const response = await fetch(API_URL, { redirect: "follow" });
+                const textRes = await response.text(); // Baca sebagai teks dulu untuk debugging
+                
+                let res;
+                try {
+                    res = JSON.parse(textRes); // Coba ubah ke JSON
+                } catch (parseError) {
+                    console.error("Bukan JSON, melainkan ini:", textRes);
+                    throw new Error("API tidak merespon JSON. Pastikan Akses Deployment diatur ke 'Siapa Saja' (Anyone)!");
+                }
                 
                 if(res.status === 'success') {
                     globalData = res.data;
@@ -387,10 +407,11 @@
                     loginScreen.classList.add('opacity-0', 'pointer-events-none');
                     setTimeout(() => loginScreen.classList.add('hidden'), 500);
                 } else {
-                    throw new Error("Gagal mengambil data database");
+                    throw new Error(res.message || "Gagal mengambil data database");
                 }
             } catch (error) {
-                showToast("Koneksi ke server gagal. Cek URL API.", "error");
+                console.error("Error Detail:", error);
+                showToast(error.message || "Koneksi ke server gagal. Cek pengaturan API.", "error");
             } finally {
                 btn.innerHTML = 'Masuk Dashboard';
                 btn.disabled = false;
