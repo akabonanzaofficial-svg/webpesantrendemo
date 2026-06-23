@@ -529,12 +529,29 @@
                 const waAdmin = config.WaAdmin || "6281234567890";
                 if(config.Alamat) document.getElementById('footer-alamat').textContent = config.Alamat;
                 document.getElementById('footer-wa').textContent = `+${waAdmin}`;
-                if(config.Facebook) document.getElementById('link-fb').href = config.Facebook;
-                if(config.Instagram) document.getElementById('link-ig').href = config.Instagram;
-                if(config.YoutubePesantren) document.getElementById('link-yt').href = config.YoutubePesantren;
                 
-                if(config.MapUrl) document.getElementById('map-iframe').src = config.MapUrl;
-                else document.getElementById('map-container').classList.add('hidden');
+                // Parser Cerdas untuk Link Medsos (Otomatis tambah https:// dan buka di tab baru)
+                function fixUrl(url) {
+                    if(!url) return '#';
+                    if(!url.startsWith('http')) return 'https://' + url;
+                    return url;
+                }
+                if(config.Facebook) { document.getElementById('link-fb').href = fixUrl(config.Facebook); document.getElementById('link-fb').target = "_blank"; }
+                if(config.Instagram) { document.getElementById('link-ig').href = fixUrl(config.Instagram); document.getElementById('link-ig').target = "_blank"; }
+                if(config.YoutubePesantren) { document.getElementById('link-yt').href = fixUrl(config.YoutubePesantren); document.getElementById('link-yt').target = "_blank"; }
+                
+                // Parser Cerdas untuk Google Map (Otomatis ekstrak jika user copas full iframe HTML)
+                if(config.MapUrl) {
+                    let finalMapUrl = config.MapUrl;
+                    const iframeMatch = finalMapUrl.match(/src="([^"]+)"/);
+                    if(iframeMatch && iframeMatch[1]) {
+                        finalMapUrl = iframeMatch[1]; // Mengambil url yang ada di dalam tanda kutip src=""
+                    }
+                    document.getElementById('map-iframe').src = finalMapUrl;
+                    document.getElementById('map-container').classList.remove('hidden');
+                } else { 
+                    document.getElementById('map-container').classList.add('hidden'); 
+                }
 
                 // Pengaturan Link PSB
                 const linkGForm = config.LinkGform || "#";
