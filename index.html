@@ -50,6 +50,16 @@
 
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
+    <!-- Layar Loading (Menutupi web saat mengambil data) -->
+    <div id="loading-overlay" class="fixed inset-0 z-[100] bg-slate-900 flex flex-col items-center justify-center transition-opacity duration-500">
+        <div class="w-20 h-20 relative">
+            <div class="absolute inset-0 border-4 border-brand-500/20 rounded-full"></div>
+            <div class="absolute inset-0 border-4 border-brand-500 rounded-full border-t-transparent animate-spin"></div>
+            <div class="absolute inset-0 flex items-center justify-center text-white"><i class="fa-solid fa-moon"></i></div>
+        </div>
+        <h2 class="text-white font-bold text-xl mt-6 animate-pulse">Memuat Data Pesantren...</h2>
+    </div>
+
     <!-- Navigation Dinamis (Solid White) -->
     <nav id="navbar" class="fixed w-full z-50 bg-white shadow-md border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -476,8 +486,27 @@
                     window.appData = res.data; // Simpan ke global
                     renderData(res.data);
                 }
+
+                // Sembunyikan layar loading setelah data selesai dirender
+                setTimeout(() => {
+                    const loader = document.getElementById('loading-overlay');
+                    if (loader) {
+                        loader.classList.add('opacity-0');
+                        setTimeout(() => loader.classList.add('hidden'), 500);
+                    }
+                }, 500);
+
             } catch (error) {
                 console.error("Gagal memuat API:", error);
+
+                // Tetap sembunyikan layar loading jika terjadi gagal koneksi, agar web tidak macet
+                setTimeout(() => {
+                    const loader = document.getElementById('loading-overlay');
+                    if (loader) {
+                        loader.classList.add('opacity-0');
+                        setTimeout(() => loader.classList.add('hidden'), 500);
+                    }
+                }, 500);
             }
         }
 
@@ -509,9 +538,10 @@
                 if(config.FotoProfil1) document.getElementById('foto-profil-1').src = config.FotoProfil1;
                 if(config.FotoProfil2) document.getElementById('foto-profil-2').src = config.FotoProfil2;
                 
-                // Parser Cerdas URL YouTube (Ubah link normal jadi format embed)
-                if(config.UrlVideo) {
-                    const ytMatch = config.UrlVideo.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+                // Parser Cerdas URL YouTube (Mendukung Shorts & Anti Blokir Iframe)
+                if(config.UrlVideo && config.UrlVideo.trim() !== "") {
+                    const ytUrl = config.UrlVideo.trim();
+                    const ytMatch = ytUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|shorts\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
                     if (ytMatch && ytMatch[1]) {
                         document.querySelector('#profil iframe').src = `https://www.youtube.com/embed/${ytMatch[1]}`;
                     }
