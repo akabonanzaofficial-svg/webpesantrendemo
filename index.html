@@ -37,7 +37,7 @@
             background-image: linear-gradient(rgba(6, 78, 59, 0.85), rgba(6, 78, 59, 0.95)), url('https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
             background-size: cover; background-position: center; background-attachment: fixed;
         }
-        /* Animasi Transisi Halaman SPA */
+        /* Animasi Transisi Halaman */
         .fade-in {
             animation: fadeIn 0.4s ease-out forwards;
         }
@@ -45,36 +45,22 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        /* Modal Styles */
-        .modal-active { overflow: hidden; }
     </style>
 </head>
 
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
-    <!-- Loading Screen (Menutupi web saat mengambil data) -->
-    <div id="loading-overlay" class="fixed inset-0 z-[100] bg-slate-900 flex flex-col items-center justify-center transition-opacity duration-500">
-        <div class="w-20 h-20 relative">
-            <div class="absolute inset-0 border-4 border-brand-500/20 rounded-full"></div>
-            <div class="absolute inset-0 border-4 border-brand-500 rounded-full border-t-transparent animate-spin"></div>
-            <div class="absolute inset-0 flex items-center justify-center text-white"><i class="fa-solid fa-moon"></i></div>
-        </div>
-        <h2 class="text-white font-bold text-xl mt-6 animate-pulse">Memuat Data Pesantren...</h2>
-    </div>
-
-    <!-- Navigation Dinamis -->
+    <!-- Navigation Dinamis (Solid White) -->
     <nav id="navbar" class="fixed w-full z-50 bg-white shadow-md border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <!-- Logo -->
                 <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('beranda')">
-                    <img id="nav-logo" src="" alt="Logo" class="w-10 h-10 object-contain hidden">
-                    <div id="nav-icon" class="w-10 h-10 rounded-full bg-brand-900 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                    <div id="nav-logo-container" class="w-10 h-10 rounded-full bg-brand-900 flex items-center justify-center text-white font-bold text-xl shadow-lg overflow-hidden">
                         <i class="fa-solid fa-moon"></i>
                     </div>
                     <div>
-                        <h1 id="nav-nama" class="font-bold text-xl text-brand-900 leading-tight">Al-Hikmah</h1>
+                        <h1 class="font-bold text-xl text-brand-900 leading-tight">Al-Hikmah</h1>
                         <p class="text-xs text-slate-500 font-medium">Pesantren Modern</p>
                     </div>
                 </div>
@@ -109,14 +95,13 @@
                 <a href="#program" class="nav-link block px-3 py-3 text-slate-600 font-medium border-b border-slate-50">Program</a>
                 <a href="#fasilitas" class="nav-link block px-3 py-3 text-slate-600 font-medium border-b border-slate-50">Fasilitas</a>
                 <a href="#produk" class="nav-link block px-3 py-3 text-slate-600 font-medium border-b border-slate-50">Produk</a>
-                <a href="#pendaftaran" class="block px-3 py-3 text-slate-600 font-medium border-b border-slate-50">PSB</a>
                 <a href="#berita" class="nav-link block px-3 py-3 text-slate-600 font-medium border-b border-slate-50">Berita</a>
                 <a href="#pendaftaran" class="block px-3 py-3 mt-4 text-center bg-brand-900 text-white rounded-lg font-medium">Daftar Sekarang / PSB</a>
             </div>
         </div>
     </nav>
 
-    <!-- Konten Utama (Berfungsi sebagai penampung halaman SPA) -->
+    <!-- Konten Utama (Berfungsi sebagai penampung halaman) -->
     <main class="flex-grow">
         
         <!-- ==================== HALAMAN BERANDA ==================== -->
@@ -125,19 +110,20 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full fade-in">
                 <div class="max-w-3xl">
                     <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-gold-400 text-sm font-medium mb-6">
-                        <i class="fa-solid fa-star text-xs"></i> Pendaftaran Santri Baru Dibuka
+                        <i class="fa-solid fa-star text-xs"></i> Pendaftaran Santri Baru 2026/2027 Dibuka
                     </div>
-                    <h1 id="hero-slogan" class="text-4xl md:text-6xl font-bold text-white leading-tight mb-6">
+                    <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight mb-6">
                         Membentuk Generasi <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-yellow-200">Qur'ani</span> yang Mandiri & Berprestasi
                     </h1>
-                    <p id="hero-desc" class="text-lg md:text-xl text-brand-50 mb-10 leading-relaxed font-light max-w-2xl">
+                    <p class="text-lg md:text-xl text-brand-50 mb-10 leading-relaxed font-light max-w-2xl">
                         Sistem pendidikan modern yang memadukan kurikulum nasional dan kepesantrenan untuk melahirkan pemimpin masa depan yang berakhlak mulia.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4">
                         <a href="#pendaftaran" class="px-8 py-4 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-full text-center transition-all transform hover:-translate-y-1 shadow-lg shadow-gold-500/30">
                             Informasi Pendaftaran
                         </a>
-                        <a href="#profil" class="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white font-medium rounded-full text-center transition-all flex items-center justify-center gap-2">
+                        <!-- Ini adalah tombol Lihat Profil yang ditambahkan -->
+                        <a href="#profil" onclick="navigateTo('profil')" class="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white font-medium rounded-full text-center transition-all flex items-center justify-center gap-2">
                             Lihat Profil <i class="fa-solid fa-arrow-right text-sm"></i>
                         </a>
                     </div>
@@ -158,17 +144,18 @@
                     
                     <!-- Kiri: Video Youtube dan Foto Profil -->
                     <div class="flex flex-col gap-6 relative">
+                        <!-- Aksen Latar -->
                         <div class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-brand-100 rounded-full blur-3xl opacity-50"></div>
                         
                         <!-- YouTube Embed Video -->
-                        <div id="youtube-container" class="w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border-4 border-white bg-slate-200 hidden">
-                            <iframe id="profil-video" class="w-full h-full" src="" title="Video Profil Pesantren" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border-4 border-white bg-slate-200">
+                            <iframe class="w-full h-full" src="https://www.youtube.com/embed/M7lc1UVf-VE" title="Video Profil Pesantren" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </div>
 
                         <!-- 2 Foto Utama -->
                         <div class="grid grid-cols-2 gap-4">
-                            <img id="profil-img-1" src="https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kegiatan Belajar" class="rounded-2xl shadow-md w-full h-40 md:h-48 object-cover">
-                            <img id="profil-img-2" src="https://images.unsplash.com/photo-1606761568499-6d2451b23c66?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kampus Pesantren" class="rounded-2xl shadow-md w-full h-40 md:h-48 object-cover">
+                            <img id="foto-profil-1" src="https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kegiatan Belajar" class="rounded-2xl shadow-md w-full h-40 md:h-48 object-cover">
+                            <img id="foto-profil-2" src="https://images.unsplash.com/photo-1606761568499-6d2451b23c66?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kampus Pesantren" class="rounded-2xl shadow-md w-full h-40 md:h-48 object-cover">
                         </div>
                     </div>
 
@@ -176,15 +163,21 @@
                     <div>
                         <h4 class="text-brand-700 font-semibold uppercase tracking-wider text-sm mb-2">Tentang Kami</h4>
                         <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-6 leading-tight">Tradisi Pesantren dalam <br><span class="text-brand-900">Kemasan Modern</span></h2>
-                        <p id="profil-teks" class="text-slate-600 mb-6 leading-relaxed">
-                            Pesantren Modern didirikan dengan visi mengintegrasikan ilmu agama dengan ilmu pengetahuan modern.
+                        <p class="text-slate-600 mb-6 leading-relaxed">
+                            Pesantren Modern Al-Hikmah didirikan dengan visi mengintegrasikan ilmu agama (tafaqquh fiddin) dengan ilmu pengetahuan modern. Kami berkomitmen mencetak santri yang tidak hanya hafal Al-Qur'an, tetapi juga menguasai teknologi dan bahasa internasional.
                         </p>
                         
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start gap-3"><div class="mt-1 bg-brand-100 text-brand-700 p-1 rounded-full"><i class="fa-solid fa-check text-xs"></i></div><span class="text-slate-700">Kurikulum terpadu (Kemenag & Kemendikbud)</span></li>
+                            <li class="flex items-start gap-3"><div class="mt-1 bg-brand-100 text-brand-700 p-1 rounded-full"><i class="fa-solid fa-check text-xs"></i></div><span class="text-slate-700">Fasilitas modern dan asrama yang nyaman</span></li>
+                            <li class="flex items-start gap-3"><div class="mt-1 bg-brand-100 text-brand-700 p-1 rounded-full"><i class="fa-solid fa-check text-xs"></i></div><span class="text-slate-700">Tenaga pengajar profesional dan lulusan Timur Tengah</span></li>
+                        </ul>
+
                         <!-- Statistik -->
-                        <div class="grid grid-cols-3 gap-6 pt-6 border-t border-slate-200 mt-8">
-                            <div><h3 id="stat-tahun" class="text-3xl font-bold text-brand-900">25+</h3><p class="text-sm text-slate-500 mt-1">Tahun Pengalaman</p></div>
-                            <div><h3 id="stat-santri" class="text-3xl font-bold text-brand-900">1.2K</h3><p class="text-sm text-slate-500 mt-1">Santri Aktif</p></div>
-                            <div><h3 id="stat-alumni" class="text-3xl font-bold text-brand-900">5K+</h3><p class="text-sm text-slate-500 mt-1">Alumni Tersebar</p></div>
+                        <div class="grid grid-cols-3 gap-6 pt-6 border-t border-slate-200">
+                            <div><h3 class="text-3xl font-bold text-brand-900">25+</h3><p class="text-sm text-slate-500 mt-1">Tahun Pengalaman</p></div>
+                            <div><h3 class="text-3xl font-bold text-brand-900">1.2K</h3><p class="text-sm text-slate-500 mt-1">Santri Aktif</p></div>
+                            <div><h3 class="text-3xl font-bold text-brand-900">5K+</h3><p class="text-sm text-slate-500 mt-1">Alumni Tersebar</p></div>
                         </div>
                     </div>
                 </div>
@@ -197,10 +190,29 @@
                 <div class="text-center max-w-3xl mx-auto mb-16">
                     <h4 class="text-brand-700 font-semibold uppercase tracking-wider text-sm mb-2">Program Unggulan</h4>
                     <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Pendidikan Komprehensif</h2>
-                    <p class="text-slate-600">Beragam program dirancang untuk mengembangkan potensi santri secara seimbang.</p>
+                    <p class="text-slate-600">Beragam program dirancang untuk mengembangkan potensi kognitif, afektif, dan spiritual santri secara seimbang.</p>
                 </div>
-                <div id="program-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
-                    <!-- Dimuat dari API -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
+                    <div class="bg-slate-50 rounded-2xl p-8 hover:bg-brand-900 hover:text-white transition-all duration-300 group shadow-sm border border-slate-100">
+                        <div class="w-14 h-14 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-700 text-2xl mb-6 group-hover:scale-110 transition-transform"><i class="fa-solid fa-book-open-reader"></i></div>
+                        <h3 class="text-xl font-bold mb-3 text-slate-800 group-hover:text-white">Pendidikan Formal</h3>
+                        <p class="text-slate-600 group-hover:text-brand-100 text-sm leading-relaxed mb-4">Tingkat SMP dan SMA dengan kurikulum nasional yang diperkaya muatan kepesantrenan.</p>
+                    </div>
+                    <div class="bg-slate-50 rounded-2xl p-8 hover:bg-brand-900 hover:text-white transition-all duration-300 group shadow-sm border border-slate-100">
+                        <div class="w-14 h-14 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-700 text-2xl mb-6 group-hover:scale-110 transition-transform"><i class="fa-solid fa-quran"></i></div>
+                        <h3 class="text-xl font-bold mb-3 text-slate-800 group-hover:text-white">Tahfidz Qur'an</h3>
+                        <p class="text-slate-600 group-hover:text-brand-100 text-sm leading-relaxed mb-4">Program hafalan Al-Qur'an terstruktur dengan target mutqin 30 Juz.</p>
+                    </div>
+                    <div class="bg-slate-50 rounded-2xl p-8 hover:bg-brand-900 hover:text-white transition-all duration-300 group shadow-sm border border-slate-100">
+                        <div class="w-14 h-14 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-700 text-2xl mb-6 group-hover:scale-110 transition-transform"><i class="fa-solid fa-language"></i></div>
+                        <h3 class="text-xl font-bold mb-3 text-slate-800 group-hover:text-white">Bilingual System</h3>
+                        <p class="text-slate-600 group-hover:text-brand-100 text-sm leading-relaxed mb-4">Kewajiban berbahasa Arab dan Inggris dalam percakapan sehari-hari.</p>
+                    </div>
+                    <div class="bg-slate-50 rounded-2xl p-8 hover:bg-brand-900 hover:text-white transition-all duration-300 group shadow-sm border border-slate-100">
+                        <div class="w-14 h-14 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-700 text-2xl mb-6 group-hover:scale-110 transition-transform"><i class="fa-solid fa-laptop-code"></i></div>
+                        <h3 class="text-xl font-bold mb-3 text-slate-800 group-hover:text-white">Ekstrakurikuler IT</h3>
+                        <p class="text-slate-600 group-hover:text-brand-100 text-sm leading-relaxed mb-4">Pelatihan coding, desain, dan multimedia untuk era digital.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -214,8 +226,31 @@
                         <h2 class="text-3xl md:text-4xl font-bold text-slate-800 leading-tight">Lingkungan Belajar yang Nyaman</h2>
                     </div>
                 </div>
-                <div id="fasilitas-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Dimuat dari API -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="group relative rounded-2xl overflow-hidden shadow-lg aspect-[4/3]">
+                        <img src="https://images.unsplash.com/photo-1564683214965-3619addd900d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Masjid" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6 w-full">
+                            <div class="bg-brand-500 text-white text-xs font-bold px-3 py-1 rounded-full inline-block mb-3">Pusat Kegiatan</div>
+                            <h3 class="text-xl font-bold text-white mb-1">Masjid Jami' Al-Hikmah</h3>
+                        </div>
+                    </div>
+                    <div class="group relative rounded-2xl overflow-hidden shadow-lg aspect-[4/3]">
+                        <img src="https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Perpustakaan" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6 w-full">
+                            <div class="bg-gold-500 text-white text-xs font-bold px-3 py-1 rounded-full inline-block mb-3">Literasi</div>
+                            <h3 class="text-xl font-bold text-white mb-1">Perpustakaan Digital</h3>
+                        </div>
+                    </div>
+                    <div class="group relative rounded-2xl overflow-hidden shadow-lg aspect-[4/3]">
+                        <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Asrama" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6 w-full">
+                            <div class="bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full inline-block mb-3">Tempat Tinggal</div>
+                            <h3 class="text-xl font-bold text-white mb-1">Asrama Ber-AC</h3>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -229,8 +264,9 @@
                     <p class="text-slate-500 text-sm">Dukung kemandirian pesantren dengan membeli produk berkualitas karya santri.</p>
                 </div>
                 
+                <!-- Grid Produk 5 Kolom x 3 Baris -->
                 <div id="product-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
-                    <!-- Dimuat dari API -->
+                    <!-- Produk akan di-generate oleh JavaScript di bawah -->
                 </div>
             </div>
         </section>
@@ -244,8 +280,23 @@
                         <h2 class="text-3xl md:text-4xl font-bold text-slate-800 leading-tight">Berita & Kegiatan</h2>
                     </div>
                 </div>
-                <div id="berita-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Dimuat dari API -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-slate-100">
+                        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Wisuda" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex items-center gap-3 text-xs text-slate-500 mb-3"><span>10 Jun 2026</span><span>Akademik</span></div>
+                            <h3 class="text-lg font-bold text-slate-800 mb-2 hover:text-brand-700 cursor-pointer line-clamp-2">Haflah Akhirussanah dan Wisuda Tahfidz Ke-15</h3>
+                            <a href="#" class="text-brand-700 font-medium text-sm hover:text-brand-900 mt-2 inline-block">Baca selengkapnya &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-slate-100">
+                        <img src="https://images.unsplash.com/photo-1584697964400-2af6a2f6204c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kunjungan" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex items-center gap-3 text-xs text-slate-500 mb-3"><span>05 Jun 2026</span><span>Kegiatan</span></div>
+                            <h3 class="text-lg font-bold text-slate-800 mb-2 hover:text-brand-700 cursor-pointer line-clamp-2">Kunjungan Syeikh dari Universitas Al-Azhar Kairo</h3>
+                            <a href="#" class="text-brand-700 font-medium text-sm hover:text-brand-900 mt-2 inline-block">Baca selengkapnya &rarr;</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -260,8 +311,8 @@
                         <h2 class="text-3xl md:text-5xl font-bold mb-6">Bergabunglah Bersama Kami</h2>
                         <p class="text-brand-100 text-lg mb-8 max-w-2xl mx-auto">Penerimaan Santri Baru (PSB) Tahun Ajaran 2026/2027 telah dibuka. Kuota terbatas, pastikan putra-putri Anda mendaftar lebih awal.</p>
                         <div class="flex flex-col sm:flex-row justify-center gap-4">
-                            <a href="#" id="btn-daftar-bawah" target="_blank" class="bg-gold-500 hover:bg-gold-400 text-brand-900 font-bold px-8 py-4 rounded-full shadow-lg text-center">Daftar Online Sekarang</a>
-                            <a href="#" id="btn-wa-bawah" target="_blank" class="bg-white/10 border border-white/30 text-white font-medium px-8 py-4 rounded-full hover:bg-white/20 transition flex justify-center items-center gap-2"><i class="fa-brands fa-whatsapp text-green-400 text-xl"></i> Konsultasi Admin</a>
+                            <button class="bg-gold-500 hover:bg-gold-400 text-brand-900 font-bold px-8 py-4 rounded-full shadow-lg">Daftar Online Sekarang</button>
+                            <button class="bg-white/10 border border-white/30 text-white font-medium px-8 py-4 rounded-full hover:bg-white/20 transition flex justify-center items-center gap-2"><i class="fa-brands fa-whatsapp text-green-400 text-xl"></i> Konsultasi Admin</button>
                         </div>
                     </div>
                 </div>
@@ -273,337 +324,121 @@
     <!-- Footer (Selalu ada di bawah halaman apa pun) -->
     <footer class="bg-slate-900 text-slate-300 pt-16 pb-8 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8 border-b border-slate-800 pb-8">
-                <div class="lg:col-span-1">
-                    <h2 class="font-bold text-xl text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-moon text-brand-500"></i> <span id="footer-nama">Al-Hikmah</span></h2>
-                    <p class="text-sm text-slate-500" id="footer-desc">Mendidik generasi pemimpin masa depan yang berakhlak mulia dan berwawasan global.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 border-b border-slate-800 pb-8">
+                <div>
+                    <h2 class="font-bold text-xl text-white mb-4 flex items-center gap-2">
+                        <div id="footer-logo-container" class="w-8 h-8 rounded-full bg-brand-500 flex items-center justify-center text-white text-sm overflow-hidden"><i class="fa-solid fa-moon"></i></div>
+                        <span id="footer-nama">Al-Hikmah</span>
+                    </h2>
+                    <p class="text-sm text-slate-500">Mendidik generasi pemimpin masa depan yang berakhlak mulia dan berwawasan global.</p>
                 </div>
                 <div>
-                    <h3 class="text-white font-semibold mb-4 text-sm uppercase">Kontak & Alamat</h3>
+                    <h3 class="text-white font-semibold mb-4 text-sm uppercase">Kontak</h3>
                     <ul class="text-sm space-y-3 text-slate-400">
-                        <li class="flex items-start gap-3"><i class="fa-brands fa-whatsapp text-brand-500 mt-1"></i> <span id="footer-wa">+62 812 3456 7890</span></li>
-                        <li class="flex items-start gap-3"><i class="fa-solid fa-location-dot text-brand-500 mt-1"></i> <span id="footer-alamat">Jl. Pesantren Modern No. 1, Jawa Barat</span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-map-location-dot text-brand-500 mr-3 mt-1 text-lg"></i> <span id="footer-alamat">Jl. Pesantren Modern No. 123, Desa Damai, Kec. Sejahtera</span></li>
+                        <li class="flex items-center"><i class="fa-brands fa-whatsapp text-brand-500 mr-3 text-lg"></i> <span id="footer-wa">+62 812 3456 7890</span></li>
                     </ul>
                 </div>
                 <div>
-                    <h3 class="text-white font-semibold mb-4 text-sm uppercase">Lokasi Peta</h3>
-                    <div id="map-container" class="w-full h-32 rounded-lg overflow-hidden bg-slate-800 hidden border border-slate-700">
-                        <iframe id="map-iframe" class="w-full h-full" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <h3 class="text-white font-semibold mb-4 text-sm uppercase">Sosial Media & Peta</h3>
+                    <div class="flex gap-4 mb-4">
+                        <a href="#" id="link-fb" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-brand-500 text-white transition"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" id="link-ig" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-brand-500 text-white transition"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" id="link-yt" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-brand-500 text-white transition"><i class="fa-brands fa-youtube"></i></a>
                     </div>
-                </div>
-                <div>
-                    <h3 class="text-white font-semibold mb-4 text-sm uppercase">Sosial Media</h3>
-                    <div class="flex gap-4">
-                        <a href="#" id="link-fb" style="display:none;" class="w-10 h-10 rounded-full bg-slate-800 items-center justify-center hover:bg-brand-500 text-white transition"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#" id="link-ig" style="display:none;" class="w-10 h-10 rounded-full bg-slate-800 items-center justify-center hover:bg-brand-500 text-white transition"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" id="link-yt" style="display:none;" class="w-10 h-10 rounded-full bg-slate-800 items-center justify-center hover:bg-brand-500 text-white transition"><i class="fa-brands fa-youtube"></i></a>
+                    <div id="map-container" class="w-full h-24 bg-slate-800 rounded-lg overflow-hidden">
+                        <iframe id="map-iframe" class="w-full h-full" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                     </div>
                 </div>
             </div>
             <div class="text-center text-sm text-slate-600">
-                &copy; <span id="current-year">2026</span> Pesantren <span id="footer-copyright-nama">Al-Hikmah</span>. All rights reserved.
+                &copy; 2026 Pesantren Modern Al-Hikmah. All rights reserved.
             </div>
         </div>
     </footer>
 
-    <!-- MODAL POPUP (Berita & Produk) -->
-    <div id="detail-modal" class="hidden fixed inset-0 z-[110] bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl transform translate-y-4 transition-transform duration-300" id="modal-content-box">
-            
-            <div class="p-4 border-b flex justify-between items-center bg-slate-50 rounded-t-2xl">
-                <h3 id="modal-title-bar" class="font-bold text-slate-700 text-lg">Detail</h3>
-                <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 text-slate-500 hover:bg-red-100 hover:text-red-500 transition-colors">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+    <!-- MODAL PRODUK DETAIL -->
+    <div id="product-modal" class="hidden fixed inset-0 z-[100] bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl flex flex-col md:flex-row overflow-hidden max-h-[90vh] animate-[fadeInUp_0.3s_ease-out]">
+            <div class="w-full md:w-1/2 h-64 md:h-auto bg-slate-100 relative shrink-0">
+                <img id="pm-img" src="" class="w-full h-full object-cover">
+                <button onclick="closeModal('product-modal')" class="absolute top-4 left-4 md:hidden w-8 h-8 bg-white/50 backdrop-blur rounded-full flex items-center justify-center text-slate-800"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            
-            <div class="flex-1 overflow-y-auto p-0">
-                <img id="modal-img" src="" class="w-full h-64 md:h-80 object-cover hidden">
-                <div class="p-6 md:p-8">
-                    <div id="modal-meta" class="flex items-center gap-3 text-xs text-brand-600 font-semibold mb-3 hidden"></div>
-                    <h2 id="modal-title" class="text-2xl md:text-3xl font-bold text-slate-800 mb-4">Judul</h2>
-                    <div id="modal-body" class="prose prose-slate max-w-none text-slate-600 leading-relaxed text-sm md:text-base"></div>
+            <div class="w-full md:w-1/2 p-6 md:p-8 flex flex-col overflow-y-auto">
+                <div class="flex justify-between items-start mb-4">
+                    <h2 id="pm-title" class="text-2xl font-bold text-slate-800"></h2>
+                    <button onclick="closeModal('product-modal')" class="hidden md:flex text-slate-400 hover:text-slate-800"><i class="fa-solid fa-xmark text-xl"></i></button>
                 </div>
-            </div>
-            
-            <div class="p-4 border-t bg-slate-50 rounded-b-2xl flex justify-between items-center">
-                <button id="modal-share-btn" class="px-4 py-2 text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-100 text-sm font-medium flex items-center gap-2">
-                    <i class="fa-solid fa-share-nodes"></i> Bagikan
-                </button>
-                <div id="modal-action-area"></div>
+                <div id="pm-label" class="mb-4"></div>
+                <p id="pm-desc" class="text-slate-600 text-sm leading-relaxed flex-grow whitespace-pre-wrap mb-6"></p>
+                <div class="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto shrink-0">
+                    <span id="pm-price" class="text-2xl font-bold text-brand-700"></span>
+                    <div class="flex gap-2">
+                        <button id="pm-share" class="w-10 h-10 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 flex items-center justify-center transition-colors"><i class="fa-solid fa-share-nodes"></i></button>
+                        <a id="pm-wa" href="#" target="_blank" class="bg-green-500 hover:bg-green-600 text-white font-bold px-6 py-2 rounded-xl flex items-center gap-2 transition-colors"><i class="fa-brands fa-whatsapp text-lg"></i> Beli</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- MODAL BERITA FULL -->
+    <div id="news-modal" class="hidden fixed inset-0 z-[100] bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl flex flex-col overflow-hidden max-h-[90vh] animate-[fadeInUp_0.3s_ease-out]">
+            <div class="relative h-64 md:h-80 shrink-0">
+                <img id="nm-img" src="" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 to-transparent"></div>
+                <button onclick="closeModal('news-modal')" class="absolute top-4 right-4 w-8 h-8 bg-white/20 backdrop-blur text-white rounded-full flex items-center justify-center hover:bg-white/40"><i class="fa-solid fa-xmark"></i></button>
+                <div class="absolute bottom-4 left-6 right-6">
+                    <div class="flex gap-3 text-white/80 text-xs font-medium mb-3">
+                        <span id="nm-date"><i class="fa-regular fa-calendar mr-1"></i> </span>
+                        <span id="nm-category" class="bg-brand-500 text-white px-2 py-0.5 rounded"></span>
+                    </div>
+                    <h2 id="nm-title" class="text-2xl md:text-3xl font-bold text-white leading-tight"></h2>
+                </div>
+            </div>
+            <div class="p-6 md:p-8 overflow-y-auto bg-white flex-grow">
+                <div id="nm-content" class="text-slate-700 text-sm md:text-base leading-relaxed space-y-4"></div>
+            </div>
+            <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end shrink-0">
+                <button id="nm-share" class="bg-blue-50 text-blue-600 hover:bg-blue-100 font-semibold px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"><i class="fa-solid fa-share-nodes"></i> Bagikan Artikel</button>
+            </div>
+        </div>
+    </div>
 
-    <!-- Script Fungsionalitas & API -->
+    <!-- Script Fungsionalitas & API Jembatan -->
     <script>
-        // URL API GOOGLE SCRIPT ANDA
-        const API_URL = "https://script.google.com/macros/s/AKfycbyc89A6Motnes5qNl_UM-Qmje0Zm_D6BW0ZZ_FuWZsu9kFyx06p2hyLrkljLRkgwWTYrQ/exec";
+        // Data Global untuk Modal
+        window.appData = {};
+        window.latestNewsData = [];
 
-        // Global Data Storage
-        window.appData = null;
-
-        document.getElementById('current-year').innerText = new Date().getFullYear();
-
-        // 1. Fungsi Ambil Data dari API (DENGAN DETEKSI ERROR SPESIFIK GOOGLE SHEETS)
-        async function fetchWebsiteData() {
-            try {
-                const response = await fetch(API_URL);
-                const res = await response.json();
-                
-                if (res.status === "success") {
-                    window.appData = res.data;
-                    renderData(res.data);
-                    
-                    // Cek apakah data benar-benar ada isinya
-                    if (!res.data.pengaturan || Object.keys(res.data.pengaturan).length === 0) {
-                        console.warn("Koneksi sukses, tapi file Google Sheets Anda masih KOSONG.");
-                    }
-
-                    // Sukses: Tutup layar loading otomatis
-                    setTimeout(() => {
-                        const loader = document.getElementById('loading-overlay');
-                        if(loader) {
-                            loader.classList.add('opacity-0');
-                            setTimeout(() => loader.classList.add('hidden'), 500);
-                        }
-                    }, 800);
-                } else {
-                    throw new Error(res.message);
-                }
-            } catch (error) {
-                console.error("Gagal terhubung ke API:", error);
-                
-                // Gagal: Tampilkan tombol paksa tutup dengan Pesan Bantuan
-                const loader = document.getElementById('loading-overlay');
-                if(loader) {
-                    loader.innerHTML = `
-                        <div class="text-center p-8 bg-white rounded-3xl shadow-2xl max-w-md mx-4 transform transition-all border-t-8 border-red-500">
-                            <i class="fa-solid fa-triangle-exclamation text-5xl text-red-500 mb-4"></i>
-                            <h2 class="text-2xl font-bold text-slate-800 mb-2">Koneksi Database Terputus</h2>
-                            <div class="text-slate-600 text-sm mb-6 leading-relaxed text-left bg-slate-50 p-4 rounded-lg border border-slate-200">
-                                <p class="font-bold text-slate-800 mb-2">Penyebab yang mungkin terjadi:</p>
-                                <ol class="list-decimal pl-4 space-y-1">
-                                    <li>Anda belum membuat Tab/Sheet dengan nama yang benar: <b>Pengaturan, Program, Fasilitas, Produk, Berita</b>. (Perhatikan huruf besarnya).</li>
-                                    <li>Anda belum melakukan <br><b>Deploy -> Versi Baru</b> di Google Script.</li>
-                                    <li>Akses Google Script belum diset ke <b>"Siapa Saja"</b>.</li>
-                                </ol>
-                            </div>
-                            <button onclick="document.getElementById('loading-overlay').classList.add('hidden')" class="w-full px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl transition shadow-sm">
-                                Tutup Pesan & Lihat Data Dummy
-                            </button>
-                        </div>
-                    `;
-                }
-            }
-        }
-
-        // 2. Fungsi Render Data ke HTML
-        function renderData(data) {
-            if (!data) return;
-
-            // --- TAB PENGATURAN ---
-            if (data.pengaturan && Object.keys(data.pengaturan).length > 0) {
-                const config = data.pengaturan;
-                
-                // Set Teks Identitas
-                if(config.NamaPesantren) {
-                    document.title = String(config.NamaPesantren);
-                    document.getElementById('nav-nama').innerText = String(config.NamaPesantren);
-                    document.getElementById('footer-nama').innerText = String(config.NamaPesantren);
-                    document.getElementById('footer-copyright-nama').innerText = String(config.NamaPesantren);
-                }
-                
-                if(config.TeksHero) document.getElementById('hero-slogan').innerHTML = String(config.TeksHero);
-                if(config.DeskripsiHero) document.getElementById('hero-desc').innerText = String(config.DeskripsiHero);
-                
-                if(config.ProfilSingkat) {
-                    let txtSingkat = String(config.ProfilSingkat);
-                    document.getElementById('profil-teks').innerText = txtSingkat;
-                    document.getElementById('footer-desc').innerText = txtSingkat.substring(0, 100) + '...';
-                }
-
-                // Set Gambar Identitas
-                if(config.LogoUrl) {
-                    document.getElementById('nav-logo').src = String(config.LogoUrl);
-                    document.getElementById('nav-logo').classList.remove('hidden');
-                    document.getElementById('nav-icon').classList.add('hidden');
-                }
-                if(config.ProfilImage1) document.getElementById('profil-img-1').src = String(config.ProfilImage1);
-                if(config.ProfilImage2) document.getElementById('profil-img-2').src = String(config.ProfilImage2);
-
-                // Set Statistik
-                if(config.LamaBerdiri) document.getElementById('stat-tahun').innerText = String(config.LamaBerdiri);
-                if(config.SantriAktif) document.getElementById('stat-santri').innerText = String(config.SantriAktif);
-                if(config.JumlahAlumni) document.getElementById('stat-alumni').innerText = String(config.JumlahAlumni);
-
-                // Set Video YouTube
-                if (config.VideoUrl && String(config.VideoUrl).trim() !== "") {
-                    let ytUrl = String(config.VideoUrl).trim();
-                    if (ytUrl.includes("watch?v=")) ytUrl = ytUrl.replace("watch?v=", "embed/");
-                    else if (ytUrl.includes("youtu.be/")) ytUrl = ytUrl.replace("youtu.be/", "www.youtube.com/embed/");
-                    
-                    document.getElementById('profil-video').src = ytUrl;
-                    document.getElementById('youtube-container').classList.remove('hidden');
-                }
-
-                // Parser Link Medsos & Peta
-                function fixUrl(url) {
-                    if(!url) return '#';
-                    let sUrl = String(url).trim();
-                    if(!sUrl.startsWith('http')) return 'https://' + sUrl;
-                    return sUrl;
-                }
-                
-                const medsosMap = { 'Facebook': 'link-fb', 'Instagram': 'link-ig', 'YoutubePesantren': 'link-yt' };
-                for (let key in medsosMap) {
-                    const el = document.getElementById(medsosMap[key]);
-                    if (el) {
-                        if (config[key] && String(config[key]).trim() !== "") {
-                            el.href = fixUrl(config[key]); 
-                            el.target = "_blank";
-                            el.style.display = 'flex';
-                        } else {
-                            el.style.display = 'none';
-                        }
-                    }
-                }
-                
-                if (config.Alamat) document.getElementById('footer-alamat').innerText = String(config.Alamat);
-                
-                const mapContainer = document.getElementById('map-container');
-                const mapIframe = document.getElementById('map-iframe');
-                if(mapContainer && mapIframe) {
-                    if(config.MapUrl && String(config.MapUrl).trim() !== "") {
-                        let finalMapUrl = String(config.MapUrl).trim();
-                        const iframeMatch = finalMapUrl.match(/src="([^"]+)"/);
-                        if(iframeMatch && iframeMatch[1]) finalMapUrl = iframeMatch[1];
-                        
-                        if(finalMapUrl.includes("embed") || finalMapUrl.includes("google.com/maps/embed")) {
-                            mapIframe.src = finalMapUrl;
-                            mapContainer.classList.remove('hidden');
-                        } else {
-                            mapContainer.classList.add('hidden');
-                        }
-                    } else { 
-                        mapContainer.classList.add('hidden'); 
-                    }
-                }
-
-                // Pengaturan PSB
-                const waNumber = config.WhatsAppAdmin ? String(config.WhatsAppAdmin).trim() : '6281234567890';
-                document.getElementById('footer-wa').innerText = '+' + waNumber;
-                
-                const waLink = `https://wa.me/${waNumber}?text=Halo%20Admin%20Pesantren,%20saya%20ingin%20bertanya%20informasi%20PSB`;
-                document.getElementById('btn-wa-bawah').href = waLink;
-                
-                if(config.StatusPSB === 'Tutup') {
-                    document.getElementById('btn-daftar-bawah').innerText = "Pendaftaran Ditutup";
-                    document.getElementById('btn-daftar-bawah').href = "#";
-                    document.getElementById('btn-daftar-bawah').classList.replace('bg-gold-500', 'bg-slate-300');
-                } else {
-                    document.getElementById('btn-daftar-bawah').innerText = "Daftar Online Sekarang";
-                    document.getElementById('btn-daftar-bawah').href = config.LinkFormPSB ? String(config.LinkFormPSB) : '#';
-                }
-            }
-
-            // --- TAB PROGRAM ---
-            if (Array.isArray(data.program) && data.program.length > 0) {
-                let pHTML = '';
-                data.program.forEach(p => {
-                    pHTML += `
-                    <div class="bg-slate-50 rounded-2xl p-8 hover:bg-brand-900 hover:text-white transition-all duration-300 group shadow-sm border border-slate-100">
-                        <div class="w-14 h-14 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-700 text-2xl mb-6 group-hover:scale-110 transition-transform"><i class="${p.Ikon || 'fa-solid fa-star'}"></i></div>
-                        <h3 class="text-xl font-bold mb-3 text-slate-800 group-hover:text-white">${p.Judul || ''}</h3>
-                        <p class="text-slate-600 group-hover:text-brand-100 text-sm leading-relaxed mb-4">${p.Deskripsi || ''}</p>
-                    </div>`;
-                });
-                document.getElementById('program-grid').innerHTML = pHTML;
-            }
-
-            // --- TAB FASILITAS ---
-            if (Array.isArray(data.fasilitas) && data.fasilitas.length > 0) {
-                let fHTML = '';
-                data.fasilitas.forEach(f => {
-                    fHTML += `
-                    <div class="group relative rounded-2xl overflow-hidden shadow-lg aspect-[4/3] bg-slate-200">
-                        <img src="${f.Foto || ''}" alt="${f.Nama || ''}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 p-6 w-full">
-                            <div class="bg-brand-500 text-white text-[10px] uppercase tracking-wide font-bold px-3 py-1 rounded-full inline-block mb-3">${f.Kategori || 'Fasilitas'}</div>
-                            <h3 class="text-xl font-bold text-white mb-1">${f.Nama || ''}</h3>
-                            <p class="text-slate-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0 line-clamp-2">${f.Deskripsi || ''}</p>
-                        </div>
-                    </div>`;
-                });
-                document.getElementById('fasilitas-grid').innerHTML = fHTML;
-            }
-
-            // --- TAB PRODUK ---
-            if (Array.isArray(data.produk) && data.produk.length > 0) {
-                let prHTML = '';
-                data.produk.forEach((pr, index) => {
-                    let badge = pr.Label ? `<div class="absolute top-2 right-2 bg-brand-500 text-white text-[10px] font-bold px-2 py-1 rounded-md shadow-sm">${pr.Label}</div>` : '';
-                    prHTML += `
-                    <div class="bg-slate-50 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col h-full cursor-pointer group" onclick="openProductModal(${index})">
-                        <div class="relative aspect-square overflow-hidden bg-white">
-                            <img src="${pr.Foto || ''}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                            ${badge}
-                        </div>
-                        <div class="p-3 flex flex-col flex-grow">
-                            <h3 class="font-bold text-slate-800 mb-1 text-xs md:text-sm line-clamp-1 group-hover:text-brand-700">${pr.Nama || ''}</h3>
-                            <div class="flex flex-col gap-2 mt-auto pt-2 border-t border-slate-100">
-                                <span class="font-bold text-brand-700 text-xs md:text-sm">${pr.Harga || ''}</span>
-                            </div>
-                        </div>
-                    </div>`;
-                });
-                document.getElementById('product-grid').innerHTML = prHTML;
-            } else {
-                document.getElementById('product-grid').innerHTML = '<p class="col-span-full text-center text-slate-500">Belum ada produk.</p>';
-            }
-
-            // --- TAB BERITA ---
-            if (Array.isArray(data.berita) && data.berita.length > 0) {
-                let bHTML = '';
-                [...data.berita].reverse().forEach((b, index) => {
-                    const originalIndex = data.berita.length - 1 - index;
-                    bHTML += `
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-slate-100 flex flex-col h-full cursor-pointer group" onclick="openNewsModal(${originalIndex})">
-                        <img src="${b.Gambar || ''}" class="w-full h-48 object-cover">
-                        <div class="p-6 flex flex-col flex-grow">
-                            <div class="flex items-center gap-3 text-xs text-brand-600 font-semibold mb-3"><span>${b.Tanggal || ''}</span> &bull; <span>${b.Kategori || ''}</span></div>
-                            <h3 class="text-lg font-bold text-slate-800 mb-3 group-hover:text-brand-700 transition-colors line-clamp-2">${b.Judul || ''}</h3>
-                            <div class="mt-auto pt-4 flex items-center justify-between text-sm">
-                                <span class="text-slate-500">Baca artikel</span>
-                                <i class="fa-solid fa-arrow-right text-brand-500 group-hover:translate-x-1 transition-transform"></i>
-                            </div>
-                        </div>
-                    </div>`;
-                });
-                document.getElementById('berita-grid').innerHTML = bHTML;
-            } else {
-                document.getElementById('berita-grid').innerHTML = '<p class="col-span-full text-center text-slate-500">Belum ada berita.</p>';
-            }
-        }
-
-        // ==========================================
-        // SISTEM NAVIGASI SPA & MODAL
-        // ==========================================
-        
+        // --- 1. Logika SPA (Routing) ---
         function navigateTo(pageId) {
-            document.querySelectorAll('.page-section').forEach(sec => { sec.classList.add('hidden'); sec.classList.remove('flex', 'block'); });
+            document.querySelectorAll('.page-section').forEach(sec => {
+                sec.classList.add('hidden');
+                sec.classList.remove('flex', 'block');
+            });
+
             const target = document.getElementById(pageId);
             if (target) {
                 target.classList.remove('hidden');
-                if(pageId === 'beranda') target.classList.add('flex'); else target.classList.add('block');
-                target.classList.remove('fade-in'); void target.offsetWidth; target.classList.add('fade-in');
+                if(pageId === 'beranda') target.classList.add('flex');
+                else target.classList.add('block');
+                
+                target.classList.remove('fade-in');
+                void target.offsetWidth; 
+                target.classList.add('fade-in');
             }
+
             document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('text-brand-700', 'font-bold'); link.classList.add('text-slate-600', 'font-medium');
-                if (link.getAttribute('href') === '#' + pageId) { link.classList.remove('text-slate-600', 'font-medium'); link.classList.add('text-brand-700', 'font-bold'); }
+                link.classList.remove('text-brand-700', 'font-bold');
+                link.classList.add('text-slate-600', 'font-medium');
+                if (link.getAttribute('href') === '#' + pageId) {
+                    link.classList.remove('text-slate-600', 'font-medium');
+                    link.classList.add('text-brand-700', 'font-bold');
+                }
             });
+
             document.getElementById('mobile-menu').classList.add('hidden');
             window.scrollTo({ top: 0, behavior: 'instant' });
             history.pushState(null, null, '#' + pageId);
@@ -612,112 +447,259 @@
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                navigateTo(this.getAttribute('href').substring(1));
+                const pageId = this.getAttribute('href').substring(1);
+                navigateTo(pageId);
             });
         });
 
-        // ==========================================
-        // LOGIKA MODAL POPUP (PRODUK & BERITA)
-        // ==========================================
-        
-        const modal = document.getElementById('detail-modal');
-        const modalBox = document.getElementById('modal-content-box');
-        
-        function openModal() {
-            modal.classList.remove('hidden');
-            document.body.classList.add('modal-active');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modalBox.classList.remove('translate-y-4');
-            }, 10);
-        }
-
-        function closeModal() {
-            modal.classList.add('opacity-0');
-            modalBox.classList.add('translate-y-4');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                document.body.classList.remove('modal-active');
-            }, 300);
-        }
-
-        function openProductModal(index) {
-            if(!window.appData || !window.appData.produk) return;
-            const p = window.appData.produk[index];
-            const waNumber = (window.appData.pengaturan && window.appData.pengaturan.WhatsAppAdmin) ? window.appData.pengaturan.WhatsAppAdmin : '6281234567890';
-            
-            document.getElementById('modal-title-bar').innerText = "Detail Produk";
-            document.getElementById('modal-img').src = p.Foto || '';
-            document.getElementById('modal-img').classList.remove('hidden');
-            document.getElementById('modal-meta').classList.add('hidden');
-            
-            document.getElementById('modal-title').innerText = p.Nama || '';
-            
-            let descFormatted = String(p.Deskripsi || '').replace(/\n/g, '<br>');
-            document.getElementById('modal-body').innerHTML = `
-                <div class="mb-4 inline-block bg-brand-50 text-brand-700 font-bold text-lg px-4 py-1.5 rounded-lg border border-brand-100">${p.Harga || ''}</div>
-                <p class="mb-2">${descFormatted}</p>
-            `;
-            
-            const waText = encodeURIComponent(`Halo Admin, saya tertarik memesan produk:\n*${p.Nama || ''}*\nHarga: ${p.Harga || ''}`);
-            document.getElementById('modal-action-area').innerHTML = `
-                <a href="https://wa.me/${waNumber}?text=${waText}" target="_blank" class="px-6 py-2.5 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg shadow-md transition-colors flex items-center gap-2">
-                    <i class="fa-brands fa-whatsapp text-lg"></i> Beli Sekarang
-                </a>
-            `;
-            
-            setupShareButton(`Cek produk ${p.Nama || 'kami'} dari Pesantren Al-Hikmah seharga ${p.Harga || ''}!`);
-            openModal();
-        }
-
-        function openNewsModal(index) {
-            if(!window.appData || !window.appData.berita) return;
-            const b = window.appData.berita[index];
-            
-            document.getElementById('modal-title-bar').innerText = "Baca Artikel";
-            document.getElementById('modal-img').src = b.Gambar || '';
-            document.getElementById('modal-img').classList.remove('hidden');
-            
-            const meta = document.getElementById('modal-meta');
-            meta.innerHTML = `<span><i class="fa-regular fa-calendar mr-1"></i> ${b.Tanggal || ''}</span> <span><i class="fa-regular fa-folder mr-1"></i> ${b.Kategori || ''}</span>`;
-            meta.classList.remove('hidden');
-            
-            document.getElementById('modal-title').innerText = b.Judul || '';
-            document.getElementById('modal-body').innerHTML = b.Konten || ''; 
-            
-            document.getElementById('modal-action-area').innerHTML = `
-                <button onclick="closeModal()" class="px-6 py-2.5 bg-brand-900 hover:bg-brand-700 text-white font-bold rounded-lg shadow-md transition-colors">Tutup Artikel</button>
-            `;
-            
-            setupShareButton(`Baca berita terbaru: ${b.Judul || ''}`);
-            openModal();
-        }
-
-        function setupShareButton(textToShare) {
-            const btn = document.getElementById('modal-share-btn');
-            btn.onclick = async () => {
-                if (navigator.share) {
-                    try {
-                        await navigator.share({ title: document.title, text: textToShare, url: window.location.href });
-                    } catch (err) { console.log('Share dibatalkan', err); }
-                } else {
-                    navigator.clipboard.writeText(`${textToShare} - ${window.location.href}`);
-                    const oldHtml = btn.innerHTML;
-                    btn.innerHTML = '<i class="fa-solid fa-check text-green-500"></i> Disalin!';
-                    setTimeout(() => btn.innerHTML = oldHtml, 2000);
-                }
-            };
-        }
-
-        // Init
-        document.getElementById('mobile-menu-btn').addEventListener('click', () => document.getElementById('mobile-menu').classList.toggle('hidden'));
-        
         window.addEventListener('load', () => {
-            fetchWebsiteData();
             const hash = window.location.hash.substring(1);
             if (hash && document.getElementById(hash)) navigateTo(hash);
             else navigateTo('beranda');
         });
+
+        const btnMenu = document.getElementById('mobile-menu-btn');
+        const menuPanel = document.getElementById('mobile-menu');
+        btnMenu.addEventListener('click', () => menuPanel.classList.toggle('hidden'));
+
+        // --- 2. INTEGRASI GOOGLE SHEETS API ---
+        const API_URL = "https://script.google.com/macros/s/AKfycbyc89A6Motnes5qNl_UM-Qmje0Zm_D6BW0ZZ_FuWZsu9kFyx06p2hyLrkljLRkgwWTYrQ/exec";
+
+        async function fetchWebsiteData() {
+            try {
+                document.getElementById('product-grid').innerHTML = '<div class="col-span-full text-center py-10 text-brand-700"><i class="fa-solid fa-circle-notch fa-spin text-3xl mb-3"></i><p>Memuat galeri produk...</p></div>';
+                
+                const response = await fetch(API_URL);
+                const res = await response.json();
+                
+                if (res.status === "success") {
+                    window.appData = res.data; // Simpan ke global
+                    renderData(res.data);
+                }
+            } catch (error) {
+                console.error("Gagal memuat API:", error);
+            }
+        }
+
+        function renderData(data) {
+            // A. Update Profil & Umum
+            if (data.Pengaturan && data.Pengaturan.length > 0) {
+                const config = data.Pengaturan[0];
+                
+                // Hero Section
+                if(config.Slogan) document.querySelector('#beranda h1').innerHTML = config.Slogan.replace('Qur\'ani', '<span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-yellow-200">Qur\'ani</span>');
+                if(config.DeskripsiHero) document.querySelector('#beranda p.text-lg').textContent = config.DeskripsiHero;
+                
+                // Nama Web & Logo
+                if(config.NamaPesantren) {
+                    document.querySelector('nav h1').textContent = config.NamaPesantren;
+                    document.getElementById('footer-nama').textContent = config.NamaPesantren;
+                    document.querySelector('#profil h2').innerHTML = `Tradisi Pesantren dalam <br><span class="text-brand-900">${config.NamaPesantren}</span>`;
+                }
+                if(config.Logo) {
+                    const imgLogo = `<img src="${config.Logo}" class="w-full h-full object-cover">`;
+                    document.getElementById('nav-logo-container').innerHTML = imgLogo;
+                    document.getElementById('footer-logo-container').innerHTML = imgLogo;
+                    document.getElementById('nav-logo-container').classList.remove('bg-brand-900', 'p-2');
+                    document.getElementById('footer-logo-container').classList.remove('bg-brand-500');
+                }
+                
+                // Profil, Foto & Video
+                if(config.ProfilSingkat) document.querySelector('#profil p.text-slate-600').textContent = config.ProfilSingkat;
+                if(config.FotoProfil1) document.getElementById('foto-profil-1').src = config.FotoProfil1;
+                if(config.FotoProfil2) document.getElementById('foto-profil-2').src = config.FotoProfil2;
+                
+                // Parser Cerdas URL YouTube (Ubah link normal jadi format embed)
+                if(config.UrlVideo) {
+                    const ytMatch = config.UrlVideo.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+                    if (ytMatch && ytMatch[1]) {
+                        document.querySelector('#profil iframe').src = `https://www.youtube.com/embed/${ytMatch[1]}`;
+                    }
+                }
+
+                // Statistik
+                const stats = document.querySelectorAll('#profil .grid-cols-3 h3');
+                if(stats.length >= 3) {
+                    if(config.LamaBerdiri) stats[0].textContent = config.LamaBerdiri;
+                    if(config.SantriAktif) stats[1].textContent = config.SantriAktif;
+                    if(config.JumlahAlumni) stats[2].textContent = config.JumlahAlumni;
+                }
+
+                // Pengaturan Footer & Kontak
+                const waAdmin = config.WaAdmin || "6281234567890";
+                if(config.Alamat) document.getElementById('footer-alamat').textContent = config.Alamat;
+                document.getElementById('footer-wa').textContent = `+${waAdmin}`;
+                if(config.Facebook) document.getElementById('link-fb').href = config.Facebook;
+                if(config.Instagram) document.getElementById('link-ig').href = config.Instagram;
+                if(config.YoutubePesantren) document.getElementById('link-yt').href = config.YoutubePesantren;
+                
+                if(config.MapUrl) document.getElementById('map-iframe').src = config.MapUrl;
+                else document.getElementById('map-container').classList.add('hidden');
+
+                // Pengaturan Link PSB
+                const linkGForm = config.LinkGform || "#";
+                const statusPSB = (config.StatusPSB || "Buka").toLowerCase();
+
+                document.querySelectorAll('a').forEach(el => {
+                    if(el.textContent.includes('Konsultasi Admin')) { el.href = `https://wa.me/${waAdmin}`; el.target = "_blank"; }
+                    if(el.textContent.includes('Informasi Pendaftaran') || el.textContent.includes('Daftar Online')) {
+                        if(statusPSB === 'buka') {
+                            if(el.textContent.includes('Daftar Online')) { el.href = linkGForm; el.target = "_blank"; }
+                            el.style.display = 'inline-flex';
+                        } else { el.style.display = 'none'; }
+                    }
+                });
+            }
+
+            // B. Render Program Utama
+            if (data.Program && data.Program.length > 0) {
+                const programContainer = document.querySelector('#program .grid');
+                let progHTML = '';
+                data.Program.forEach((p, idx) => {
+                    if(!p.Judul) return; // Skip baris kosong
+                    progHTML += `
+                    <div class="bg-slate-50 rounded-2xl p-8 hover:bg-brand-900 hover:text-white transition-all duration-300 group shadow-sm hover:shadow-xl border border-slate-100 fade-in" style="animation-delay: ${idx * 0.1}s">
+                        <div class="w-14 h-14 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-700 text-2xl mb-6 group-hover:scale-110 transition-transform"><i class="${p.Ikon || 'fa-solid fa-star'}"></i></div>
+                        <h3 class="text-xl font-bold mb-3 text-slate-800 group-hover:text-white">${p.Judul}</h3>
+                        <p class="text-slate-600 group-hover:text-brand-100 text-sm leading-relaxed mb-4">${p.Deskripsi}</p>
+                    </div>`;
+                });
+                if(progHTML) programContainer.innerHTML = progHTML;
+            }
+
+            // C. Render Fasilitas
+            if (data.Fasilitas && data.Fasilitas.length > 0) {
+                const fasilitasContainer = document.querySelector('#fasilitas .grid');
+                let fasHTML = '';
+                data.Fasilitas.forEach((f, idx) => {
+                    if(!f.Nama) return;
+                    fasHTML += `
+                    <div class="group relative rounded-2xl overflow-hidden shadow-lg aspect-[4/3] fade-in" style="animation-delay: ${idx * 0.1}s">
+                        <img src="${f.Gambar || 'https://images.unsplash.com/photo-1564683214965-3619addd900d?w=800&q=80'}" alt="${f.Nama}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6 w-full">
+                            <div class="bg-brand-500 text-white text-xs font-bold px-3 py-1 rounded-full inline-block mb-3">${f.Kategori || 'Fasilitas'}</div>
+                            <h3 class="text-xl font-bold text-white mb-1">${f.Nama}</h3>
+                            <p class="text-slate-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0 line-clamp-2">${f.Deskripsi || ''}</p>
+                        </div>
+                    </div>`;
+                });
+                if(fasHTML) fasilitasContainer.innerHTML = fasHTML;
+            }
+
+            // D. Render Produk
+            const productGrid = document.getElementById('product-grid');
+            if (data.Produk) {
+                if(data.Produk.length === 0) {
+                    productGrid.innerHTML = '<p class="col-span-full text-center text-slate-500">Belum ada produk unit usaha yang ditampilkan.</p>';
+                } else {
+                    let prodHTML = '';
+                    const waAdmin = data.Pengaturan?.[0]?.WaAdmin || "6281234567890";
+                    data.Produk.forEach((p, idx) => {
+                        if(!p.Nama) return;
+                        let tagHtml = p.Label ? `<div class="absolute top-2 right-2 bg-brand-500 text-white text-[10px] font-bold px-2 py-1 rounded-md">${p.Label}</div>` : '';
+                        let waText = encodeURIComponent(`Halo Admin, saya berminat memesan produk: ${p.Nama}.`);
+                        
+                        prodHTML += `
+                        <div class="bg-slate-50 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col h-full fade-in" style="animation-delay: ${(idx%5)*0.1}s">
+                            <div class="relative aspect-square overflow-hidden bg-white cursor-pointer" onclick="openProductModal(${idx})">
+                                <img src="${p.Gambar || 'https://via.placeholder.com/400'}" alt="${p.Nama}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                                ${tagHtml}
+                            </div>
+                            <div class="p-3 md:p-4 flex flex-col flex-grow">
+                                <h3 class="font-bold text-slate-800 mb-1 text-sm md:text-base line-clamp-1 cursor-pointer hover:text-brand-700 transition-colors" onclick="openProductModal(${idx})">${p.Nama}</h3>
+                                <p class="text-[10px] md:text-xs text-slate-500 mb-3 line-clamp-2 flex-grow cursor-pointer" onclick="openProductModal(${idx})">${p.Deskripsi || ''}</p>
+                                <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-3 mt-auto">
+                                    <span class="font-bold text-brand-700 text-sm">${p.Harga}</span>
+                                    <div class="flex gap-2 w-full xl:w-auto">
+                                        <button onclick="shareLink('Produk: ${p.Nama}', 'Lihat produk ini dari Pesantren Al-Hikmah')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-2 rounded-lg transition-colors flex items-center justify-center"><i class="fa-solid fa-share-nodes text-xs"></i></button>
+                                        <a href="https://wa.me/${waAdmin}?text=${waText}" target="_blank" class="flex-grow xl:flex-grow-0 bg-green-500 hover:bg-green-600 text-white text-xs font-semibold px-3 py-2 rounded-lg flex items-center justify-center gap-1.5 transition-colors">
+                                            <i class="fa-brands fa-whatsapp text-sm"></i> Beli
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                    });
+                    productGrid.innerHTML = prodHTML;
+                }
+            }
+
+            // E. Render Berita
+            const beritaContainer = document.querySelector('#berita .grid');
+            if (data.Berita) {
+                if(data.Berita.length === 0) {
+                    beritaContainer.innerHTML = '<p class="col-span-full text-center text-slate-500">Belum ada berita atau kegiatan terbaru.</p>';
+                } else {
+                    let newsHTML = '';
+                    const latestNews = [...data.Berita].reverse().slice(0, 3);
+                    window.latestNewsData = latestNews; // Simpan untuk modal
+                    
+                    latestNews.forEach((b, idx) => {
+                        if(!b.Judul) return;
+                        newsHTML += `
+                        <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-slate-100 fade-in cursor-pointer" style="animation-delay: ${idx * 0.1}s" onclick="openNewsModal(${idx})">
+                            <img src="${b.Gambar || 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=80'}" alt="${b.Judul}" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <div class="flex items-center gap-3 text-xs text-slate-500 mb-3">
+                                    <span><i class="fa-regular fa-calendar mr-1"></i> ${b.Tanggal}</span>
+                                    <span class="bg-brand-50 text-brand-700 border border-brand-100 px-2 py-0.5 rounded">${b.Kategori}</span>
+                                </div>
+                                <h3 class="text-lg font-bold text-slate-800 mb-2 hover:text-brand-700 transition-colors line-clamp-2">${b.Judul}</h3>
+                                <div class="text-slate-600 text-sm mb-4 line-clamp-3">${b.Konten.replace(/<[^>]*>?/gm, '')}</div>
+                                <span class="text-brand-700 font-medium text-sm hover:text-brand-900 mt-2 inline-block">Baca selengkapnya &rarr;</span>
+                            </div>
+                        </div>`;
+                    });
+                    beritaContainer.innerHTML = newsHTML;
+                }
+            }
+        }
+
+        // --- 3. LOGIKA MODAL & FITUR SHARE ---
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        function shareLink(title, text) {
+            if (navigator.share) {
+                navigator.share({ title: title, text: text, url: window.location.href }).catch(console.error);
+            } else {
+                navigator.clipboard.writeText(`${title} - ${window.location.href}`);
+                alert("Link telah disalin ke clipboard! Silakan paste (tempel) di sosmed Anda.");
+            }
+        }
+
+        function openProductModal(idx) {
+            const p = window.appData.Produk[idx];
+            const waAdmin = window.appData.Pengaturan?.[0]?.WaAdmin || "6281234567890";
+            const waText = encodeURIComponent(`Halo Admin, saya berminat memesan produk: ${p.Nama}.`);
+            
+            document.getElementById('pm-img').src = p.Gambar || 'https://via.placeholder.com/400';
+            document.getElementById('pm-title').textContent = p.Nama;
+            document.getElementById('pm-label').innerHTML = p.Label ? `<span class="bg-brand-100 text-brand-700 text-xs font-bold px-2 py-1 rounded-md inline-block">${p.Label}</span>` : '';
+            document.getElementById('pm-desc').textContent = p.Deskripsi || 'Tidak ada deskripsi.';
+            document.getElementById('pm-price').textContent = p.Harga;
+            document.getElementById('pm-wa').href = `https://wa.me/${waAdmin}?text=${waText}`;
+            document.getElementById('pm-share').onclick = () => shareLink(`Beli ${p.Nama}`, p.Deskripsi);
+            
+            document.getElementById('product-modal').classList.remove('hidden');
+        }
+
+        function openNewsModal(idx) {
+            const b = window.latestNewsData[idx]; 
+            document.getElementById('nm-img').src = b.Gambar || 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=80';
+            document.getElementById('nm-title').textContent = b.Judul;
+            document.getElementById('nm-date').innerHTML = `<i class="fa-regular fa-calendar mr-1"></i> ${b.Tanggal}`;
+            document.getElementById('nm-category').textContent = b.Kategori;
+            document.getElementById('nm-content').innerHTML = b.Konten; // Insert format HTML dari CMS
+            document.getElementById('nm-share').onclick = () => shareLink(b.Judul, "Baca berita terbaru dari Pesantren Al-Hikmah");
+            
+            document.getElementById('news-modal').classList.remove('hidden');
+        }
+
+        // Jalankan Fetching saat halaman termuat
+        window.addEventListener('DOMContentLoaded', fetchWebsiteData);
 
     </script>
 </body>
