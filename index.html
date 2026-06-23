@@ -346,7 +346,7 @@
 
         document.getElementById('current-year').innerText = new Date().getFullYear();
 
-        // 1. Fungsi Ambil Data dari API
+        // 1. Fungsi Ambil Data dari API (DENGAN DETEKSI ERROR SPESIFIK GOOGLE SHEETS)
         async function fetchWebsiteData() {
             try {
                 const response = await fetch(API_URL);
@@ -356,7 +356,12 @@
                     window.appData = res.data;
                     renderData(res.data);
                     
-                    // Jeda sejenak agar gambar sempat ter-render sebelum loading screen ditutup
+                    // Cek apakah data benar-benar ada isinya
+                    if (!res.data.pengaturan || Object.keys(res.data.pengaturan).length === 0) {
+                        console.warn("Koneksi sukses, tapi file Google Sheets Anda masih KOSONG.");
+                    }
+
+                    // Sukses: Tutup layar loading otomatis
                     setTimeout(() => {
                         const loader = document.getElementById('loading-overlay');
                         if(loader) {
@@ -364,12 +369,32 @@
                             setTimeout(() => loader.classList.add('hidden'), 500);
                         }
                     }, 800);
+                } else {
+                    throw new Error(res.message);
                 }
             } catch (error) {
-                console.error("Gagal memuat API:", error);
+                console.error("Gagal terhubung ke API:", error);
+                
+                // Gagal: Tampilkan tombol paksa tutup dengan Pesan Bantuan
                 const loader = document.getElementById('loading-overlay');
                 if(loader) {
-                    loader.innerHTML = '<div class="text-center"><i class="fa-solid fa-triangle-exclamation text-4xl text-red-500 mb-3"></i><h2 class="text-xl font-bold text-slate-800">Koneksi Terputus</h2><p class="text-slate-500 mt-2">Gagal memuat data dari server. Muat ulang halaman.</p></div>';
+                    loader.innerHTML = `
+                        <div class="text-center p-8 bg-white rounded-3xl shadow-2xl max-w-md mx-4 transform transition-all border-t-8 border-red-500">
+                            <i class="fa-solid fa-triangle-exclamation text-5xl text-red-500 mb-4"></i>
+                            <h2 class="text-2xl font-bold text-slate-800 mb-2">Koneksi Database Terputus</h2>
+                            <div class="text-slate-600 text-sm mb-6 leading-relaxed text-left bg-slate-50 p-4 rounded-lg border border-slate-200">
+                                <p class="font-bold text-slate-800 mb-2">Penyebab yang mungkin terjadi:</p>
+                                <ol class="list-decimal pl-4 space-y-1">
+                                    <li>Anda belum membuat Tab/Sheet dengan nama yang benar: <b>Pengaturan, Program, Fasilitas, Produk, Berita</b>. (Perhatikan huruf besarnya).</li>
+                                    <li>Anda belum melakukan <br><b>Deploy -> Versi Baru</b> di Google Script.</li>
+                                    <li>Akses Google Script belum diset ke <b>"Siapa Saja"</b>.</li>
+                                </ol>
+                            </div>
+                            <button onclick="document.getElementById('loading-overlay').classList.add('hidden')" class="w-full px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl transition shadow-sm">
+                                Tutup Pesan & Lihat Data Dummy
+                            </button>
+                        </div>
+                    `;
                 }
             }
         }
@@ -379,63 +404,63 @@
             if (!data) return;
 
             // --- TAB PENGATURAN ---
-            if (data.pengaturan) {
+            if (data.pengaturan && Object.keys(data.pengaturan).length > 0) {
                 const config = data.pengaturan;
                 
                 // Set Teks Identitas
                 if(config.NamaPesantren) {
-                    document.title = config.NamaPesantren;
-                    document.getElementById('nav-nama').innerText = config.NamaPesantren;
-                    document.getElementById('footer-nama').innerText = config.NamaPesantren;
-                    document.getElementById('footer-copyright-nama').innerText = config.NamaPesantren;
+                    document.title = String(config.NamaPesantren);
+                    document.getElementById('nav-nama').innerText = String(config.NamaPesantren);
+                    document.getElementById('footer-nama').innerText = String(config.NamaPesantren);
+                    document.getElementById('footer-copyright-nama').innerText = String(config.NamaPesantren);
                 }
                 
-                if(config.TeksHero) document.getElementById('hero-slogan').innerHTML = config.TeksHero;
-                if(config.DeskripsiHero) document.getElementById('hero-desc').innerText = config.DeskripsiHero;
+                if(config.TeksHero) document.getElementById('hero-slogan').innerHTML = String(config.TeksHero);
+                if(config.DeskripsiHero) document.getElementById('hero-desc').innerText = String(config.DeskripsiHero);
+                
                 if(config.ProfilSingkat) {
-                    document.getElementById('profil-teks').innerText = config.ProfilSingkat;
-                    document.getElementById('footer-desc').innerText = config.ProfilSingkat.substring(0, 100) + '...';
+                    let txtSingkat = String(config.ProfilSingkat);
+                    document.getElementById('profil-teks').innerText = txtSingkat;
+                    document.getElementById('footer-desc').innerText = txtSingkat.substring(0, 100) + '...';
                 }
 
                 // Set Gambar Identitas
                 if(config.LogoUrl) {
-                    document.getElementById('nav-logo').src = config.LogoUrl;
+                    document.getElementById('nav-logo').src = String(config.LogoUrl);
                     document.getElementById('nav-logo').classList.remove('hidden');
                     document.getElementById('nav-icon').classList.add('hidden');
                 }
-                if(config.ProfilImage1) document.getElementById('profil-img-1').src = config.ProfilImage1;
-                if(config.ProfilImage2) document.getElementById('profil-img-2').src = config.ProfilImage2;
+                if(config.ProfilImage1) document.getElementById('profil-img-1').src = String(config.ProfilImage1);
+                if(config.ProfilImage2) document.getElementById('profil-img-2').src = String(config.ProfilImage2);
 
                 // Set Statistik
-                if(config.LamaBerdiri) document.getElementById('stat-tahun').innerText = config.LamaBerdiri;
-                if(config.SantriAktif) document.getElementById('stat-santri').innerText = config.SantriAktif;
-                if(config.JumlahAlumni) document.getElementById('stat-alumni').innerText = config.JumlahAlumni;
+                if(config.LamaBerdiri) document.getElementById('stat-tahun').innerText = String(config.LamaBerdiri);
+                if(config.SantriAktif) document.getElementById('stat-santri').innerText = String(config.SantriAktif);
+                if(config.JumlahAlumni) document.getElementById('stat-alumni').innerText = String(config.JumlahAlumni);
 
-                // Set Video YouTube (Parser Cerdas)
-                if (config.VideoUrl && config.VideoUrl.trim() !== "") {
-                    let ytUrl = config.VideoUrl;
-                    // Ubah link watch biasa ke bentuk embed
-                    if (ytUrl.includes("watch?v=")) {
-                        ytUrl = ytUrl.replace("watch?v=", "embed/");
-                    } else if (ytUrl.includes("youtu.be/")) {
-                        ytUrl = ytUrl.replace("youtu.be/", "www.youtube.com/embed/");
-                    }
+                // Set Video YouTube
+                if (config.VideoUrl && String(config.VideoUrl).trim() !== "") {
+                    let ytUrl = String(config.VideoUrl).trim();
+                    if (ytUrl.includes("watch?v=")) ytUrl = ytUrl.replace("watch?v=", "embed/");
+                    else if (ytUrl.includes("youtu.be/")) ytUrl = ytUrl.replace("youtu.be/", "www.youtube.com/embed/");
+                    
                     document.getElementById('profil-video').src = ytUrl;
                     document.getElementById('youtube-container').classList.remove('hidden');
                 }
 
-                // Parser Cerdas untuk Link Medsos & Peta
+                // Parser Link Medsos & Peta
                 function fixUrl(url) {
                     if(!url) return '#';
-                    if(!url.startsWith('http')) return 'https://' + url;
-                    return url;
+                    let sUrl = String(url).trim();
+                    if(!sUrl.startsWith('http')) return 'https://' + sUrl;
+                    return sUrl;
                 }
                 
                 const medsosMap = { 'Facebook': 'link-fb', 'Instagram': 'link-ig', 'YoutubePesantren': 'link-yt' };
                 for (let key in medsosMap) {
                     const el = document.getElementById(medsosMap[key]);
                     if (el) {
-                        if (config[key] && config[key].trim() !== "") {
+                        if (config[key] && String(config[key]).trim() !== "") {
                             el.href = fixUrl(config[key]); 
                             el.target = "_blank";
                             el.style.display = 'flex';
@@ -445,13 +470,13 @@
                     }
                 }
                 
-                if (config.Alamat) document.getElementById('footer-alamat').innerText = config.Alamat;
+                if (config.Alamat) document.getElementById('footer-alamat').innerText = String(config.Alamat);
                 
                 const mapContainer = document.getElementById('map-container');
                 const mapIframe = document.getElementById('map-iframe');
                 if(mapContainer && mapIframe) {
-                    if(config.MapUrl && config.MapUrl.trim() !== "") {
-                        let finalMapUrl = config.MapUrl;
+                    if(config.MapUrl && String(config.MapUrl).trim() !== "") {
+                        let finalMapUrl = String(config.MapUrl).trim();
                         const iframeMatch = finalMapUrl.match(/src="([^"]+)"/);
                         if(iframeMatch && iframeMatch[1]) finalMapUrl = iframeMatch[1];
                         
@@ -467,7 +492,7 @@
                 }
 
                 // Pengaturan PSB
-                const waNumber = config.WhatsAppAdmin || '6281234567890';
+                const waNumber = config.WhatsAppAdmin ? String(config.WhatsAppAdmin).trim() : '6281234567890';
                 document.getElementById('footer-wa').innerText = '+' + waNumber;
                 
                 const waLink = `https://wa.me/${waNumber}?text=Halo%20Admin%20Pesantren,%20saya%20ingin%20bertanya%20informasi%20PSB`;
@@ -479,36 +504,36 @@
                     document.getElementById('btn-daftar-bawah').classList.replace('bg-gold-500', 'bg-slate-300');
                 } else {
                     document.getElementById('btn-daftar-bawah').innerText = "Daftar Online Sekarang";
-                    document.getElementById('btn-daftar-bawah').href = config.LinkFormPSB || '#';
+                    document.getElementById('btn-daftar-bawah').href = config.LinkFormPSB ? String(config.LinkFormPSB) : '#';
                 }
             }
 
             // --- TAB PROGRAM ---
-            if (data.program && data.program.length > 0) {
+            if (Array.isArray(data.program) && data.program.length > 0) {
                 let pHTML = '';
                 data.program.forEach(p => {
                     pHTML += `
                     <div class="bg-slate-50 rounded-2xl p-8 hover:bg-brand-900 hover:text-white transition-all duration-300 group shadow-sm border border-slate-100">
-                        <div class="w-14 h-14 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-700 text-2xl mb-6 group-hover:scale-110 transition-transform"><i class="${p.Ikon}"></i></div>
-                        <h3 class="text-xl font-bold mb-3 text-slate-800 group-hover:text-white">${p.Judul}</h3>
-                        <p class="text-slate-600 group-hover:text-brand-100 text-sm leading-relaxed mb-4">${p.Deskripsi}</p>
+                        <div class="w-14 h-14 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-700 text-2xl mb-6 group-hover:scale-110 transition-transform"><i class="${p.Ikon || 'fa-solid fa-star'}"></i></div>
+                        <h3 class="text-xl font-bold mb-3 text-slate-800 group-hover:text-white">${p.Judul || ''}</h3>
+                        <p class="text-slate-600 group-hover:text-brand-100 text-sm leading-relaxed mb-4">${p.Deskripsi || ''}</p>
                     </div>`;
                 });
                 document.getElementById('program-grid').innerHTML = pHTML;
             }
 
             // --- TAB FASILITAS ---
-            if (data.fasilitas && data.fasilitas.length > 0) {
+            if (Array.isArray(data.fasilitas) && data.fasilitas.length > 0) {
                 let fHTML = '';
                 data.fasilitas.forEach(f => {
                     fHTML += `
                     <div class="group relative rounded-2xl overflow-hidden shadow-lg aspect-[4/3] bg-slate-200">
-                        <img src="${f.Foto}" alt="${f.Nama}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <img src="${f.Foto || ''}" alt="${f.Nama || ''}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
                         <div class="absolute bottom-0 left-0 p-6 w-full">
-                            <div class="bg-brand-500 text-white text-[10px] uppercase tracking-wide font-bold px-3 py-1 rounded-full inline-block mb-3">${f.Kategori}</div>
-                            <h3 class="text-xl font-bold text-white mb-1">${f.Nama}</h3>
-                            <p class="text-slate-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0 line-clamp-2">${f.Deskripsi}</p>
+                            <div class="bg-brand-500 text-white text-[10px] uppercase tracking-wide font-bold px-3 py-1 rounded-full inline-block mb-3">${f.Kategori || 'Fasilitas'}</div>
+                            <h3 class="text-xl font-bold text-white mb-1">${f.Nama || ''}</h3>
+                            <p class="text-slate-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0 line-clamp-2">${f.Deskripsi || ''}</p>
                         </div>
                     </div>`;
                 });
@@ -516,20 +541,20 @@
             }
 
             // --- TAB PRODUK ---
-            if (data.produk && data.produk.length > 0) {
+            if (Array.isArray(data.produk) && data.produk.length > 0) {
                 let prHTML = '';
                 data.produk.forEach((pr, index) => {
                     let badge = pr.Label ? `<div class="absolute top-2 right-2 bg-brand-500 text-white text-[10px] font-bold px-2 py-1 rounded-md shadow-sm">${pr.Label}</div>` : '';
                     prHTML += `
                     <div class="bg-slate-50 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col h-full cursor-pointer group" onclick="openProductModal(${index})">
                         <div class="relative aspect-square overflow-hidden bg-white">
-                            <img src="${pr.Foto}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <img src="${pr.Foto || ''}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                             ${badge}
                         </div>
                         <div class="p-3 flex flex-col flex-grow">
-                            <h3 class="font-bold text-slate-800 mb-1 text-xs md:text-sm line-clamp-1 group-hover:text-brand-700">${pr.Nama}</h3>
+                            <h3 class="font-bold text-slate-800 mb-1 text-xs md:text-sm line-clamp-1 group-hover:text-brand-700">${pr.Nama || ''}</h3>
                             <div class="flex flex-col gap-2 mt-auto pt-2 border-t border-slate-100">
-                                <span class="font-bold text-brand-700 text-xs md:text-sm">${pr.Harga}</span>
+                                <span class="font-bold text-brand-700 text-xs md:text-sm">${pr.Harga || ''}</span>
                             </div>
                         </div>
                     </div>`;
@@ -540,18 +565,16 @@
             }
 
             // --- TAB BERITA ---
-            if (data.berita && data.berita.length > 0) {
+            if (Array.isArray(data.berita) && data.berita.length > 0) {
                 let bHTML = '';
-                // Menampilkan dari yang terbaru (reverse)
                 [...data.berita].reverse().forEach((b, index) => {
-                    // Karena di-reverse, index aslinya harus dihitung agar modal memanggil data yang tepat
                     const originalIndex = data.berita.length - 1 - index;
                     bHTML += `
                     <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-slate-100 flex flex-col h-full cursor-pointer group" onclick="openNewsModal(${originalIndex})">
-                        <img src="${b.Gambar}" class="w-full h-48 object-cover">
+                        <img src="${b.Gambar || ''}" class="w-full h-48 object-cover">
                         <div class="p-6 flex flex-col flex-grow">
-                            <div class="flex items-center gap-3 text-xs text-brand-600 font-semibold mb-3"><span>${b.Tanggal}</span> &bull; <span>${b.Kategori}</span></div>
-                            <h3 class="text-lg font-bold text-slate-800 mb-3 group-hover:text-brand-700 transition-colors line-clamp-2">${b.Judul}</h3>
+                            <div class="flex items-center gap-3 text-xs text-brand-600 font-semibold mb-3"><span>${b.Tanggal || ''}</span> &bull; <span>${b.Kategori || ''}</span></div>
+                            <h3 class="text-lg font-bold text-slate-800 mb-3 group-hover:text-brand-700 transition-colors line-clamp-2">${b.Judul || ''}</h3>
                             <div class="mt-auto pt-4 flex items-center justify-between text-sm">
                                 <span class="text-slate-500">Baca artikel</span>
                                 <i class="fa-solid fa-arrow-right text-brand-500 group-hover:translate-x-1 transition-transform"></i>
@@ -603,7 +626,6 @@
         function openModal() {
             modal.classList.remove('hidden');
             document.body.classList.add('modal-active');
-            // Sedikit delay untuk trigger animasi Tailwind opacity & translate
             setTimeout(() => {
                 modal.classList.remove('opacity-0');
                 modalBox.classList.remove('translate-y-4');
@@ -616,36 +638,35 @@
             setTimeout(() => {
                 modal.classList.add('hidden');
                 document.body.classList.remove('modal-active');
-            }, 300); // Tunggu animasi selesai
+            }, 300);
         }
 
         function openProductModal(index) {
             if(!window.appData || !window.appData.produk) return;
             const p = window.appData.produk[index];
-            const waNumber = window.appData.pengaturan.WhatsAppAdmin || '6281234567890';
+            const waNumber = (window.appData.pengaturan && window.appData.pengaturan.WhatsAppAdmin) ? window.appData.pengaturan.WhatsAppAdmin : '6281234567890';
             
             document.getElementById('modal-title-bar').innerText = "Detail Produk";
-            document.getElementById('modal-img').src = p.Foto;
+            document.getElementById('modal-img').src = p.Foto || '';
             document.getElementById('modal-img').classList.remove('hidden');
             document.getElementById('modal-meta').classList.add('hidden');
             
-            document.getElementById('modal-title').innerText = p.Nama;
+            document.getElementById('modal-title').innerText = p.Nama || '';
             
-            // Format deskripsi agar support baris baru (enter)
-            let descFormatted = p.Deskripsi.replace(/\n/g, '<br>');
+            let descFormatted = String(p.Deskripsi || '').replace(/\n/g, '<br>');
             document.getElementById('modal-body').innerHTML = `
-                <div class="mb-4 inline-block bg-brand-50 text-brand-700 font-bold text-lg px-4 py-1.5 rounded-lg border border-brand-100">${p.Harga}</div>
+                <div class="mb-4 inline-block bg-brand-50 text-brand-700 font-bold text-lg px-4 py-1.5 rounded-lg border border-brand-100">${p.Harga || ''}</div>
                 <p class="mb-2">${descFormatted}</p>
             `;
             
-            const waText = encodeURIComponent(`Halo Admin, saya tertarik memesan produk:\n*${p.Nama}*\nHarga: ${p.Harga}`);
+            const waText = encodeURIComponent(`Halo Admin, saya tertarik memesan produk:\n*${p.Nama || ''}*\nHarga: ${p.Harga || ''}`);
             document.getElementById('modal-action-area').innerHTML = `
                 <a href="https://wa.me/${waNumber}?text=${waText}" target="_blank" class="px-6 py-2.5 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg shadow-md transition-colors flex items-center gap-2">
                     <i class="fa-brands fa-whatsapp text-lg"></i> Beli Sekarang
                 </a>
             `;
             
-            setupShareButton(`Cek produk ${p.Nama} dari Pesantren Al-Hikmah seharga ${p.Harga}!`);
+            setupShareButton(`Cek produk ${p.Nama || 'kami'} dari Pesantren Al-Hikmah seharga ${p.Harga || ''}!`);
             openModal();
         }
 
@@ -654,21 +675,21 @@
             const b = window.appData.berita[index];
             
             document.getElementById('modal-title-bar').innerText = "Baca Artikel";
-            document.getElementById('modal-img').src = b.Gambar;
+            document.getElementById('modal-img').src = b.Gambar || '';
             document.getElementById('modal-img').classList.remove('hidden');
             
             const meta = document.getElementById('modal-meta');
-            meta.innerHTML = `<span><i class="fa-regular fa-calendar mr-1"></i> ${b.Tanggal}</span> <span><i class="fa-regular fa-folder mr-1"></i> ${b.Kategori}</span>`;
+            meta.innerHTML = `<span><i class="fa-regular fa-calendar mr-1"></i> ${b.Tanggal || ''}</span> <span><i class="fa-regular fa-folder mr-1"></i> ${b.Kategori || ''}</span>`;
             meta.classList.remove('hidden');
             
-            document.getElementById('modal-title').innerText = b.Judul;
-            document.getElementById('modal-body').innerHTML = b.Konten; // Konten HTML dari WYSIWYG
+            document.getElementById('modal-title').innerText = b.Judul || '';
+            document.getElementById('modal-body').innerHTML = b.Konten || ''; 
             
             document.getElementById('modal-action-area').innerHTML = `
                 <button onclick="closeModal()" class="px-6 py-2.5 bg-brand-900 hover:bg-brand-700 text-white font-bold rounded-lg shadow-md transition-colors">Tutup Artikel</button>
             `;
             
-            setupShareButton(`Baca berita terbaru: ${b.Judul}`);
+            setupShareButton(`Baca berita terbaru: ${b.Judul || ''}`);
             openModal();
         }
 
@@ -680,7 +701,6 @@
                         await navigator.share({ title: document.title, text: textToShare, url: window.location.href });
                     } catch (err) { console.log('Share dibatalkan', err); }
                 } else {
-                    // Fallback copy to clipboard
                     navigator.clipboard.writeText(`${textToShare} - ${window.location.href}`);
                     const oldHtml = btn.innerHTML;
                     btn.innerHTML = '<i class="fa-solid fa-check text-green-500"></i> Disalin!';
