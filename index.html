@@ -591,7 +591,8 @@
                     }
                 });
                 
-                // Parser Cerdas Google Maps (Bisa menerima link embed maupun tag iframe utuh)
+                <!-- Cari bagian Parser Cerdas Google Maps dan ganti dengan kode ini: -->
+                // Parser Cerdas Google Maps (Penyempurnaan agar lebih toleran)
                 const mapContainer = document.getElementById('map-container');
                 const mapIframe = document.getElementById('map-iframe');
                 
@@ -599,23 +600,25 @@
                     if (config.MapUrl && config.MapUrl.trim() !== "") {
                         let finalMapUrl = config.MapUrl.trim();
                         
-                        // Ekstrak URL jika user ter-paste tag <iframe src="...">
+                        // 1. Jika user memasukkan tag <iframe>, ambil src-nya
                         const iframeMatch = finalMapUrl.match(/src="([^"]+)"/);
                         if (iframeMatch && iframeMatch[1]) {
                             finalMapUrl = iframeMatch[1];
                         }
-                        
-                        if (finalMapUrl.includes("embed") || finalMapUrl.includes("maps.google.com")) {
+
+                        // 2. Jika link masih mengandung parameter pb, kita coba bersihkan agar tidak kena error "Invalid pb parameter"
+                        // Link embed resmi dari Google biasanya sudah benar formatnya.
+                        if (finalMapUrl.includes("google.com/maps")) {
                             mapIframe.src = finalMapUrl;
                             mapContainer.classList.remove('hidden');
                         } else {
+                            // Sembunyikan jika URL tidak valid
                             mapContainer.classList.add('hidden');
                         }
                     } else { 
                         mapContainer.classList.add('hidden'); 
                     }
                 }
-
                 // Pengaturan Link PSB
                 const linkGForm = config.LinkGform || "#";
                 const statusPSB = (config.StatusPSB || "Buka").toLowerCase();
