@@ -548,6 +548,8 @@
                 }
 
                 // Statistik
+                <!-- ... existing code ... -->
+                // Statistik
                 const stats = document.querySelectorAll('#profil .grid-cols-3 h3');
                 if(stats.length >= 3) {
                     if(config.LamaBerdiri) stats[0].textContent = config.LamaBerdiri;
@@ -559,17 +561,65 @@
                 const waAdmin = config.WaAdmin || "6281234567890";
                 if(config.Alamat) document.getElementById('footer-alamat').textContent = config.Alamat;
                 document.getElementById('footer-wa').textContent = `+${waAdmin}`;
-                if(config.Facebook) document.getElementById('link-fb').href = config.Facebook;
-                if(config.Instagram) document.getElementById('link-ig').href = config.Instagram;
-                if(config.YoutubePesantren) document.getElementById('link-yt').href = config.YoutubePesantren;
                 
-                if(config.MapUrl) document.getElementById('map-iframe').src = config.MapUrl;
-                else document.getElementById('map-container').classList.add('hidden');
+                // Helper untuk memperbaiki URL Medsos secara otomatis
+                const fixUrl = (url) => {
+                    if (!url) return "";
+                    let finalUrl = url.trim();
+                    if (finalUrl !== "" && !finalUrl.startsWith('http')) finalUrl = 'https://' + finalUrl;
+                    return finalUrl;
+                };
+
+                // Terapkan ke Medsos & Sembunyikan ikon jika datanya kosong
+                const medsos = [
+                    { id: 'link-fb', url: config.Facebook },
+                    { id: 'link-ig', url: config.Instagram },
+                    { id: 'link-yt', url: config.YoutubePesantren }
+                ];
+
+                medsos.forEach(m => {
+                    const el = document.getElementById(m.id);
+                    if (el) {
+                        const validUrl = fixUrl(m.url);
+                        if (validUrl) {
+                            el.href = validUrl;
+                            el.target = "_blank"; // Buka di tab baru dengan aman
+                            el.style.display = 'flex';
+                        } else {
+                            el.style.display = 'none';
+                        }
+                    }
+                });
+                
+                // Parser Cerdas Google Maps (Bisa menerima link embed maupun tag iframe utuh)
+                const mapContainer = document.getElementById('map-container');
+                const mapIframe = document.getElementById('map-iframe');
+                
+                if (mapContainer && mapIframe) {
+                    if (config.MapUrl && config.MapUrl.trim() !== "") {
+                        let finalMapUrl = config.MapUrl.trim();
+                        
+                        // Ekstrak URL jika user ter-paste tag <iframe src="...">
+                        const iframeMatch = finalMapUrl.match(/src="([^"]+)"/);
+                        if (iframeMatch && iframeMatch[1]) {
+                            finalMapUrl = iframeMatch[1];
+                        }
+                        
+                        if (finalMapUrl.includes("embed") || finalMapUrl.includes("maps.google.com")) {
+                            mapIframe.src = finalMapUrl;
+                            mapContainer.classList.remove('hidden');
+                        } else {
+                            mapContainer.classList.add('hidden');
+                        }
+                    } else { 
+                        mapContainer.classList.add('hidden'); 
+                    }
+                }
 
                 // Pengaturan Link PSB
                 const linkGForm = config.LinkGform || "#";
                 const statusPSB = (config.StatusPSB || "Buka").toLowerCase();
-
+<!-- ... existing code ... -->
                 document.querySelectorAll('a').forEach(el => {
                     if(el.textContent.includes('Konsultasi Admin')) { el.href = `https://wa.me/${waAdmin}`; el.target = "_blank"; }
                     if(el.textContent.includes('Informasi Pendaftaran') || el.textContent.includes('Daftar Online')) {
