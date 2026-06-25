@@ -9,51 +9,62 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { font-family: 'Poppins', sans-serif; }
+        .hero-pattern { background-color: #064e3b; background-image: linear-gradient(rgba(6, 78, 59, 0.85), rgba(6, 78, 59, 0.95)), url('https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); background-size: cover; }
     </style>
 </head>
-<body class="bg-slate-50">
+<body class="bg-slate-50 text-slate-800">
 
-    <div id="loading" class="fixed inset-0 flex items-center justify-center bg-slate-900 text-white z-50">
-        <p class="animate-pulse">Memuat Website...</p>
+    <!-- Loading Screen -->
+    <div id="loading" class="fixed inset-0 z-[9999] bg-slate-900 flex flex-col items-center justify-center text-white">
+        <i class="fa-solid fa-spinner fa-spin text-4xl mb-4 text-brand-500"></i>
+        <p>Menghubungkan ke database...</p>
     </div>
 
-    <!-- Peta diletakkan di dalam layout yang sesuai -->
-    <div id="map-container" class="hidden w-full h-96 my-8 px-4">
-        <iframe id="map-iframe" class="w-full h-full rounded-xl shadow-lg border-0" allowfullscreen="" loading="lazy"></iframe>
-    </div>
+    <!-- Konten Utama (Disederhanakan untuk memastikan layar tidak blank) -->
+    <main id="main-content">
+        <section id="beranda" class="hero-pattern min-h-screen flex items-center justify-center text-white p-6">
+            <div class="text-center">
+                <h1 id="nama-pesantren" class="text-4xl md:text-6xl font-bold mb-4">Memuat...</h1>
+            </div>
+        </section>
+
+        <!-- Container Peta -->
+        <section id="lokasi" class="py-16 px-4 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold mb-6 text-center">Lokasi Kami</h2>
+            <div id="map-wrapper" class="w-full h-80 rounded-xl overflow-hidden shadow-lg bg-slate-200">
+                <iframe id="map-iframe" class="w-full h-full" src="" frameborder="0"></iframe>
+            </div>
+        </section>
+    </main>
 
     <script>
-        // API URL
         const API_URL = "https://script.google.com/macros/s/AKfycbyc89A6Motnes5qNl_UM-Qmje0Zm_D6BW0ZZ_FuWZsu9kFyx06p2hyLrkljLRkgwWTYrQ/exec";
 
         async function init() {
             try {
-                const response = await fetch(API_URL);
+                const response = await fetch(API_URL + "?t=" + Date.now());
                 const res = await response.json();
                 
                 if (res.status === "success") {
-                    window.appData = res.data;
-                    renderMaps(res.data.Pengaturan?.[0]);
-                    document.getElementById('loading').classList.add('hidden');
+                    const data = res.data;
+                    document.getElementById('nama-pesantren').textContent = data.Pengaturan[0].NamaPesantren || "Pesantren Al-Hikmah";
+                    
+                    // Logic Map yang aman
+                    const mapUrl = data.Pengaturan[0].MapUrl || "";
+                    const iframeMatch = mapUrl.match(/src="([^"]+)"/);
+                    const finalUrl = iframeMatch ? iframeMatch[1] : mapUrl;
+                    
+                    if(finalUrl.startsWith('http')) {
+                        document.getElementById('map-iframe').src = finalUrl;
+                    } else {
+                        document.getElementById('map-wrapper').innerHTML = "<p class='p-10 text-center'>Link peta tidak valid.</p>";
+                    }
                 }
             } catch (err) {
                 console.error(err);
-                document.getElementById('loading').innerHTML = "Gagal memuat data. Periksa API.";
-            }
-        }
-
-        function renderMaps(config) {
-            const container = document.getElementById('map-container');
-            const iframe = document.getElementById('map-iframe');
-            
-            if (config && config.MapUrl) {
-                let url = config.MapUrl.trim();
-                // Jika input adalah iframe, ambil src-nya
-                const match = url.match(/src="([^"]+)"/);
-                if (match) url = match[1];
-                
-                iframe.src = url;
-                container.classList.remove('hidden');
+                document.getElementById('nama-pesantren').textContent = "Selamat Datang di Al-Hikmah";
+            } finally {
+                document.getElementById('loading').classList.add('hidden');
             }
         }
 
