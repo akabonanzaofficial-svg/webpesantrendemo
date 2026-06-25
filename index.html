@@ -3,47 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Pesantren Al-Hikmah</title>
+    <title>Pesantren Modern Al-Hikmah</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
 </head>
-<body>
+<body class="bg-slate-50">
 
-    <!-- Kontainer Peta -->
-    <div id="map-container" class="w-full h-96 overflow-hidden rounded-xl shadow-lg mb-8 hidden">
-        <iframe id="map-iframe" class="w-full h-full border-0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <div id="loading" class="fixed inset-0 flex items-center justify-center bg-slate-900 text-white z-50">
+        <p class="animate-pulse">Memuat Website...</p>
+    </div>
+
+    <!-- Peta diletakkan di dalam layout yang sesuai -->
+    <div id="map-container" class="hidden w-full h-96 my-8 px-4">
+        <iframe id="map-iframe" class="w-full h-full rounded-xl shadow-lg border-0" allowfullscreen="" loading="lazy"></iframe>
     </div>
 
     <script>
-        // Simulasi objek config (Pastikan data ini diisi dari hasil fetch API Anda)
-        // Jika Anda memiliki variabel global lain, pastikan namanya sesuai
-        const config = window.appData || {}; 
+        // API URL
+        const API_URL = "https://script.google.com/macros/s/AKfycbyc89A6Motnes5qNl_UM-Qmje0Zm_D6BW0ZZ_FuWZsu9kFyx06p2hyLrkljLRkgwWTYrQ/exec";
 
-        // Logika Parser Cerdas yang sudah diperbarui untuk mendukung pihak ketiga
-        const mapContainer = document.getElementById('map-container');
-        const mapIframe = document.getElementById('map-iframe');
-        
-        if (mapContainer && mapIframe) {
-            if (config.MapUrl && config.MapUrl.trim() !== "") {
-                let finalMapUrl = config.MapUrl.trim();
+        async function init() {
+            try {
+                const response = await fetch(API_URL);
+                const res = await response.json();
                 
-                // Ambil src jika user memasukkan kode iframe
-                const iframeMatch = finalMapUrl.match(/src="([^"]+)"/);
-                if (iframeMatch && iframeMatch[1]) {
-                    finalMapUrl = iframeMatch[1];
+                if (res.status === "success") {
+                    window.appData = res.data;
+                    renderMaps(res.data.Pengaturan?.[0]);
+                    document.getElementById('loading').classList.add('hidden');
                 }
-
-                // Sekarang kita izinkan URL dari domain mana saja (untuk mendukung embed pihak ketiga)
-                // Selama URL tersebut valid dan memiliki protokol http/https
-                if (finalMapUrl.startsWith('http')) {
-                    mapIframe.src = finalMapUrl;
-                    mapContainer.classList.remove('hidden');
-                } else {
-                    mapContainer.classList.add('hidden');
-                }
-            } else { 
-                mapContainer.classList.add('hidden'); 
+            } catch (err) {
+                console.error(err);
+                document.getElementById('loading').innerHTML = "Gagal memuat data. Periksa API.";
             }
         }
+
+        function renderMaps(config) {
+            const container = document.getElementById('map-container');
+            const iframe = document.getElementById('map-iframe');
+            
+            if (config && config.MapUrl) {
+                let url = config.MapUrl.trim();
+                // Jika input adalah iframe, ambil src-nya
+                const match = url.match(/src="([^"]+)"/);
+                if (match) url = match[1];
+                
+                iframe.src = url;
+                container.classList.remove('hidden');
+            }
+        }
+
+        window.onload = init;
     </script>
 </body>
 </html>
